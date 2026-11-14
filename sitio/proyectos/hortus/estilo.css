@@ -1,9 +1,9 @@
 /* Hortus Algorithmicus: lámina grabada de noche. Cielo plano azul noche con estrellas alineadas al píxel,
    Cormorant para el texto y el título espaciado, JetBrains Mono para los datos, oro viejo del grabado,
    figuras numeradas como las de la lámina y un Juego de la Vida en el suelo de la página. */
-@font-face { font-family: 'Cormorant'; src: url(../../hortus/fuentes/cormorant.ttf) format('truetype'); font-weight: 300 700; font-display: swap; }
-@font-face { font-family: 'Cormorant'; src: url(../../hortus/fuentes/cormorant-italica.ttf) format('truetype'); font-style: italic; font-weight: 300 700; font-display: swap; }
-@font-face { font-family: 'JetBrains Mono'; src: url(../../hortus/fuentes/jetbrains.ttf) format('truetype'); font-weight: 100 800; font-display: swap; }
+@font-face { font-family: 'Cormorant'; src: url(../../assets/fuentes/cormorant.ttf) format('truetype'); font-weight: 300 700; font-display: swap; }
+@font-face { font-family: 'Cormorant'; src: url(../../assets/fuentes/cormorant-italica.ttf) format('truetype'); font-style: italic; font-weight: 300 700; font-display: swap; }
+@font-face { font-family: 'JetBrains Mono'; src: url(../../assets/fuentes/jetbrains.ttf) format('truetype'); font-weight: 100 800; font-display: swap; }
 :root {
   --noche: #04060e;
   --tinta: #e9e4d6;

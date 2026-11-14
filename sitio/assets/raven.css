@@ -126,9 +126,9 @@ section { position: relative; padding: 0 var(--margen); }
 .t-penumbra { font-family: 'Lectura', Georgia, serif; color: #8fdcef; }
 .t-semillero { font-family: 'EB Garamond', Georgia, serif; color: #8ff0bb; }
 .t-hortus { font-family: 'Cormorant', Georgia, serif; color: #f2d9a0; letter-spacing: 0.05em; }
-@font-face { font-family: 'Lectura'; src: url(../penumbra/vendor/fuentes/NotoSerif-Regular.ttf) format('truetype'); font-display: swap; }
+@font-face { font-family: 'Lectura'; src: url(fuentes/NotoSerif-Regular.ttf) format('truetype'); font-display: swap; }
 @font-face { font-family: 'EB Garamond'; src: url(../proyectos/semillero/fuentes/eb-garamond-latin-400-normal.woff2) format('woff2'); font-display: swap; }
-@font-face { font-family: 'Cormorant'; src: url(../hortus/fuentes/cormorant.ttf) format('truetype'); font-weight: 300 700; font-display: swap; }
+@font-face { font-family: 'Cormorant'; src: url(fuentes/cormorant.ttf) format('truetype'); font-weight: 300 700; font-display: swap; }
 
 .boton {
   display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; border-radius: 999px; text-decoration: none;

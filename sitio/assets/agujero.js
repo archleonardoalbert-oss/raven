@@ -2,7 +2,7 @@
 // la cámara durante la caída (las mismas trayectorias que El Horizonte), coloca los faros de cada habilidad
 // y los rótulos, y se lo pasa todo a galaxia.js, que pinta el agujero negro con su lente (lente.js) dentro de
 // la propia galaxia. Al cruzar el horizonte todo se apaga y queda el resumen.
-import { trayecto, pose, vista, faroDe, dilatacion } from '../penumbra/nucleo/caida.js';
+import { trayecto, pose, vista, faroDe, dilatacion } from './penumbra/caida.js';
 
 // Grandes áreas (contenido/habilidades.json): cada una es un faro de la caída; dentro del horizonte se abre
 // el mapa con todas sus habilidades y los proyectos donde las aplico.

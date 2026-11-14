@@ -5,8 +5,8 @@
 // deforma las estrellas reales y nunca hay que cambiar de motor.
 import * as THREE from 'three';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
-import { cromaCuerpoNegro } from '../penumbra/nucleo/horizonte.js';
-import { DEL_FILAS, EPS_FILAS, LUT_H, LUT_LADO, LUT_W, PHI_MAX, POT_COL, construirLUT } from '../penumbra/nucleo/lutRayos.js';
+import { cromaCuerpoNegro } from './penumbra/horizonte.js';
+import { DEL_FILAS, EPS_FILAS, LUT_H, LUT_LADO, LUT_W, PHI_MAX, POT_COL, construirLUT } from './penumbra/lutRayos.js';
 
 const L0_V = Math.log(EPS_FILAS / (1 + DEL_FILAS)), L1_V = Math.log((1 + EPS_FILAS) / DEL_FILAS);
 const FRAG = `

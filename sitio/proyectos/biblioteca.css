@@ -1,7 +1,7 @@
 /* Biblioteca de proyectos: misma identidad que la portada (Bodoni Moda + Manrope, cristal sobre el espacio). */
-@font-face { font-family: 'Lectura'; src: url(../penumbra/vendor/fuentes/NotoSerif-Regular.ttf) format('truetype'); font-display: swap; }
+@font-face { font-family: 'Lectura'; src: url(../assets/fuentes/NotoSerif-Regular.ttf) format('truetype'); font-display: swap; }
 @font-face { font-family: 'EB Garamond'; src: url(semillero/fuentes/eb-garamond-latin-400-normal.woff2) format('woff2'); font-display: swap; }
-@font-face { font-family: 'Cormorant'; src: url(../hortus/fuentes/cormorant.ttf) format('truetype'); font-weight: 300 700; font-display: swap; }
+@font-face { font-family: 'Cormorant'; src: url(../assets/fuentes/cormorant.ttf) format('truetype'); font-weight: 300 700; font-display: swap; }
 :root {
   --vacio: #03040b; --estrella: #eef0ff; --estrella-2: #a9b0d6; --estrella-3: #6d7499; --violeta: #9d8cff;
   --filo: rgb(200 205 255 / 0.12); --display: 'Bodoni Moda', 'Didot', serif; --texto: 'Manrope', system-ui, sans-serif;
