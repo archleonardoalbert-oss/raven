@@ -1,0 +1,14 @@
+{
+  "name": "raven",
+  "scripts": {
+    "test": "node --test test/",
+    "construir": "node construir.mjs",
+    "publicar": "node construir.mjs && npx wrangler deploy"
+  },
+  "type": "module",
+  "devDependencies": {
+    "node-html-parser": "^9.0.7",
+    "puppeteer-core": "^24.43.1"
+  },
+  "private": true
+}

@@ -1,12 +1,12 @@
 #!/bin/sh
-# Publica la demo de solo lectura del Semillero en public/semillero.
+# Publica la demo de solo lectura del Semillero en demos/semillero.
 # 1) copia filtrada de datos con SOLO las ideas autorizadas (sin ajustes, notas, registros ni PDF de terceros)
 # 2) servidor desechable sobre esa copia (Claude desactivado) y grabación de las respuestas de la API
 # 3) compila la interfaz en modo demo (rama demo-publica del Semillero) y lo junta todo
 set -e
 IDEAS="cursos/ai neurociencia/ablacion-virtual-espectral-del-conectoma-de-c-elegans-frente"; export IDEAS
 SEM="$HOME/Proyectos/semillero"; WT="$SEM/.worktrees/demo-publica"
-RAVEN="$(cd "$(dirname "$0")/.." && pwd)"; DESTINO="$RAVEN/public/semillero"
+RAVEN="$(cd "$(dirname "$0")/.." && pwd)"; DESTINO="$RAVEN/demos/semillero"
 TMP="$(mktemp -d)"; trap 'kill $PID 2>/dev/null; rm -rf "$TMP"' EXIT
 
 mkdir -p "$TMP/demo-datos/carpetas"; : > "$TMP/demo-datos/notas-globales.md"

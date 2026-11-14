@@ -1,0 +1,1212 @@
+{
+ "index.html": [
+  [
+   "meta:viewport",
+   "width=device-width, initial-scale=1"
+  ],
+  [
+   null,
+   "Raven · Leonardo Albert López"
+  ],
+  [
+   "meta:titulo-es",
+   "Raven · Leonardo Albert López"
+  ],
+  [
+   "meta:titulo-en",
+   "Raven · Leonardo Albert López"
+  ],
+  [
+   "meta:description",
+   "Portafolio de Leonardo Albert López: cursos, herramientas y mundos construidos con IA."
+  ],
+  [
+   "meta:theme-color",
+   "#03040b"
+  ],
+  [
+   "meta:og:title",
+   "Raven · Leonardo Albert López"
+  ],
+  [
+   "meta:og:description",
+   "Cursos, herramientas y mundos construidos con IA, en una galaxia que se recorre con el scroll."
+  ],
+  [
+   "meta:og:image",
+   "https://raven.raven-0.workers.dev/assets/fondo.jpg"
+  ],
+  [
+   "meta:og:type",
+   "website"
+  ],
+  [
+   "meta:twitter:card",
+   "summary_large_image"
+  ],
+  [
+   null,
+   "Raven"
+  ],
+  [
+   null,
+   "Raven"
+  ],
+  [
+   "es",
+   "Sobre mí"
+  ],
+  [
+   "en",
+   "About"
+  ],
+  [
+   "es",
+   "Proyectos"
+  ],
+  [
+   "en",
+   "Projects"
+  ],
+  [
+   "es",
+   "Contacto"
+  ],
+  [
+   "en",
+   "Contact"
+  ],
+  [
+   null,
+   "ES"
+  ],
+  [
+   null,
+   "EN"
+  ],
+  [
+   null,
+   "Penumbra"
+  ],
+  [
+   null,
+   "Semillero"
+  ],
+  [
+   null,
+   "Hortus Algorithmicus"
+  ],
+  [
+   "es",
+   "Ciencia de la Computación, MatCom, Universidad de La Habana"
+  ],
+  [
+   "en",
+   "Computer Science, MatCom, University of Havana"
+  ],
+  [
+   null,
+   "Leonardo Albert López"
+  ],
+  [
+   "es",
+   "Hago cursos interactivos, herramientas de escritorio y simulaciones en la GPU."
+  ],
+  [
+   "en",
+   "I make interactive courses, desktop tools and GPU simulations."
+  ],
+  [
+   "es",
+   "Comenzar el viaje"
+  ],
+  [
+   "en",
+   "Start the journey"
+  ],
+  [
+   "es",
+   "o ve directo a"
+  ],
+  [
+   "en",
+   "or jump to"
+  ],
+  [
+   "es",
+   "Proyectos"
+  ],
+  [
+   "en",
+   "Projects"
+  ],
+  [
+   "es",
+   "Habilidades"
+  ],
+  [
+   "en",
+   "Skills"
+  ],
+  [
+   "es",
+   "Contacto"
+  ],
+  [
+   "en",
+   "Contact"
+  ],
+  [
+   "es",
+   "Cada punto de luz de esta galaxia es algo que construí."
+  ],
+  [
+   "en",
+   "Every point of light in this galaxy is something I built."
+  ],
+  [
+   "es",
+   "Sobre mí"
+  ],
+  [
+   "en",
+   "About me"
+  ],
+  [
+   "es",
+   "Cuando quiero dominar una materia, construyo el curso que me hubiera gustado tener."
+  ],
+  [
+   "en",
+   "When I want to master a subject, I build the course I wish I'd had."
+  ],
+  [
+   "es",
+   "De ahí salieron cursos de lógica difusa, ecuaciones diferenciales y teoría de números, y buena parte de las herramientas que uso a diario en Linux. Programo con agentes de IA; la idea, el diseño y el control de calidad son míos."
+  ],
+  [
+   "en",
+   "That's where my courses on fuzzy logic, differential equations and number theory came from, along with most of the tools I use every day on Linux. I code with AI agents; the idea, the design and the quality control are mine."
+  ],
+  [
+   "es",
+   "Estudio"
+  ],
+  [
+   "en",
+   "Studying"
+  ],
+  [
+   "es",
+   "Ciencia de la Computación"
+  ],
+  [
+   "en",
+   "Computer Science"
+  ],
+  [
+   "es",
+   "Facultad"
+  ],
+  [
+   "en",
+   "Faculty"
+  ],
+  [
+   null,
+   "MatCom"
+  ],
+  [
+   "es",
+   "Universidad"
+  ],
+  [
+   "en",
+   "University"
+  ],
+  [
+   "es",
+   "Universidad de La Habana"
+  ],
+  [
+   "en",
+   "University of Havana"
+  ],
+  [
+   "es",
+   "Ciudad"
+  ],
+  [
+   "en",
+   "City"
+  ],
+  [
+   "es",
+   "La Habana, Cuba"
+  ],
+  [
+   "en",
+   "Havana, Cuba"
+  ],
+  [
+   "es",
+   "Habilidades"
+  ],
+  [
+   "en",
+   "Skills"
+  ],
+  [
+   "es",
+   "Sigue bajando para entrar."
+  ],
+  [
+   "en",
+   "Keep scrolling to fall in."
+  ],
+  [
+   "es",
+   "Ver todo de una vez"
+  ],
+  [
+   "en",
+   "See it all at once"
+  ],
+  [
+   "es",
+   "Lo que sé hacer"
+  ],
+  [
+   "en",
+   "What I can do"
+  ],
+  [
+   "es",
+   "Proyectos destacados"
+  ],
+  [
+   "en",
+   "Featured projects"
+  ],
+  [
+   "es",
+   "Ver todos los proyectos"
+  ],
+  [
+   "en",
+   "See all projects"
+  ],
+  [
+   "es",
+   "Curso interactivo"
+  ],
+  [
+   "en",
+   "Interactive course"
+  ],
+  [
+   null,
+   "Penumbra"
+  ],
+  [
+   "es",
+   "Curso de lógica difusa con animaciones manipulables, 168 retos y un controlador que sostiene un péndulo invertido."
+  ],
+  [
+   "en",
+   "A fuzzy logic course with hands-on animations, 168 challenges and a controller that balances an inverted pendulum."
+  ],
+  [
+   "es",
+   "Conocer el proyecto"
+  ],
+  [
+   "en",
+   "Explore the project"
+  ],
+  [
+   "es",
+   "Herramienta con IA"
+  ],
+  [
+   "en",
+   "AI tool"
+  ],
+  [
+   null,
+   "Semillero"
+  ],
+  [
+   "es",
+   "Un almacén de ideas: Claude investiga cada una, emite un dictamen y convierte las buenas en un plan de estudio."
+  ],
+  [
+   "en",
+   "An idea vault: Claude researches each one, delivers a verdict and turns the good ones into a study plan."
+  ],
+  [
+   "es",
+   "Conocer el proyecto"
+  ],
+  [
+   "en",
+   "Explore the project"
+  ],
+  [
+   "es",
+   "Escritorio Linux"
+  ],
+  [
+   "en",
+   "Linux desktop"
+  ],
+  [
+   null,
+   "Hortus Algorithmicus"
+  ],
+  [
+   "es",
+   "Fondo de escritorio vivo: disco, red, memoria y CPU dibujados por los algoritmos que los gestionan."
+  ],
+  [
+   "en",
+   "A living wallpaper: disk, network, memory and CPU drawn by the algorithms that manage them."
+  ],
+  [
+   "es",
+   "Conocer el proyecto"
+  ],
+  [
+   "en",
+   "Explore the project"
+  ],
+  [
+   "es",
+   "Hablemos"
+  ],
+  [
+   "en",
+   "Let's talk"
+  ],
+  [
+   "es",
+   "Para trabajo, colaboraciones o un proyecto concreto, escríbeme."
+  ],
+  [
+   "en",
+   "For work, collaborations or a specific project, write to me."
+  ],
+  [
+   null,
+   "archleonardoalbert@gmail.com"
+  ],
+  [
+   null,
+   "GitHub"
+  ],
+  [
+   null,
+   "Leonardo Albert López,"
+  ],
+  [
+   "es",
+   "La Habana"
+  ],
+  [
+   "en",
+   "Havana"
+  ],
+  [
+   null,
+   ", 2026"
+  ]
+ ],
+ "proyectos/hortus/index.html": [
+  [
+   "meta:viewport",
+   "width=device-width, initial-scale=1"
+  ],
+  [
+   null,
+   "Hortus Algorithmicus · Raven"
+  ],
+  [
+   "meta:titulo-es",
+   "Hortus Algorithmicus · Raven"
+  ],
+  [
+   "meta:titulo-en",
+   "Hortus Algorithmicus · Raven"
+  ],
+  [
+   "meta:description",
+   "Hortus Algorithmicus: un fondo de escritorio vivo donde cada dato lo dibuja su algoritmo real."
+  ],
+  [
+   "es",
+   "Proyectos"
+  ],
+  [
+   "en",
+   "Projects"
+  ],
+  [
+   null,
+   "ES"
+  ],
+  [
+   null,
+   "EN"
+  ],
+  [
+   null,
+   "Hortus"
+  ],
+  [
+   null,
+   "Algorithmicus"
+  ],
+  [
+   "es",
+   "Un fondo de escritorio vivo. Cada dato del equipo lo dibuja el algoritmo que de verdad hace ese trabajo: el disco es un árbol B+, la red una constelación resuelta con Dijkstra, la CPU un Juego de la Vida."
+  ],
+  [
+   "en",
+   "A living desktop wallpaper. Every piece of system data is drawn by the algorithm that actually does that job: the disk is a B+ tree, the network a constellation solved with Dijkstra, the CPU a Game of Life."
+  ],
+  [
+   "es",
+   "Abrir la demo"
+  ],
+  [
+   "en",
+   "Open the demo"
+  ],
+  [
+   "es",
+   "De noche fría a día de calor: el clima lo decide la temperatura de la CPU."
+  ],
+  [
+   "en",
+   "From a cold night to a hot day: the weather is set by the CPU temperature."
+  ],
+  [
+   null,
+   "Fig. I"
+  ],
+  [
+   "es",
+   "Qué problema resuelve"
+  ],
+  [
+   "en",
+   "The problem it solves"
+  ],
+  [
+   "es",
+   "Los fondos de escritorio son decoración y los monitores del sistema son tablas y gráficas que nadie mira. Quería un fondo que fuera ambas cosas: bonito de verdad y con significado, donde cada cosa que se mueve corresponde a algo que está pasando en el equipo."
+  ],
+  [
+   "es",
+   "En vez de inventar metáforas, cada dato lo representa el algoritmo que de verdad hace ese trabajo dentro del ordenador."
+  ],
+  [
+   "en",
+   "Wallpapers are decoration, and system monitors are tables and graphs nobody looks at. I wanted a wallpaper that was both: genuinely beautiful and meaningful, where everything that moves corresponds to something happening on the machine."
+  ],
+  [
+   "en",
+   "Instead of inventing metaphors, every piece of data is represented by the algorithm that actually does that job inside the computer."
+  ],
+  [
+   null,
+   "Fig. II"
+  ],
+  [
+   "es",
+   "Cómo funciona"
+  ],
+  [
+   "en",
+   "How it works"
+  ],
+  [
+   "es",
+   "Disco"
+  ],
+  [
+   "es",
+   "Un árbol B+, la estructura con la que btrfs ordena los datos, crecido en 3D por colonización del espacio. La savia dorada sube por las raíces cada vez que se escriben bytes, y aparecen frutos cuando el disco pasa del 70 %."
+  ],
+  [
+   "es",
+   "Red"
+  ],
+  [
+   "es",
+   "Una constelación resuelta con Dijkstra, como enruta OSPF: la ruta real desde este equipo por el móvil, el operador y la VPN hasta los sitios a los que estás conectado. Cada luz que viaja son 50 kB."
+  ],
+  [
+   "es",
+   "RAM"
+  ],
+  [
+   "es",
+   "Micorrizas: corros de setas bioluminiscentes. Las cian son memoria en uso y las violeta, caché; por el micelio viajan las lecturas y escrituras entre disco y memoria."
+  ],
+  [
+   "es",
+   "CPU"
+  ],
+  [
+   "es",
+   "Un Juego de la Vida en el suelo: cada hilo del procesador alimenta su propia zona."
+  ],
+  [
+   "es",
+   "Temperatura"
+  ],
+  [
+   "es",
+   "El clima, decidido por un controlador difuso TSK: noche fría con escarcha, amanecer, día y, si la CPU arde, calima."
+  ],
+  [
+   "es",
+   "Avisos"
+  ],
+  [
+   "es",
+   "Cada notificación cruza el cielo como un cometa con el nombre de la aplicación."
+  ],
+  [
+   "es",
+   "Por debajo, un programa en Python con GTK4 y layer-shell coloca una vista WebKit en la capa de fondo del escritorio y le envía los sensores cada segundo. La escena se pinta en tres lienzos Canvas 2D a 72 fotogramas por segundo en una pantalla de 144 Hz, y se congela sin gastar nada cuando no la ve nadie: un juego a pantalla completa, la tapa bajada o el equipo suspendido."
+  ],
+  [
+   "en",
+   "Disk"
+  ],
+  [
+   "en",
+   "A B+ tree, the structure btrfs uses to organise data, grown in 3D by space colonisation. Golden sap rises through the roots every time bytes are written, and fruit appears once the disk passes 70 %."
+  ],
+  [
+   "en",
+   "Network"
+  ],
+  [
+   "en",
+   "A constellation solved with Dijkstra, the way OSPF routes: the real path from this machine through the phone, the carrier and the VPN to the sites you're connected to. Each travelling light is 50 kB."
+  ],
+  [
+   "en",
+   "RAM"
+  ],
+  [
+   "en",
+   "Mycorrhizae: rings of bioluminescent mushrooms. Cyan ones are memory in use and violet ones are cache; reads and writes between disk and memory travel through the mycelium."
+  ],
+  [
+   "en",
+   "CPU"
+  ],
+  [
+   "en",
+   "A Game of Life on the ground: each processor thread feeds its own patch."
+  ],
+  [
+   "en",
+   "Temperature"
+  ],
+  [
+   "en",
+   "The weather, set by a TSK fuzzy controller: a cold night with frost, dawn, day and, if the CPU runs hot, heat haze."
+  ],
+  [
+   "en",
+   "Alerts"
+  ],
+  [
+   "en",
+   "Every notification crosses the sky as a comet carrying the app's name."
+  ],
+  [
+   "en",
+   "Underneath, a Python program with GTK4 and layer-shell puts a WebKit view on the desktop's background layer and sends it the sensors every second. The scene is painted on three Canvas 2D layers at 72 frames per second on a 144 Hz screen, and it freezes at zero cost when nobody can see it: a full-screen game, the lid closed or the machine asleep."
+  ],
+  [
+   null,
+   "Fig. III"
+  ],
+  [
+   "es",
+   "Hacia dónde va"
+  ],
+  [
+   "en",
+   "Where it's heading"
+  ],
+  [
+   "es",
+   "Empaquetarlo para que cualquiera con Linux pueda instalarlo, con un archivo de configuración para elegir qué figuras ver, y darle a la temperatura una figura propia a la altura del resto."
+  ],
+  [
+   "en",
+   "Package it so anyone on Linux can install it, with a config file to choose which figures to show, and give temperature a figure of its own that lives up to the rest."
+  ]
+ ],
+ "proyectos/index.html": [
+  [
+   "meta:viewport",
+   "width=device-width, initial-scale=1"
+  ],
+  [
+   null,
+   "Proyectos · Raven"
+  ],
+  [
+   "meta:titulo-es",
+   "Proyectos · Raven"
+  ],
+  [
+   "meta:titulo-en",
+   "Projects · Raven"
+  ],
+  [
+   "meta:description",
+   "Todos los proyectos de Leonardo Albert López."
+  ],
+  [
+   "meta:theme-color",
+   "#03040b"
+  ],
+  [
+   null,
+   "Raven"
+  ],
+  [
+   null,
+   "ES"
+  ],
+  [
+   null,
+   "EN"
+  ],
+  [
+   "es",
+   "Proyectos"
+  ],
+  [
+   "en",
+   "Projects"
+  ],
+  [
+   "es",
+   "Ordenar"
+  ],
+  [
+   "en",
+   "Sort"
+  ],
+  [
+   "es",
+   "Ningún proyecto coincide con esa búsqueda."
+  ],
+  [
+   "en",
+   "No project matches that search."
+  ],
+  [
+   "es",
+   "Quitar filtros"
+  ],
+  [
+   "en",
+   "Clear filters"
+  ]
+ ],
+ "proyectos/penumbra/index.html": [
+  [
+   "meta:viewport",
+   "width=device-width, initial-scale=1"
+  ],
+  [
+   null,
+   "Penumbra · Raven"
+  ],
+  [
+   "meta:titulo-es",
+   "Penumbra · Raven"
+  ],
+  [
+   "meta:titulo-en",
+   "Penumbra · Raven"
+  ],
+  [
+   "meta:description",
+   "Penumbra: un curso de lógica difusa que se recorre como un mapa nocturno."
+  ],
+  [
+   "es",
+   "Proyectos"
+  ],
+  [
+   "en",
+   "Projects"
+  ],
+  [
+   null,
+   "ES"
+  ],
+  [
+   null,
+   "EN"
+  ],
+  [
+   null,
+   "P"
+  ],
+  [
+   null,
+   "e"
+  ],
+  [
+   null,
+   "n"
+  ],
+  [
+   null,
+   "u"
+  ],
+  [
+   null,
+   "m"
+  ],
+  [
+   null,
+   "b"
+  ],
+  [
+   null,
+   "r"
+  ],
+  [
+   null,
+   "a"
+  ],
+  [
+   "es",
+   "Un curso de lógica difusa que se recorre como un mapa: de lo que tiene borde a lo que no, de la noche al amanecer, hasta caer en un agujero negro."
+  ],
+  [
+   "en",
+   "A fuzzy logic course you travel like a map: from what has an edge to what doesn't, from night to dawn, until you fall into a black hole."
+  ],
+  [
+   "es",
+   "Abrir el curso"
+  ],
+  [
+   "en",
+   "Open the course"
+  ],
+  [
+   "es",
+   "El mapa, una parada por dentro y la caída hacia El Horizonte."
+  ],
+  [
+   "en",
+   "The map, one stop from the inside, and the fall towards The Horizon."
+  ],
+  [
+   "es",
+   "Qué problema resuelve"
+  ],
+  [
+   "en",
+   "The problem it solves"
+  ],
+  [
+   null,
+   "0,00"
+  ],
+  [
+   "es",
+   "¿Quién es alto? Si mides 181 cm, sí. ¿Y con 179? Dos centímetros no deberían cambiarlo todo, pero la lógica clásica obliga a trazar un borde. La lógica difusa existe para lo que no tiene borde, y es justo lo difícil de enseñar con pizarra: una t-norma, una implicación difusa o la desdifusión son ideas geométricas que en una fórmula quedan planas."
+  ],
+  [
+   "es",
+   "Penumbra lo convierte en algo que se ve y se toca: cambias una función de pertenencia y el resultado se redibuja al momento, combinas dos conjuntos y ves la superficie que forman, ajustas un controlador y miras cómo sostiene un péndulo invertido."
+  ],
+  [
+   "en",
+   "Who is tall? At 181 cm, you are. At 179? Two centimetres shouldn't change everything, yet classical logic forces you to draw an edge. Fuzzy logic exists for things without edges, and that is exactly what's hard to teach on a blackboard: a t-norm, a fuzzy implication or defuzzification are geometric ideas that go flat inside a formula."
+  ],
+  [
+   "en",
+   "Penumbra turns it into something you can see and touch: change a membership function and the result redraws instantly, combine two sets and see the surface they form, tune a controller and watch it balance an inverted pendulum."
+  ],
+  [
+   "es",
+   "Cómo funciona"
+  ],
+  [
+   "en",
+   "How it works"
+  ],
+  [
+   null,
+   "0,00"
+  ],
+  [
+   "es",
+   "Penumbra es un curso web que se recorre como un territorio de noche. Cada montaña es un capítulo y crece y se vuelve dorada con lo que demuestras en los retos: mirar no la sube."
+  ],
+  [
+   "es",
+   "Cada concepto se aprende en cinco pasos: la pregunta, míralo, tócalo, entiéndelo y demuéstralo. Las animaciones siguen la escuela de 3Blue1Brown: terrenos en WebGL que se construyen corte a corte, con el mapa y el corte en 2D enlazados, y un código de color que nunca cambia (azul para μ"
+  ],
+  [
+   "es",
+   "A"
+  ],
+  [
+   "es",
+   ", rosa para μ"
+  ],
+  [
+   "es",
+   "B"
+  ],
+  [
+   "es",
+   ", oro para el resultado)."
+  ],
+  [
+   "es",
+   "La noche"
+  ],
+  [
+   "es",
+   "8 regiones, 55 paradas y 168 retos: de los conjuntos difusos al razonamiento aproximado. El hilo conductor es un péndulo invertido: los retos te dan piezas y al final tu propio controlador difuso lo sostiene y lo centra en el riel."
+  ],
+  [
+   "es",
+   "El amanecer"
+  ],
+  [
+   "es",
+   "5 regiones y 21 paradas sobre lógica difusa e IA: la neurona difusa, las reglas como función de pérdida, la calibración y las Células de Concepto Difusas. Se entra tocando la Luna."
+  ],
+  [
+   "es",
+   "El Horizonte"
+  ],
+  [
+   "es",
+   "19 paradas para aprender fuzzython en una órbita que cae a un agujero negro con física real. El disco son las capas de la librería; el horizonte de sucesos, la desdifusión; detrás, los modelos decisores."
+  ],
+  [
+   "es",
+   "Las salidas de los ejemplos de código no están escritas a mano: las genera la fuzzython real, y un test falla si alguien cambia un bloque sin volver a ejecutarlo. En total, 936 pruebas automáticas. El curso funciona sin conexión y también se empaqueta en ejecutables para Linux y Windows."
+  ],
+  [
+   "en",
+   "Penumbra is a web course you explore like a landscape at night. Each mountain is a chapter, and it grows and turns golden with what you prove in the challenges: just looking doesn't raise it."
+  ],
+  [
+   "en",
+   "Every concept is learned in five steps: the question, see it, touch it, understand it and prove it. The animations follow the 3Blue1Brown school: WebGL terrains built slice by slice, with the map and the 2D slice linked, and a colour code that never changes (blue for μ"
+  ],
+  [
+   "en",
+   "A"
+  ],
+  [
+   "en",
+   ", pink for μ"
+  ],
+  [
+   "en",
+   "B"
+  ],
+  [
+   "en",
+   ", gold for the result)."
+  ],
+  [
+   "en",
+   "The night"
+  ],
+  [
+   "en",
+   "8 regions, 55 stops and 168 challenges: from fuzzy sets to approximate reasoning. The common thread is an inverted pendulum: challenges give you parts, and in the end your own fuzzy controller balances it and centres it on the rail."
+  ],
+  [
+   "en",
+   "The dawn"
+  ],
+  [
+   "en",
+   "5 regions and 21 stops on fuzzy logic and AI: the fuzzy neuron, rules as a loss function, calibration and Fuzzy Concept Cells. You enter by touching the Moon."
+  ],
+  [
+   "en",
+   "The Horizon"
+  ],
+  [
+   "en",
+   "19 stops to learn fuzzython on an orbit falling into a black hole with real physics. The disk is the library's layers; the event horizon, defuzzification; beyond it, decision models."
+  ],
+  [
+   "en",
+   "Code example outputs aren't written by hand: the real fuzzython generates them, and a test fails if anyone edits a block without running it again. 936 automated tests in total. The course works offline and is also packaged as executables for Linux and Windows."
+  ],
+  [
+   "es",
+   "Hacia dónde va"
+  ],
+  [
+   "en",
+   "Where it's heading"
+  ],
+  [
+   null,
+   "0,00"
+  ],
+  [
+   "es",
+   "Quiero que Penumbra sea la referencia de lógica difusa para los estudiantes de MatCom y para quien llega desde la IA buscando modelos que se puedan explicar."
+  ],
+  [
+   "es",
+   "El siguiente bloque amplía el temario con medidas e integrales difusas, decisión y programación lineal difusas, y la versión en inglés."
+  ],
+  [
+   "en",
+   "I want Penumbra to be the fuzzy logic reference for MatCom students and for anyone coming from AI looking for models that can be explained."
+  ],
+  [
+   "en",
+   "The next block extends the syllabus with fuzzy measures and integrals, fuzzy decision making and linear programming, and an English version."
+  ]
+ ],
+ "proyectos/semillero/index.html": [
+  [
+   "meta:viewport",
+   "width=device-width, initial-scale=1"
+  ],
+  [
+   null,
+   "Semillero · Raven"
+  ],
+  [
+   "meta:titulo-es",
+   "Semillero · Raven"
+  ],
+  [
+   "meta:titulo-en",
+   "Semillero · Raven"
+  ],
+  [
+   "meta:description",
+   "Semillero: un almacén de ideas donde Claude juzga cada una sin complacencia."
+  ],
+  [
+   "es",
+   "Proyectos"
+  ],
+  [
+   "en",
+   "Projects"
+  ],
+  [
+   null,
+   "ES"
+  ],
+  [
+   null,
+   "EN"
+  ],
+  [
+   "es",
+   "Herramienta con IA"
+  ],
+  [
+   "en",
+   "AI tool"
+  ],
+  [
+   null,
+   "Semillero"
+  ],
+  [
+   "es",
+   "Un almacén de ideas: Claude investiga cada una, emite un dictamen con fuentes y convierte las buenas en un plan de estudio."
+  ],
+  [
+   "en",
+   "An idea vault: Claude researches each one, delivers a sourced verdict and turns the good ones into a study plan."
+  ],
+  [
+   "es",
+   "Abrir la demo"
+  ],
+  [
+   "en",
+   "Open the demo"
+  ],
+  [
+   "es",
+   "Dos ideas reales: el árbol de germinación del curso de IA, una asignatura por dentro y un dictamen."
+  ],
+  [
+   "en",
+   "Two real ideas: the AI course germination tree, one subject from the inside, and a verdict."
+  ],
+  [
+   "es",
+   "Qué problema resuelve"
+  ],
+  [
+   "en",
+   "The problem it solves"
+  ],
+  [
+   "es",
+   "Decidir si una idea merece meses de trabajo exige horas de investigación y una opinión honesta. Un chat suelto no sirve: tiende a darte la razón, olvida lo que investigó y no deja nada ordenado."
+  ],
+  [
+   "es",
+   "El Semillero da a cada idea su expediente y un evaluador exigente que investiga antes de opinar."
+  ],
+  [
+   "en",
+   "Deciding whether an idea deserves months of work takes hours of research and an honest opinion. A one-off chat won't do: it tends to agree with you, forgets what it researched and leaves nothing organised."
+  ],
+  [
+   "en",
+   "Semillero gives every idea its own file and a demanding reviewer that researches before giving an opinion."
+  ],
+  [
+   "es",
+   "Cómo funciona"
+  ],
+  [
+   "en",
+   "How it works"
+  ],
+  [
+   "es",
+   "Cada idea vive en un bancal, una carpeta temática. Desde ahí sigue siempre el mismo camino:"
+  ],
+  [
+   "es",
+   "Análisis."
+  ],
+  [
+   "es",
+   "Al pulsar «Comenzar análisis», una sesión de Claude Code la juzga: un filtro rápido y, si lo pasa, una investigación profunda con fuentes. Varias ideas se analizan en paralelo y el trabajo se pausa solo cuando se acerca el límite de uso."
+  ],
+  [
+   "es",
+   "Dictamen."
+  ],
+  [
+   "es",
+   "Llega un veredicto (aceptada, cambio sugerido, rechazada o necesita aclaración) con fórmulas, figuras y referencias."
+  ],
+  [
+   "es",
+   "Réplica."
+  ],
+  [
+   "es",
+   "Puedes contestar, y tu respuesta continúa la misma sesión: Claude recuerda todo lo que investigó."
+  ],
+  [
+   "es",
+   "Glosas."
+  ],
+  [
+   "es",
+   "Seleccionas cualquier fragmento del dictamen y pides que te lo explique desde cero o le dices qué está mal. Si tienes razón, enmienda solo lo que dependía del error."
+  ],
+  [
+   "es",
+   "Germinación."
+  ],
+  [
+   "es",
+   "Una idea aceptada se convierte en un árbol: el tronco es lo que tienes que estudiar, las hojas son las incógnitas, los frutos los problemas abiertos y las raíces el manuscrito de donde salió. Cada asignatura se redacta como una web propia, con talleres, exámenes corregidos y verificaciones."
+  ],
+  [
+   "es",
+   "Todo se guarda en archivos Markdown y JSON legibles, versionados con git. Por dentro es un servidor Node con Fastify y WebSocket y una interfaz en Svelte 5, con casi 400 pruebas automáticas."
+  ],
+  [
+   "en",
+   "Every idea lives in a garden bed, a themed folder. From there it always follows the same path:"
+  ],
+  [
+   "en",
+   "Analysis."
+  ],
+  [
+   "en",
+   "Pressing \"Start analysis\" opens a Claude Code session that judges it: a quick filter and, if it passes, deep research with sources. Several ideas are analysed in parallel and work pauses on its own when the usage limit gets close."
+  ],
+  [
+   "en",
+   "Verdict."
+  ],
+  [
+   "en",
+   "A verdict arrives (accepted, change suggested, rejected or needs clarification) with formulas, figures and references."
+  ],
+  [
+   "en",
+   "Reply."
+  ],
+  [
+   "en",
+   "You can answer back, and your reply continues the same session: Claude remembers everything it researched."
+  ],
+  [
+   "en",
+   "Glosses."
+  ],
+  [
+   "en",
+   "Select any fragment of the verdict and ask for it to be explained from scratch, or say what's wrong with it. If you're right, it amends only what depended on the mistake."
+  ],
+  [
+   "en",
+   "Germination."
+  ],
+  [
+   "en",
+   "An accepted idea becomes a tree: the trunk is what you need to study, the leaves are the unknowns, the fruits the open problems and the roots the manuscript it grew from. Each subject is written as its own website, with workshops, graded exams and checks."
+  ],
+  [
+   "en",
+   "Everything is stored in readable Markdown and JSON files, versioned with git. Under the hood it's a Node server with Fastify and WebSocket and a Svelte 5 interface, with almost 400 automated tests."
+  ],
+  [
+   "es",
+   "Hacia dónde va"
+  ],
+  [
+   "en",
+   "Where it's heading"
+  ],
+  [
+   "es",
+   "Es la herramienta con la que decido en qué invierto mi tiempo. El siguiente paso es un instalador para que cualquiera lo use con su propia cuenta de Claude."
+  ],
+  [
+   "en",
+   "It's the tool I use to decide where my time goes. The next step is an installer so anyone can run it with their own Claude account."
+  ]
+ ]
+}

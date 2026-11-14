@@ -1,9 +1,9 @@
 #!/bin/sh
-# Copia Hortus (rama main) a public/hortus en modo demostración: en la web no hay hortus.py que mande
+# Copia Hortus (rama main) a demos/hortus en modo demostración: en la web no hay hortus.py que mande
 # los sensores, así que la página entra sola con ?demo (datos simulados) y lleva un rótulo discreto.
 set -e
 ORIGEN="$HOME/Proyectos/hortus"
-DESTINO="$(dirname "$0")/../public/hortus"
+DESTINO="$(dirname "$0")/../demos/hortus"
 rm -rf "$DESTINO"; mkdir -p "$DESTINO"
 git -C "$ORIGEN" archive main index.html js fuentes | tar -x -C "$DESTINO"
 
