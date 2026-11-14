@@ -4,26 +4,9 @@
 // la propia galaxia. Al cruzar el horizonte todo se apaga y queda el resumen.
 import { trayecto, pose, vista, faroDe, dilatacion } from '../penumbra/nucleo/caida.js';
 
-// Grandes áreas: cada una es un faro de la caída; dentro del horizonte se abre el mapa con todas sus
-// habilidades y los proyectos de la biblioteca donde las aplico.
-const H = (es, en, ...p) => ({ es, en, p });
-const AREAS = [
-  { es: 'Matemáticas', en: 'Mathematics', lema: { es: 'La base de todo lo que construyo.', en: 'The foundation of everything I build.' }, h: [
-    H('Lógica difusa', 'Fuzzy logic', 'Penumbra', 'Hortus'), H('Álgebra lineal', 'Linear algebra', 'Raven'), H('Ecuaciones diferenciales', 'Differential equations'),
-    H('Análisis matemático', 'Real analysis'), H('Geometría', 'Geometry', 'Raven'), H('Teoría de números', 'Number theory'), H('Álgebra bilineal', 'Bilinear algebra') ] },
-  { es: 'Gráficos y simulación', en: 'Graphics and simulation', lema: { es: 'Física y matemáticas convertidas en imagen.', en: 'Physics and mathematics turned into images.' }, h: [
-    H('WebGL y shaders GLSL', 'WebGL and GLSL shaders', 'Penumbra', 'Raven'), H('Trazado de rayos relativista', 'Relativistic ray tracing', 'Penumbra', 'Raven'), H('three.js', 'three.js', 'Raven'),
-    H('Generación procedural', 'Procedural generation', 'Hortus', 'Raven'), H('Canvas 2D', 'Canvas 2D', 'Hortus') ] },
-  { es: 'Desarrollo web', en: 'Web development', lema: { es: 'Interfaces rápidas, cuidadas hasta el último detalle.', en: 'Fast interfaces, polished down to the last detail.' }, h: [
-    H('JavaScript', 'JavaScript', 'Penumbra', 'Semillero', 'Raven'), H('Svelte', 'Svelte', 'Semillero'), H('Node.js y Fastify', 'Node.js and Fastify', 'Semillero'),
-    H('Django y Django REST', 'Django and Django REST'), H('Animación ligada al scroll', 'Scroll-driven animation', 'Raven'), H('HTML y CSS', 'HTML and CSS', 'Raven') ] },
-  { es: 'IA y agentes', en: 'AI and agents', lema: { es: 'Agentes que investigan, programan y se revisan.', en: 'Agents that research, code and review themselves.' }, h: [
-    H('Claude Code', 'Claude Code', 'Semillero', 'Raven'), H('Orquestación de agentes', 'Agent orchestration', 'Semillero'), H('Evaluación con LLM', 'LLM evaluation', 'Semillero'),
-    H('Controladores difusos', 'Fuzzy controllers', 'Penumbra'), H('Python científico', 'Scientific Python') ] },
-  { es: 'Sistemas', en: 'Systems', lema: { es: 'Del transistor al escritorio.', en: 'From the transistor to the desktop.' }, h: [
-    H('Linux y Wayland', 'Linux and Wayland', 'Hortus'), H('Python', 'Python', 'Hortus'), H('GTK4', 'GTK4', 'Hortus'), H('C++', 'C++'), H('C#', 'C#'),
-    H('Arquitectura de computadoras', 'Computer architecture'), H('Programación competitiva', 'Competitive programming') ] },
-];
+// Grandes áreas (contenido/habilidades.json): cada una es un faro de la caída; dentro del horizonte se abre
+// el mapa con todas sus habilidades y los proyectos donde las aplico.
+import { AREAS } from './habilidades-datos.js';
 
 const raiz = document.documentElement;
 const seccion = document.getElementById('habilidades');

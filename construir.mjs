@@ -3,6 +3,7 @@
 import { cp, rm, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { rellenar } from './herramientas/plantilla.mjs';
 import { validarProyectos, seccionesPrincipales, nombresMundo } from './herramientas/portada.mjs';
+import { validarHabilidades, modulosDatos } from './herramientas/datos.mjs';
 import { readdirSync } from 'node:fs';
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -21,6 +22,11 @@ export async function construir({ raiz = process.cwd(), salida = 'dist' } = {}) 
   const sistemas = {};
   for (const f of readdirSync(join(raiz, 'contenido/sistemas')).filter((x) => x.endsWith('.json'))) sistemas[f.slice(0, -5)] = await leer(`contenido/sistemas/${f}`);
   validarProyectos(proyectos);
+  const habilidades = await leer('contenido/habilidades.json');
+  validarHabilidades(habilidades, proyectos);
+  const modulos = modulosDatos({ habilidades, proyectos, sistemas });
+  await writeFile(join(dist, 'assets/habilidades-datos.js'), modulos.habilidades);
+  await writeFile(join(dist, 'assets/sistemas-datos.js'), modulos.sistemas);
   // catálogo para el navegador (biblioteca): «destacado» es el nombre que usa biblioteca.js para «principal»
   const catalogo = proyectos.map(({ principal, ...p }) => ({ ...p, destacado: principal }));
   await writeFile(join(dist, 'assets/proyectos-datos.js'), `// Generado por construir.mjs desde contenido/: no editar a mano.\nexport const ETIQUETAS = ${JSON.stringify(etiquetas, null, 2)};\nexport const PROYECTOS = ${JSON.stringify(catalogo, null, 2)};\n`);

@@ -11,6 +11,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { crearLente } from './lente.js';
 import { crearSistemas } from './sistemas.js';
+import { SISTEMAS } from './sistemas-datos.js';
 
 const lienzo = document.getElementById('galaxia');
 const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -293,11 +294,8 @@ function texturaDestello() {
   return new THREE.CanvasTexture(c);
 }
 const tDestello = texturaDestello();
-const PROYECTOS = [
-  { id: 'penumbra', color: '#8fd8ff', r: 30, th: 2.25 },
-  { id: 'semillero', color: '#8ff0bb', r: 41, th: 4.05 },
-  { id: 'hortus', color: '#ffd37a', r: 24, th: 5.6 },
-];
+// las estrellas de los proyectos principales: su sitio en la galaxia viene de contenido/sistemas/<id>.json
+const PROYECTOS = Object.entries(SISTEMAS).map(([id, d]) => ({ id, ...d.galaxia }));
 const marcas = PROYECTOS.map((p) => {
   const th = p.th - brazoCercano(p.r, p.th).d * 0.85; // sobre su brazo
   const pos = new THREE.Vector3(Math.cos(th) * p.r, 0.25, Math.sin(th) * p.r);
@@ -320,7 +318,7 @@ composer.addPass(new RenderPass(escena, camara));
 const ESCALA = 1e-5; // unidades de la galaxia por unidad local
 const escenaLocal = new THREE.Scene();
 const camLocal = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.01, 20000);
-const { sistemas, actualizar: actualizarSistema } = crearSistemas();
+const { sistemas, actualizar: actualizarSistema } = crearSistemas(SISTEMAS);
 for (const S of Object.values(sistemas)) { S.g.visible = false; escenaLocal.add(S.g); }
 let lente = null;
 try { lente = crearLente(renderer, { cubo: movil ? 256 : 512 }); composer.addPass(lente.pase); lente.material.uniforms.uB2G.value.copy(B2G); }

@@ -1,0 +1,254 @@
+[
+  {
+    "es": "Matemáticas",
+    "en": "Mathematics",
+    "principal": true,
+    "lema": {
+      "es": "La base de todo lo que construyo.",
+      "en": "The foundation of everything I build."
+    },
+    "habilidades": [
+      {
+        "es": "Lógica difusa",
+        "en": "Fuzzy logic",
+        "proyectos": [
+          "penumbra",
+          "hortus"
+        ]
+      },
+      {
+        "es": "Álgebra lineal",
+        "en": "Linear algebra",
+        "proyectos": [
+          "raven"
+        ]
+      },
+      {
+        "es": "Ecuaciones diferenciales",
+        "en": "Differential equations",
+        "proyectos": []
+      },
+      {
+        "es": "Análisis matemático",
+        "en": "Real analysis",
+        "proyectos": []
+      },
+      {
+        "es": "Geometría",
+        "en": "Geometry",
+        "proyectos": [
+          "raven"
+        ]
+      },
+      {
+        "es": "Teoría de números",
+        "en": "Number theory",
+        "proyectos": []
+      },
+      {
+        "es": "Álgebra bilineal",
+        "en": "Bilinear algebra",
+        "proyectos": []
+      }
+    ]
+  },
+  {
+    "es": "Gráficos y simulación",
+    "en": "Graphics and simulation",
+    "principal": true,
+    "lema": {
+      "es": "Física y matemáticas convertidas en imagen.",
+      "en": "Physics and mathematics turned into images."
+    },
+    "habilidades": [
+      {
+        "es": "WebGL y shaders GLSL",
+        "en": "WebGL and GLSL shaders",
+        "proyectos": [
+          "penumbra",
+          "raven"
+        ]
+      },
+      {
+        "es": "Trazado de rayos relativista",
+        "en": "Relativistic ray tracing",
+        "proyectos": [
+          "penumbra",
+          "raven"
+        ]
+      },
+      {
+        "es": "three.js",
+        "en": "three.js",
+        "proyectos": [
+          "raven"
+        ]
+      },
+      {
+        "es": "Generación procedural",
+        "en": "Procedural generation",
+        "proyectos": [
+          "hortus",
+          "raven"
+        ]
+      },
+      {
+        "es": "Canvas 2D",
+        "en": "Canvas 2D",
+        "proyectos": [
+          "hortus"
+        ]
+      }
+    ]
+  },
+  {
+    "es": "Desarrollo web",
+    "en": "Web development",
+    "principal": true,
+    "lema": {
+      "es": "Interfaces rápidas, cuidadas hasta el último detalle.",
+      "en": "Fast interfaces, polished down to the last detail."
+    },
+    "habilidades": [
+      {
+        "es": "JavaScript",
+        "en": "JavaScript",
+        "proyectos": [
+          "penumbra",
+          "semillero",
+          "raven"
+        ]
+      },
+      {
+        "es": "Svelte",
+        "en": "Svelte",
+        "proyectos": [
+          "semillero"
+        ]
+      },
+      {
+        "es": "Node.js y Fastify",
+        "en": "Node.js and Fastify",
+        "proyectos": [
+          "semillero"
+        ]
+      },
+      {
+        "es": "Django y Django REST",
+        "en": "Django and Django REST",
+        "proyectos": []
+      },
+      {
+        "es": "Animación ligada al scroll",
+        "en": "Scroll-driven animation",
+        "proyectos": [
+          "raven"
+        ]
+      },
+      {
+        "es": "HTML y CSS",
+        "en": "HTML and CSS",
+        "proyectos": [
+          "raven"
+        ]
+      }
+    ]
+  },
+  {
+    "es": "IA y agentes",
+    "en": "AI and agents",
+    "principal": true,
+    "lema": {
+      "es": "Agentes que investigan, programan y se revisan.",
+      "en": "Agents that research, code and review themselves."
+    },
+    "habilidades": [
+      {
+        "es": "Claude Code",
+        "en": "Claude Code",
+        "proyectos": [
+          "semillero",
+          "raven"
+        ]
+      },
+      {
+        "es": "Orquestación de agentes",
+        "en": "Agent orchestration",
+        "proyectos": [
+          "semillero"
+        ]
+      },
+      {
+        "es": "Evaluación con LLM",
+        "en": "LLM evaluation",
+        "proyectos": [
+          "semillero"
+        ]
+      },
+      {
+        "es": "Controladores difusos",
+        "en": "Fuzzy controllers",
+        "proyectos": [
+          "penumbra"
+        ]
+      },
+      {
+        "es": "Python científico",
+        "en": "Scientific Python",
+        "proyectos": []
+      }
+    ]
+  },
+  {
+    "es": "Sistemas",
+    "en": "Systems",
+    "principal": true,
+    "lema": {
+      "es": "Del transistor al escritorio.",
+      "en": "From the transistor to the desktop."
+    },
+    "habilidades": [
+      {
+        "es": "Linux y Wayland",
+        "en": "Linux and Wayland",
+        "proyectos": [
+          "hortus"
+        ]
+      },
+      {
+        "es": "Python",
+        "en": "Python",
+        "proyectos": [
+          "hortus"
+        ]
+      },
+      {
+        "es": "GTK4",
+        "en": "GTK4",
+        "proyectos": [
+          "hortus"
+        ]
+      },
+      {
+        "es": "C++",
+        "en": "C++",
+        "proyectos": []
+      },
+      {
+        "es": "C#",
+        "en": "C#",
+        "proyectos": []
+      },
+      {
+        "es": "Arquitectura de computadoras",
+        "en": "Computer architecture",
+        "proyectos": []
+      },
+      {
+        "es": "Programación competitiva",
+        "en": "Competitive programming",
+        "proyectos": []
+      }
+    ]
+  }
+]

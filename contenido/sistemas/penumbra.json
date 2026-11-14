@@ -7,5 +7,55 @@
   "camara": {
     "escritorio": "@penumbra:3.4,1.0,4.6|@penumbra:-1.5,0,1.1",
     "movil": "@penumbra:3.0,0.9,6.4|@penumbra:0,-1.1,0"
+  },
+  "estrellas": [
+    {
+      "color": "#fff1d6",
+      "radio": 5,
+      "pos": [
+        -45,
+        22,
+        30
+      ]
+    }
+  ],
+  "planeta": {
+    "tipo": "rocoso",
+    "oceano": "#123a6b",
+    "bajo": "#2a3f52",
+    "alto": "#7b8a99",
+    "hielo": "#dfe8f2",
+    "ciudad": "#ffc46b",
+    "mar": 0.53,
+    "semilla": 2.7
+  },
+  "nubes": {
+    "radio": 1.012,
+    "densidad": 0.42
+  },
+  "atmosfera": {
+    "radio": 1.06,
+    "color": "#58a8ff",
+    "fuerza": 1
+  },
+  "lunas": [
+    {
+      "radio": 0.27,
+      "color": "#c06a4a",
+      "semilla": 5,
+      "orbita": 3.3,
+      "vel": 0.07,
+      "fase": 0.6,
+      "inc": 0.12
+    }
+  ],
+  "anillos": null,
+  "agujero": {
+    "pos": [
+      -20,
+      3,
+      -38
+    ],
+    "inclinacion": 1.05
   }
 }

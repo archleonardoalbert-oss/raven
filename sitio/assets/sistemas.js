@@ -210,46 +210,25 @@ function agujeroCompanero(pos, inclinacion) {
   return { g, disco, anillo };
 }
 
-export function crearSistemas() {
-  const sistemas = {};
+// Cada sistema se construye desde su descripción en contenido/sistemas/<id>.json (ver herramientas/datos.mjs).
+function construirSistema(d) {
+  const g = new THREE.Group();
+  const soles = d.estrellas.map((e) => sol(e.color, e.radio, new THREE.Vector3(...e.pos)));
+  const P = d.planeta;
+  const planeta = new THREE.Mesh(new THREE.SphereGeometry(1, 128, 96), P.tipo === 'gaseoso' ? planetaGaseoso(P) : planetaRocoso(P));
+  if (P.inclinacion) planeta.rotation.z = P.inclinacion;
+  const nub = d.nubes ? new THREE.Mesh(new THREE.SphereGeometry(d.nubes.radio, 96, 72), nubes({ densidad: d.nubes.densidad })) : null;
+  const atm = d.atmosfera ? new THREE.Mesh(new THREE.SphereGeometry(d.atmosfera.radio, 96, 72), atmosfera(d.atmosfera.color, d.atmosfera.fuerza)) : null;
+  const lunas = (d.lunas || []).map((l) => ({ m: new THREE.Mesh(new THREE.SphereGeometry(l.radio, 64, 48), luna({ color: l.color, semilla: l.semilla })), r: l.orbita, v: l.vel, f: l.fase, inc: l.inc }));
+  let anillo = null;
+  if (d.anillos) { anillo = anillos(d.anillos); anillo.rotation.x = d.anillos.rotX; anillo.rotation.y = d.anillos.rotY; }
+  const bh = d.agujero ? agujeroCompanero(new THREE.Vector3(...d.agujero.pos), d.agujero.inclinacion) : null;
+  g.add(...soles.map((s) => s.g), planeta, ...[nub, atm, anillo, bh?.g].filter(Boolean), ...lunas.map((l) => l.m));
+  return { g, sol: soles[0], sol2: soles[1], planeta, nub, atm, anillo, lunas, bh };
+}
 
-  // ── Penumbra: mundo azul noche con ciudades, luna roja de eclipse, su estrella y un agujero negro ─────
-  {
-    const g = new THREE.Group();
-    const s = sol('#fff1d6', 5, new THREE.Vector3(-45, 22, 30));
-    const planeta = new THREE.Mesh(new THREE.SphereGeometry(1, 128, 96), planetaRocoso({ oceano: '#123a6b', bajo: '#2a3f52', alto: '#7b8a99', hielo: '#dfe8f2', ciudad: '#ffc46b', mar: 0.53, semilla: 2.7 }));
-    const nub = new THREE.Mesh(new THREE.SphereGeometry(1.012, 96, 72), nubes({ densidad: 0.42 }));
-    const atm = new THREE.Mesh(new THREE.SphereGeometry(1.06, 96, 72), atmosfera('#58a8ff', 1));
-    const lunaM = new THREE.Mesh(new THREE.SphereGeometry(0.27, 64, 48), luna({ color: '#c06a4a', semilla: 5 }));
-    const bh = agujeroCompanero(new THREE.Vector3(-20, 3, -38), 1.05);
-    g.add(s.g, planeta, nub, atm, lunaM, bh.g);
-    sistemas.penumbra = { g, sol: s, planeta, nub, atm, lunas: [{ m: lunaM, r: 3.3, v: 0.07, f: 0.6, inc: 0.12 }], bh };
-  }
-  // ── Semillero: planeta vivo, océanos y continentes verdes, nubes, tres lunas (semillas) ───────────────
-  {
-    const g = new THREE.Group();
-    const s = sol('#ffe08a', 5.5, new THREE.Vector3(-45, 20, 32));
-    const planeta = new THREE.Mesh(new THREE.SphereGeometry(1, 128, 96), planetaRocoso({ oceano: '#0e5e66', bajo: '#2f7d3a', alto: '#a8b36a', hielo: '#f2f6f2', mar: 0.5, semilla: 7.1 }));
-    const nub = new THREE.Mesh(new THREE.SphereGeometry(1.014, 96, 72), nubes({ densidad: 0.5 }));
-    const atm = new THREE.Mesh(new THREE.SphereGeometry(1.065, 96, 72), atmosfera('#7fe8c0', 1.1));
-    const lunas = [0.2, 0.15, 0.24].map((r, i) => new THREE.Mesh(new THREE.SphereGeometry(r, 48, 36), luna({ color: ['#b9b39c', '#a8c2a2', '#d2c7a8'][i], semilla: 11 + i * 3 })));
-    g.add(s.g, planeta, nub, atm, ...lunas);
-    sistemas.semillero = { g, sol: s, planeta, nub, atm, lunas: lunas.map((m, i) => ({ m, r: [2.4, 3.3, 4.6][i], v: [0.11, 0.08, 0.05][i], f: i * 2.1, inc: [0.05, -0.1, 0.16][i] })) };
-  }
-  // ── Hortus: gigante dorado con anillos, alrededor de una estrella doble ─────────────────────────────────
-  {
-    const g = new THREE.Group();
-    const s = sol('#ffcf7a', 6, new THREE.Vector3(-46, 24, 28));
-    const s2 = sol('#bcd6ff', 3, new THREE.Vector3(-38, -10, -52));
-    const planeta = new THREE.Mesh(new THREE.SphereGeometry(1, 128, 96), planetaGaseoso({ c1: '#d9b26a', c2: '#a5743a', c3: '#f2deb0', tormenta: '#c7653a' }));
-    const atm = new THREE.Mesh(new THREE.SphereGeometry(1.04, 96, 72), atmosfera('#ffd38a', 0.7));
-    const an = anillos({ interior: 1.4, exterior: 2.6, c1: '#e8d2a0', c2: '#8a6a44' });
-    an.rotation.x = Math.PI / 2 - 0.42; an.rotation.y = 0.18;
-    planeta.rotation.z = 0.18;
-    const lunaM = new THREE.Mesh(new THREE.SphereGeometry(0.12, 48, 36), luna({ color: '#c9bfae', semilla: 23 }));
-    g.add(s.g, s2.g, planeta, atm, an, lunaM);
-    sistemas.hortus = { g, sol: s, sol2: s2, planeta, atm, anillo: an, lunas: [{ m: lunaM, r: 3.4, v: 0.06, f: 1.2, inc: 0.3 }] };
-  }
+export function crearSistemas(descripciones) {
+  const sistemas = Object.fromEntries(Object.entries(descripciones).map(([id, d]) => [id, construirSistema(d)]));
 
   const tmp = new THREE.Vector3();
   function actualizar(id, t) {
