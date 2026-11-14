@@ -117,46 +117,8 @@
     "2": {
       "es": "Ver todos los proyectos",
       "en": "See all projects"
-    }
-  },
-  "p-penumbra": {
-    "1": {
-      "es": "Curso interactivo",
-      "en": "Interactive course"
     },
-    "2": {
-      "es": "Curso de lógica difusa con animaciones manipulables, 168 retos y un controlador que sostiene un péndulo invertido.",
-      "en": "A fuzzy logic course with hands-on animations, 168 challenges and a controller that balances an inverted pendulum."
-    },
-    "3": {
-      "es": "Conocer el proyecto",
-      "en": "Explore the project"
-    }
-  },
-  "p-semillero": {
-    "1": {
-      "es": "Herramienta con IA",
-      "en": "AI tool"
-    },
-    "2": {
-      "es": "Un almacén de ideas: Claude investiga cada una, emite un dictamen y convierte las buenas en un plan de estudio.",
-      "en": "An idea vault: Claude researches each one, delivers a verdict and turns the good ones into a study plan."
-    },
-    "3": {
-      "es": "Conocer el proyecto",
-      "en": "Explore the project"
-    }
-  },
-  "p-hortus": {
-    "1": {
-      "es": "Escritorio Linux",
-      "en": "Linux desktop"
-    },
-    "2": {
-      "es": "Fondo de escritorio vivo: disco, red, memoria y CPU dibujados por los algoritmos que los gestionan.",
-      "en": "A living wallpaper: disk, network, memory and CPU drawn by the algorithms that manage them."
-    },
-    "3": {
+    "conocer": {
       "es": "Conocer el proyecto",
       "en": "Explore the project"
     }

@@ -123,7 +123,7 @@
     CAPITULOS.forEach((c, i) => { if (scrollY + innerHeight * 0.5 >= document.getElementById(c.id).offsetTop) actual = i; });
     enlaces.forEach((a, i) => { a.classList.toggle('actual', i === actual); a.classList.toggle('visto', i < actual); });
     const fuera = scrollY > innerHeight * 0.6;
-    const ini = document.getElementById('p-penumbra').offsetTop - innerHeight * 0.6, fin = document.getElementById('contacto').offsetTop - innerHeight * 0.6;
+    const primero = document.querySelector('.capitulo.proyecto'), ini = primero ? primero.offsetTop - innerHeight * 0.6 : Infinity, fin = document.getElementById('contacto').offsetTop - innerHeight * 0.6;
     todos.classList.toggle('visible', scrollY > ini && scrollY < fin);
     arriba.classList.toggle('visible', fuera);
     indice.classList.toggle('visible', fuera);

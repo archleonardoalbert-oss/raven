@@ -1,0 +1,11 @@
+{
+  "galaxia": {
+    "r": 41,
+    "th": 4.05,
+    "color": "#8ff0bb"
+  },
+  "camara": {
+    "escritorio": "@semillero:3.4,1.0,4.6|@semillero:-1.5,0,1.1",
+    "movil": "@semillero:3.0,0.9,6.4|@semillero:0,-1.1,0"
+  }
+}
