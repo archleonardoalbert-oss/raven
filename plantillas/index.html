@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Raven · Leonardo Albert López</title>
-<meta name="titulo-es" content="Raven · Leonardo Albert López">
-<meta name="titulo-en" content="Raven · Leonardo Albert López">
-<meta name="description" content="Portafolio de Leonardo Albert López: cursos, herramientas y mundos construidos con IA.">
+<title>{{es meta.titulo}}</title>
+<meta name="titulo-es" content="{{es meta.titulo}}">
+<meta name="titulo-en" content="{{en meta.titulo}}">
+<meta name="description" content="{{es meta.descripcion}}">
 <meta name="theme-color" content="#03040b">
 <meta property="og:title" content="Raven · Leonardo Albert López">
-<meta property="og:description" content="Cursos, herramientas y mundos construidos con IA, en una galaxia que se recorre con el scroll.">
+<meta property="og:description" content="{{es meta.ogDescripcion}}">
 <meta property="og:image" content="https://raven.raven-0.workers.dev/assets/fondo.jpg">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
@@ -43,9 +43,9 @@
     <span>Raven</span>
   </a>
   <nav class="menu" aria-label="Secciones">
-    <a href="#sobre-mi"><span lang="es">Sobre mí</span><span lang="en">About</span></a>
-    <a href="#proyectos"><span lang="es">Proyectos</span><span lang="en">Projects</span></a>
-    <a href="#contacto"><span lang="es">Contacto</span><span lang="en">Contact</span></a>
+    <a href="#sobre-mi">{{t barra.1}}</a>
+    <a href="#proyectos">{{t barra.2}}</a>
+    <a href="#contacto">{{t barra.3}}</a>
   </nav>
   <div class="idiomas" role="group" aria-label="Idioma / Language">
     <button type="button" data-poner-idioma="es">ES</button>
@@ -63,81 +63,76 @@
 <main>
   <section class="hero" id="inicio" data-camara="46,92,150|-34,-6,8">
     <p class="hero-sobre">
-      <span lang="es">Ciencia de la Computación, MatCom, Universidad de La Habana</span>
-      <span lang="en">Computer Science, MatCom, University of Havana</span>
+      {{t inicio.1}}
     </p>
     <h1 class="hero-nombre" data-partir>Leonardo Albert López</h1>
     <p class="hero-lema">
-      <span lang="es">Hago cursos interactivos, herramientas de escritorio y simulaciones en la GPU.</span>
-      <span lang="en">I make interactive courses, desktop tools and GPU simulations.</span>
+      {{t inicio.2}}
     </p>
     <div class="hero-acciones">
-      <a class="hero-bajar" href="#manifiesto"><span lang="es">Comenzar el viaje</span><span lang="en">Start the journey</span></a>
+      <a class="hero-bajar" href="#manifiesto">{{t inicio.3}}</a>
       <nav class="hero-atajos" aria-label="Atajos">
-        <span lang="es">o ve directo a</span><span lang="en">or jump to</span>
-        <a href="#proyectos" data-ir="proyectos"><span lang="es">Proyectos</span><span lang="en">Projects</span></a>
-        <a href="#habilidades" data-ir="habilidades"><span lang="es">Habilidades</span><span lang="en">Skills</span></a>
-        <a href="#contacto" data-ir="contacto"><span lang="es">Contacto</span><span lang="en">Contact</span></a>
+        {{t inicio.4}}
+        <a href="#proyectos" data-ir="proyectos">{{t inicio.5}}</a>
+        <a href="#habilidades" data-ir="habilidades">{{t inicio.6}}</a>
+        <a href="#contacto" data-ir="contacto">{{t inicio.7}}</a>
       </nav>
     </div>
   </section>
 
   <section class="manifiesto" id="manifiesto" data-camara="0,175,58|0,0,0">
     <p class="manifiesto-texto" data-palabras>
-      <span lang="es">Cada punto de luz de esta galaxia es algo que construí.</span>
-      <span lang="en">Every point of light in this galaxy is something I built.</span>
+      {{t manifiesto.1}}
     </p>
   </section>
 
   <section class="capitulo sobre-mi" id="sobre-mi" data-camara="0,30,69|0,0,0" data-mantener="0.2">
     <div class="cristal">
-      <h2 class="titulo"><span lang="es">Sobre mí</span><span lang="en">About me</span></h2>
+      <h2 class="titulo">{{t sobre-mi.1}}</h2>
       <p class="entrada">
-        <span lang="es">Cuando quiero dominar una materia, construyo el curso que me hubiera gustado tener.</span>
-        <span lang="en">When I want to master a subject, I build the course I wish I'd had.</span>
+        {{t sobre-mi.2}}
       </p>
       <p>
-        <span lang="es">De ahí salieron cursos de lógica difusa, ecuaciones diferenciales y teoría de números, y buena parte de las herramientas que uso a diario en Linux. Programo con agentes de IA; la idea, el diseño y el control de calidad son míos.</span>
-        <span lang="en">That's where my courses on fuzzy logic, differential equations and number theory came from, along with most of the tools I use every day on Linux. I code with AI agents; the idea, the design and the quality control are mine.</span>
+        {{t sobre-mi.3}}
       </p>
       <dl class="datos">
-        <div><dt><span lang="es">Estudio</span><span lang="en">Studying</span></dt><dd><span lang="es">Ciencia de la Computación</span><span lang="en">Computer Science</span></dd></div>
-        <div><dt><span lang="es">Facultad</span><span lang="en">Faculty</span></dt><dd>MatCom</dd></div>
-        <div><dt><span lang="es">Universidad</span><span lang="en">University</span></dt><dd><span lang="es">Universidad de La Habana</span><span lang="en">University of Havana</span></dd></div>
-        <div><dt><span lang="es">Ciudad</span><span lang="en">City</span></dt><dd><span lang="es">La Habana, Cuba</span><span lang="en">Havana, Cuba</span></dd></div>
+        <div><dt>{{t sobre-mi.4}}</dt><dd>{{t sobre-mi.5}}</dd></div>
+        <div><dt>{{t sobre-mi.6}}</dt><dd>MatCom</dd></div>
+        <div><dt>{{t sobre-mi.7}}</dt><dd>{{t sobre-mi.8}}</dd></div>
+        <div><dt>{{t sobre-mi.9}}</dt><dd>{{t sobre-mi.10}}</dd></div>
       </dl>
     </div>
   </section>
 
   <section class="caida" id="habilidades" data-camara="0,2.0,4.6|0,0,0" data-mantener="0.93" data-llegada="arriba" aria-labelledby="t-hab">
     <div class="caida-escena">
-      <h2 class="visualmente-oculto" id="t-hab"><span lang="es">Habilidades</span><span lang="en">Skills</span></h2>
-      <p class="pista-caida"><span lang="es">Sigue bajando para entrar.</span><span lang="en">Keep scrolling to fall in.</span></p>
+      <h2 class="visualmente-oculto" id="t-hab">{{t habilidades.1}}</h2>
+      <p class="pista-caida">{{t habilidades.2}}</p>
       <div class="grupo-caida" data-i=""><h2></h2><p></p></div>
       <div class="faro" data-k=""><span class="faro-aro"></span><span class="faro-titulo"></span><span class="faro-linea"></span></div>
       <p class="reloj"></p>
-      <a class="saltar-caida" href="#resumen" data-ir="resumen"><span lang="es">Ver todo de una vez</span><span lang="en">See it all at once</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l7 7-7 7V5zm8 0l7 7-7 7V5z"/></svg></a>
+      <a class="saltar-caida" href="#resumen" data-ir="resumen">{{t habilidades.3}}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l7 7-7 7V5zm8 0l7 7-7 7V5z"/></svg></a>
       <div class="negro"></div>
       <div class="destello-salida"></div>
       <div class="resumen">
-        <h2 class="titulo grande"><span lang="es">Lo que sé hacer</span><span lang="en">What I can do</span></h2>
+        <h2 class="titulo grande">{{t habilidades.4}}</h2>
         <div class="resumen-grupos"></div>
       </div>
     </div>
   </section>
 
   <section class="proyectos-intro" id="proyectos" data-camara="0,125,95|0,0,0">
-    <h2 class="titulo grande"><span lang="es">Proyectos destacados</span><span lang="en">Featured projects</span></h2>
-    <a class="boton fantasma todos" href="proyectos/"><span lang="es">Ver todos los proyectos</span><span lang="en">See all projects</span></a>
+    <h2 class="titulo grande">{{t proyectos.1}}</h2>
+    <a class="boton fantasma todos" href="proyectos/">{{t proyectos.2}}</a>
   </section>
 
   <section class="capitulo proyecto" id="p-penumbra" data-camara="@penumbra:3.4,1.0,4.6|@penumbra:-1.5,0,1.1" data-camara-movil="@penumbra:3.0,0.9,6.4|@penumbra:0,-1.1,0" style="--tinte: #58c4dd">
     <article class="cristal tarjeta">
       <div class="vista"><img src="proyectos/penumbra/media/miniatura.webp" alt="" loading="lazy"><video data-src="proyectos/penumbra/media/penumbra.mp4" muted loop playsinline preload="none"></video></div>
-      <p class="tipo"><span lang="es">Curso interactivo</span><span lang="en">Interactive course</span></p>
+      <p class="tipo">{{t p-penumbra.1}}</p>
       <h3 class="t-penumbra">Penumbra</h3>
-      <p><span lang="es">Curso de lógica difusa con animaciones manipulables, 168 retos y un controlador que sostiene un péndulo invertido.</span><span lang="en">A fuzzy logic course with hands-on animations, 168 challenges and a controller that balances an inverted pendulum.</span></p>
-      <a class="boton" href="proyectos/penumbra/"><span lang="es">Conocer el proyecto</span><span lang="en">Explore the project</span></a>
+      <p>{{t p-penumbra.2}}</p>
+      <a class="boton" href="proyectos/penumbra/">{{t p-penumbra.3}}</a>
     </article>
   </section>
 
@@ -146,10 +141,10 @@
   <section class="capitulo proyecto" id="p-semillero" data-camara="@semillero:3.4,1.0,4.6|@semillero:-1.5,0,1.1" data-camara-movil="@semillero:3.0,0.9,6.4|@semillero:0,-1.1,0" style="--tinte: #6fe3a5">
     <article class="cristal tarjeta">
       <div class="vista"><img src="proyectos/semillero/media/miniatura.webp" alt="" loading="lazy"><video data-src="proyectos/semillero/media/semillero.mp4" muted loop playsinline preload="none"></video></div>
-      <p class="tipo"><span lang="es">Herramienta con IA</span><span lang="en">AI tool</span></p>
+      <p class="tipo">{{t p-semillero.1}}</p>
       <h3 class="t-semillero">Semillero</h3>
-      <p><span lang="es">Un almacén de ideas: Claude investiga cada una, emite un dictamen y convierte las buenas en un plan de estudio.</span><span lang="en">An idea vault: Claude researches each one, delivers a verdict and turns the good ones into a study plan.</span></p>
-      <a class="boton" href="proyectos/semillero/"><span lang="es">Conocer el proyecto</span><span lang="en">Explore the project</span></a>
+      <p>{{t p-semillero.2}}</p>
+      <a class="boton" href="proyectos/semillero/">{{t p-semillero.3}}</a>
     </article>
   </section>
 
@@ -158,22 +153,21 @@
   <section class="capitulo proyecto" id="p-hortus" data-camara="@hortus:5.0,1.9,7.2|@hortus:-2.2,0,1.6" data-camara-movil="@hortus:4.4,1.7,9.6|@hortus:0,-1.6,0" style="--tinte: #f2c46b">
     <article class="cristal tarjeta">
       <div class="vista"><img src="proyectos/hortus/media/miniatura.webp" alt="" loading="lazy"><video data-src="proyectos/hortus/media/hortus.mp4" muted loop playsinline preload="none"></video></div>
-      <p class="tipo"><span lang="es">Escritorio Linux</span><span lang="en">Linux desktop</span></p>
+      <p class="tipo">{{t p-hortus.1}}</p>
       <h3 class="t-hortus">Hortus Algorithmicus</h3>
-      <p><span lang="es">Fondo de escritorio vivo: disco, red, memoria y CPU dibujados por los algoritmos que los gestionan.</span><span lang="en">A living wallpaper: disk, network, memory and CPU drawn by the algorithms that manage them.</span></p>
-      <a class="boton" href="proyectos/hortus/"><span lang="es">Conocer el proyecto</span><span lang="en">Explore the project</span></a>
+      <p>{{t p-hortus.2}}</p>
+      <a class="boton" href="proyectos/hortus/">{{t p-hortus.3}}</a>
     </article>
   </section>
 
   <section class="contacto" id="contacto" data-camara="0,230,34|0,0,0">
-    <h2 class="titulo grande"><span lang="es">Hablemos</span><span lang="en">Let's talk</span></h2>
+    <h2 class="titulo grande">{{t contacto.1}}</h2>
     <p>
-      <span lang="es">Para trabajo, colaboraciones o un proyecto concreto, escríbeme.</span>
-      <span lang="en">For work, collaborations or a specific project, write to me.</span>
+      {{t contacto.2}}
     </p>
     <a class="correo" href="mailto:archleonardoalbert@gmail.com">archleonardoalbert@gmail.com</a>
     <div class="enlaces"><a class="boton fantasma" href="https://github.com/archleonardoalbert-oss" rel="noopener">GitHub</a></div>
-    <footer class="pie">Leonardo Albert López, <span lang="es">La Habana</span><span lang="en">Havana</span>, 2026</footer>
+    <footer class="pie">Leonardo Albert López, {{t pie.1}}, 2026</footer>
   </section>
 </main>
 

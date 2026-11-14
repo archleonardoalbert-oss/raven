@@ -1,6 +1,7 @@
 // Rellena una plantilla HTML con los textos de contenido/. Marcadores:
 //   {{t clave}}    → <span lang="es">…</span><span lang="en">…</span> (HTML en línea de confianza, tal cual)
 //   {{es clave}}   → solo el español, escapado (para atributos y <meta>); {{en clave}} igual en inglés
+//   {{es-html clave}} / {{en-html clave}} → un idioma sin escapar (bloques con párrafos)
 //   {{json clave}} → el valor como JSON (datos dentro de un <script>)
 const escapar = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
@@ -15,10 +16,11 @@ function idioma(v, l, clave, archivo) {
 }
 
 export function rellenar(html, textos, { archivo = '¿?' } = {}) {
-  return html.replace(/\{\{(t|es|en|json) ([\w.-]+)\}\}/g, (_, tipo, clave) => {
+  return html.replace(/\{\{(t|es|en|es-html|en-html|json) ([\w.-]+)\}\}/g, (_, tipo, clave) => {
     const v = buscar(textos, clave, archivo);
     if (tipo === 'json') return JSON.stringify(v);
     if (tipo === 't') return `<span lang="es">${idioma(v, 'es', clave, archivo)}</span><span lang="en">${idioma(v, 'en', clave, archivo)}</span>`;
+    if (tipo.endsWith('-html')) return idioma(v, tipo.slice(0, 2), clave, archivo);
     return escapar(idioma(v, tipo, clave, archivo));
   });
 }

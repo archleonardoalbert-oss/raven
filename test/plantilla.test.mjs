@@ -23,3 +23,7 @@ test('falta una clave: error con la clave y el archivo', () => {
 test('falta un idioma: error que lo nombra', () => {
   assert.throws(() => rellenar('{{t x}}', { x: { es: 'Hola' } }, opc), /idioma en/);
 });
+test('{{es-html}} y {{en-html}} insertan un idioma sin escapar (bloques de párrafos)', () => {
+  assert.equal(rellenar('<div lang="es">{{es-html p}}</div>', { p: { es: '<p>A & b</p>', en: '<p>x</p>' } }, opc), '<div lang="es"><p>A & b</p></div>');
+  assert.equal(rellenar('{{en-html p}}', { p: { es: 'x', en: '<p>Y</p>' } }, opc), '<p>Y</p>');
+});
