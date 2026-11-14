@@ -9,7 +9,9 @@ import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 export async function construir({ raiz = process.cwd(), salida = 'dist' } = {}) {
-  const dist = resolve(raiz, salida);
+  const dist = resolve(raiz, salida), base = resolve(raiz);
+  // nunca borrar la raíz del proyecto ni nada que la contenga
+  if (dist === base || base.startsWith(dist + '/')) throw new Error(`La salida no puede ser la raíz del proyecto ni contenerla: ${dist}`);
   await rm(dist, { recursive: true, force: true });
   await mkdir(dist, { recursive: true });
   // las plantillas de página se rellenan abajo; no se publican tal cual
@@ -30,16 +32,23 @@ export async function construir({ raiz = process.cwd(), salida = 'dist' } = {}) 
   // catálogo para el navegador (biblioteca): «destacado» es el nombre que usa biblioteca.js para «principal»
   const catalogo = proyectos.map(({ principal, ...p }) => ({ ...p, destacado: principal }));
   await writeFile(join(dist, 'assets/proyectos-datos.js'), `// Generado por construir.mjs desde contenido/: no editar a mano.\nexport const ETIQUETAS = ${JSON.stringify(etiquetas, null, 2)};\nexport const PROYECTOS = ${JSON.stringify(catalogo, null, 2)};\n`);
-  let portada = await readFile(join(raiz, 'plantillas/index.html'), 'utf8');
-  portada = portada.replace('<!--PRINCIPALES-->\n', seccionesPrincipales(proyectos, sistemas, textos)).replace('<!--MUNDOS-->', nombresMundo(proyectos));
-  await writeFile(join(dist, 'index.html'), rellenar(portada, textos, { archivo: 'plantillas/index.html' }));
+  // primero se rellenan los textos de la plantilla y después se insertan las piezas del catálogo (con función:
+  // un «$» o un «{{» en los datos de un proyecto deben salir tal cual)
+  const plantilla = await readFile(join(raiz, 'plantillas/index.html'), 'utf8');
+  for (const m of ['<!--PRINCIPALES-->', '<!--MUNDOS-->']) if (!plantilla.includes(m)) throw new Error(`Falta el marcador ${m} en plantillas/index.html`);
+  const secciones = seccionesPrincipales(proyectos, sistemas, textos), mundos = nombresMundo(proyectos);
+  const portada = rellenar(plantilla, textos, { archivo: 'plantillas/index.html' }).replace(/<!--PRINCIPALES-->\r?\n?/, () => secciones).replace('<!--MUNDOS-->', () => mundos);
+  await writeFile(join(dist, 'index.html'), portada);
 
   // páginas de proyecto: cada una con su plantilla propia y sus textos; sin demo, sin botón de demo
   for (const p of proyectos) {
     const pl = join(raiz, `sitio/proyectos/${p.id}/plantilla.html`);
-    if (!existsSync(pl)) continue;
+    if (!existsSync(pl)) throw new Error(`Falta la página del proyecto «${p.id}»: sitio/proyectos/${p.id}/plantilla.html`);
     let html = await readFile(pl, 'utf8');
-    if (!p.demo) html = html.replace(/\s*<!--DEMO-->[\s\S]*?<!--\/DEMO-->/g, '');
+    // hay demo si el proyecto la declara y además está construida en demos/<id>
+    const hayDemo = p.demo && existsSync(join(raiz, 'demos', p.id));
+    if (p.demo && !hayDemo) console.warn(`Aviso: «${p.id}» declara demo pero no existe demos/${p.id}: se publica sin botón de demo`);
+    if (!hayDemo) html = html.replace(/\s*<!--DEMO-->[\s\S]*?<!--\/DEMO-->/g, '');
     html = html.replace(/<!--\/?DEMO-->/g, '');
     const t = await leer(`contenido/paginas/${p.id}.json`);
     await writeFile(join(dist, `proyectos/${p.id}/index.html`), rellenar(html, t, { archivo: `sitio/proyectos/${p.id}/plantilla.html` }));
