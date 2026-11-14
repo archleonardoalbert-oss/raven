@@ -2,7 +2,7 @@
   {
     "id": "penumbra",
     "nombre": "Penumbra",
-    "repo": "",
+    "repo": "archleonardoalbert-oss/penumbra-logica-difusa",
     "principal": true,
     "demo": true,
     "fecha": "2026-11-05",
@@ -22,12 +22,13 @@
       "matematicas",
       "graficos",
       "web"
-    ]
+    ],
+    "rama": "responsive"
   },
   {
     "id": "semillero",
     "nombre": "Semillero",
-    "repo": "",
+    "repo": "archleonardoalbert-oss/semillero",
     "principal": true,
     "demo": true,
     "fecha": "2026-10-23",
@@ -46,12 +47,13 @@
       "herramienta",
       "ia",
       "web"
-    ]
+    ],
+    "rama": "master"
   },
   {
     "id": "hortus",
     "nombre": "Hortus Algorithmicus",
-    "repo": "",
+    "repo": "archleonardoalbert-oss/hortus",
     "principal": true,
     "demo": true,
     "fecha": "2026-11-08",
@@ -72,6 +74,7 @@
       "algoritmos",
       "graficos"
     ],
-    "nombreCorto": "Hortus"
+    "nombreCorto": "Hortus",
+    "rama": "main"
   }
 ]

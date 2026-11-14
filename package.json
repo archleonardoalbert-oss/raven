@@ -3,7 +3,8 @@
   "scripts": {
     "test": "node --test \"test/**/*.test.mjs\"",
     "construir": "node construir.mjs",
-    "publicar": "node construir.mjs && npx wrangler deploy"
+    "publicar": "node construir.mjs && npx wrangler deploy",
+    "demos": "node herramientas/ci-demos.mjs .cache-demos demos"
   },
   "type": "module",
   "devDependencies": {

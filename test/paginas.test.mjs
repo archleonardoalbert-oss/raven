@@ -26,3 +26,13 @@ test('las plantillas de página no se publican', async () => {
   const r = copia(); await construir({ raiz: r, salida: 'dist' });
   assert.ok(!existsSync(join(r, 'dist/proyectos/penumbra/plantilla.html')));
 });
+
+test('con repo, la página enlaza al código en GitHub; sin repo, no', async () => {
+  const r = copia();
+  const f = join(r, 'contenido/proyectos.json'); const ps = JSON.parse(readFileSync(f, 'utf8'));
+  ps.find((p) => p.id === 'penumbra').repo = 'archleonardoalbert-oss/penumbra-logica-difusa'; ps.find((p) => p.id === 'hortus').repo = '';
+  writeFileSync(f, JSON.stringify(ps));
+  await construir({ raiz: r, salida: 'dist' });
+  assert.ok(readFileSync(join(r, 'dist/proyectos/penumbra/index.html'), 'utf8').includes('href="https://github.com/archleonardoalbert-oss/penumbra-logica-difusa"'));
+  assert.ok(!readFileSync(join(r, 'dist/proyectos/hortus/index.html'), 'utf8').includes('github.com'));
+});

@@ -1,0 +1,57 @@
+# Publica Raven en Cloudflare. Se dispara al hacer push a main, cada 15 minutos (para recoger los push de los
+# repos de los proyectos) y a mano. Reconstruye solo las demos cuyo commit cambió (las demás salen de la caché),
+# usa la última demo buena si una falla, y no despliega si nada cambió desde el último despliegue.
+name: Publicar
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+concurrency:
+  group: publicar
+  cancel-in-progress: false
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Restaurar las últimas demos buenas
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache-demos
+          key: demos-${{ github.run_id }}
+          restore-keys: demos-
+      - name: Demos de los proyectos (raven.json de cada repo)
+        id: demos
+        run: node herramientas/ci-demos.mjs .cache-demos demos
+        env:
+          CHROME: /usr/bin/google-chrome
+      - run: npm test
+      - run: node construir.mjs
+      - name: ¿Cambió algo desde el último despliegue?
+        id: huella
+        run: |
+          echo "actual=${{ github.sha }} ${{ steps.demos.outputs.huella }}" >> "$GITHUB_OUTPUT"
+          echo "anterior=$(cat .cache-demos/.ultimo-despliegue 2>/dev/null)" >> "$GITHUB_OUTPUT"
+      - name: Desplegar en Cloudflare
+        if: steps.huella.outputs.actual != steps.huella.outputs.anterior
+        run: npx -y wrangler@4 deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Recordar lo desplegado
+        if: steps.huella.outputs.actual != steps.huella.outputs.anterior
+        run: echo "${{ steps.huella.outputs.actual }}" > .cache-demos/.ultimo-despliegue
+      - name: Guardar las demos
+        if: steps.huella.outputs.actual != steps.huella.outputs.anterior
+        uses: actions/cache/save@v4
+        with:
+          path: .cache-demos
+          key: demos-${{ github.run_id }}

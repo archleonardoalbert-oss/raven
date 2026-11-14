@@ -50,6 +50,9 @@ export async function construir({ raiz = process.cwd(), salida = 'dist' } = {}) 
     if (p.demo && !hayDemo) console.warn(`Aviso: «${p.id}» declara demo pero no existe demos/${p.id}: se publica sin botón de demo`);
     if (!hayDemo) html = html.replace(/\s*<!--DEMO-->[\s\S]*?<!--\/DEMO-->/g, '');
     html = html.replace(/<!--\/?DEMO-->/g, '');
+    // botón al código: solo si el proyecto tiene repo público
+    const codigo = p.repo ? `<a class="p-boton boton-linea" href="https://github.com/${p.repo}" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5a3.9 3.9 0 0 1 1-2.7 3.6 3.6 0 0 1 .1-2.7s.8-.3 2.8 1a9.6 9.6 0 0 1 5 0c2-1.3 2.8-1 2.8-1 .4 1 .2 2 .1 2.7a3.9 3.9 0 0 1 1 2.7c0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.8V21c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg><span lang="es">${textos.proyectos.codigo.es}</span><span lang="en">${textos.proyectos.codigo.en}</span></a>` : '';
+    html = html.replace('<!--CODIGO-->', () => codigo);
     const t = await leer(`contenido/paginas/${p.id}.json`);
     await writeFile(join(dist, `proyectos/${p.id}/index.html`), rellenar(html, t, { archivo: `sitio/proyectos/${p.id}/plantilla.html` }));
   }

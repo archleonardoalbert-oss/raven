@@ -121,6 +121,10 @@
     "conocer": {
       "es": "Conocer el proyecto",
       "en": "Explore the project"
+    },
+    "codigo": {
+      "es": "Ver el código en GitHub",
+      "en": "View the code on GitHub"
     }
   },
   "contacto": {
