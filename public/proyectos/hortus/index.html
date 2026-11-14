@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es" data-idioma="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hortus Algorithmicus · Raven</title>
+<meta name="titulo-es" content="Hortus Algorithmicus · Raven">
+<meta name="titulo-en" content="Hortus Algorithmicus · Raven">
+<meta name="description" content="Hortus Algorithmicus: un fondo de escritorio vivo donde cada dato lo dibuja su algoritmo real.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2304060e'/%3E%3Cpath d='M16 28V16M16 18l-6-6M16 16l6-7M10 12l-3 1M22 9l3 0' stroke='%23e8d9a8' stroke-width='1.6' fill='none'/%3E%3Ccircle cx='16' cy='6' r='1.6' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../../assets/proyecto.css">
+<link rel="stylesheet" href="estilo.css">
+<script src="../../assets/idioma.js"></script>
+</head>
+<body>
+<canvas id="cielo" aria-hidden="true"></canvas>
+
+<header class="p-barra">
+  <a class="p-volver" href="../">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 5.3a1 1 0 0 1 0 1.4L9.4 12l5.3 5.3a1 1 0 1 1-1.4 1.4l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 0 1 1.4 0z"/></svg>
+    <span lang="es">Proyectos</span><span lang="en">Projects</span>
+  </a>
+  <div class="p-idiomas" role="group" aria-label="Idioma / Language">
+    <button type="button" data-poner-idioma="es">ES</button>
+    <button type="button" data-poner-idioma="en">EN</button>
+  </div>
+</header>
+
+<main>
+  <section class="p-portada">
+    <h1 class="titulo">Hortus<br>Algorithmicus</h1>
+    <p class="p-lema">
+      <span lang="es">Un fondo de escritorio vivo. Cada dato del equipo lo dibuja el algoritmo que de verdad hace ese trabajo: el disco es un árbol B+, la red una constelación resuelta con Dijkstra, la CPU un Juego de la Vida.</span>
+      <span lang="en">A living desktop wallpaper. Every piece of system data is drawn by the algorithm that actually does that job: the disk is a B+ tree, the network a constellation solved with Dijkstra, the CPU a Game of Life.</span>
+    </p>
+    <div class="p-acciones">
+      <a class="p-boton boton-oro" href="../../hortus/">
+        <span lang="es">Abrir la demo</span><span lang="en">Open the demo</span>
+      </a>
+    </div>
+  </section>
+
+  <div class="p-cuerpo">
+    <figure class="p-video lamina">
+      <video src="media/hortus.mp4" poster="media/miniatura.webp" autoplay muted loop playsinline preload="metadata"></video>
+      <figcaption>
+        <span lang="es">De noche fría a día de calor: el clima lo decide la temperatura de la CPU.</span>
+        <span lang="en">From a cold night to a hot day: the weather is set by the CPU temperature.</span>
+      </figcaption>
+    </figure>
+
+    <article class="p-texto">
+      <section>
+        <p class="fig">Fig. I</p>
+        <h2><span lang="es">Qué problema resuelve</span><span lang="en">The problem it solves</span></h2>
+        <div lang="es">
+          <p>Los fondos de escritorio son decoración y los monitores del sistema son tablas y gráficas que nadie mira. Quería un fondo que fuera ambas cosas: bonito de verdad y con significado, donde cada cosa que se mueve corresponde a algo que está pasando en el equipo.</p>
+          <p>En vez de inventar metáforas, cada dato lo representa el algoritmo que de verdad hace ese trabajo dentro del ordenador.</p>
+        </div>
+        <div lang="en">
+          <p>Wallpapers are decoration, and system monitors are tables and graphs nobody looks at. I wanted a wallpaper that was both: genuinely beautiful and meaningful, where everything that moves corresponds to something happening on the machine.</p>
+          <p>Instead of inventing metaphors, every piece of data is represented by the algorithm that actually does that job inside the computer.</p>
+        </div>
+      </section>
+
+      <section>
+        <p class="fig">Fig. II</p>
+        <h2><span lang="es">Cómo funciona</span><span lang="en">How it works</span></h2>
+        <div lang="es">
+          <table class="p-tabla">
+            <tr><th>Disco</th><td>Un árbol B+, la estructura con la que btrfs ordena los datos, crecido en 3D por colonización del espacio. La savia dorada sube por las raíces cada vez que se escriben bytes, y aparecen frutos cuando el disco pasa del 70 %.</td></tr>
+            <tr><th>Red</th><td>Una constelación resuelta con Dijkstra, como enruta OSPF: la ruta real desde este equipo por el móvil, el operador y la VPN hasta los sitios a los que estás conectado. Cada luz que viaja son 50 kB.</td></tr>
+            <tr><th>RAM</th><td>Micorrizas: corros de setas bioluminiscentes. Las cian son memoria en uso y las violeta, caché; por el micelio viajan las lecturas y escrituras entre disco y memoria.</td></tr>
+            <tr><th>CPU</th><td>Un Juego de la Vida en el suelo: cada hilo del procesador alimenta su propia zona.</td></tr>
+            <tr><th>Temperatura</th><td>El clima, decidido por un controlador difuso TSK: noche fría con escarcha, amanecer, día y, si la CPU arde, calima.</td></tr>
+            <tr><th>Avisos</th><td>Cada notificación cruza el cielo como un cometa con el nombre de la aplicación.</td></tr>
+          </table>
+          <p>Por debajo, un programa en Python con GTK4 y layer-shell coloca una vista WebKit en la capa de fondo del escritorio y le envía los sensores cada segundo. La escena se pinta en tres lienzos Canvas 2D a 72 fotogramas por segundo en una pantalla de 144 Hz, y se congela sin gastar nada cuando no la ve nadie: un juego a pantalla completa, la tapa bajada o el equipo suspendido.</p>
+        </div>
+        <div lang="en">
+          <table class="p-tabla">
+            <tr><th>Disk</th><td>A B+ tree, the structure btrfs uses to organise data, grown in 3D by space colonisation. Golden sap rises through the roots every time bytes are written, and fruit appears once the disk passes 70 %.</td></tr>
+            <tr><th>Network</th><td>A constellation solved with Dijkstra, the way OSPF routes: the real path from this machine through the phone, the carrier and the VPN to the sites you're connected to. Each travelling light is 50 kB.</td></tr>
+            <tr><th>RAM</th><td>Mycorrhizae: rings of bioluminescent mushrooms. Cyan ones are memory in use and violet ones are cache; reads and writes between disk and memory travel through the mycelium.</td></tr>
+            <tr><th>CPU</th><td>A Game of Life on the ground: each processor thread feeds its own patch.</td></tr>
+            <tr><th>Temperature</th><td>The weather, set by a TSK fuzzy controller: a cold night with frost, dawn, day and, if the CPU runs hot, heat haze.</td></tr>
+            <tr><th>Alerts</th><td>Every notification crosses the sky as a comet carrying the app's name.</td></tr>
+          </table>
+          <p>Underneath, a Python program with GTK4 and layer-shell puts a WebKit view on the desktop's background layer and sends it the sensors every second. The scene is painted on three Canvas 2D layers at 72 frames per second on a 144 Hz screen, and it freezes at zero cost when nobody can see it: a full-screen game, the lid closed or the machine asleep.</p>
+        </div>
+      </section>
+
+      <section>
+        <p class="fig">Fig. III</p>
+        <h2><span lang="es">Hacia dónde va</span><span lang="en">Where it's heading</span></h2>
+        <div lang="es">
+          <p>Empaquetarlo para que cualquiera con Linux pueda instalarlo, con un archivo de configuración para elegir qué figuras ver, y darle a la temperatura una figura propia a la altura del resto.</p>
+        </div>
+        <div lang="en">
+          <p>Package it so anyone on Linux can install it, with a config file to choose which figures to show, and give temperature a figure of its own that lives up to the rest.</p>
+        </div>
+      </section>
+    </article>
+  </div>
+  <canvas id="vida" aria-hidden="true"></canvas>
+</main>
+
+<script src="hortus.js"></script>
+</body>
+</html>

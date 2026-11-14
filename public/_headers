@@ -1,0 +1,4 @@
+# Las webs de curso y las escenas del Semillero corren en iframes aislados (origen opaco):
+# como en el servidor real, necesitan CORS abierto para cargar sus scripts y fuentes.
+/semillero/*
+  Access-Control-Allow-Origin: *

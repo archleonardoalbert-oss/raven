@@ -1,0 +1,59 @@
+/* Biblioteca de proyectos: misma identidad que la portada (Bodoni Moda + Manrope, cristal sobre el espacio). */
+@font-face { font-family: 'Lectura'; src: url(../penumbra/vendor/fuentes/NotoSerif-Regular.ttf) format('truetype'); font-display: swap; }
+@font-face { font-family: 'EB Garamond'; src: url(semillero/fuentes/eb-garamond-latin-400-normal.woff2) format('woff2'); font-display: swap; }
+@font-face { font-family: 'Cormorant'; src: url(../hortus/fuentes/cormorant.ttf) format('truetype'); font-weight: 300 700; font-display: swap; }
+:root {
+  --vacio: #03040b; --estrella: #eef0ff; --estrella-2: #a9b0d6; --estrella-3: #6d7499; --violeta: #9d8cff;
+  --filo: rgb(200 205 255 / 0.12); --display: 'Bodoni Moda', 'Didot', serif; --texto: 'Manrope', system-ui, sans-serif;
+  --salida: cubic-bezier(0.16, 1, 0.3, 1); --margen: clamp(16px, 5vw, 80px); color-scheme: dark;
+}
+html[data-idioma="es"] [lang="en"], html[data-idioma="en"] [lang="es"] { display: none !important; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--vacio); color: var(--estrella); font: 400 1rem/1.6 var(--texto); -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--violeta); outline-offset: 3px; border-radius: 6px; }
+#cielo { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; }
+.barra, main { position: relative; z-index: 1; }
+.visualmente-oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.barra { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 1rem; padding: 16px var(--margen); background: linear-gradient(rgb(3 4 11 / 0.92), rgb(3 4 11 / 0.6)); backdrop-filter: blur(12px); border-bottom: 1px solid var(--filo); }
+.marca { display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none; font: 500 1.15rem var(--display); }
+.marca svg { width: 20px; fill: var(--estrella); }
+.idiomas { margin-left: auto; display: flex; padding: 3px; border-radius: 999px; border: 1px solid var(--filo); }
+.idiomas button { border: 0; background: none; color: var(--estrella-2); font: 600 0.75rem var(--texto); padding: 6px 11px; border-radius: 999px; cursor: pointer; }
+.idiomas button[aria-pressed="true"] { background: var(--estrella); color: var(--vacio); }
+
+main { padding: clamp(32px, 7vh, 72px) var(--margen) 96px; max-width: 1400px; margin: 0 auto; }
+h1 { margin: 0 0 1.4rem; font: 400 clamp(2.6rem, 7vw, 5.4rem)/1 var(--display); letter-spacing: -0.015em; }
+.controles { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; }
+.buscar { flex: 1 1 280px; display: flex; align-items: center; gap: 10px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--filo); background: rgb(255 255 255 / 0.04); }
+.buscar:focus-within { border-color: rgb(200 205 255 / 0.4); }
+.buscar svg { width: 18px; fill: var(--estrella-3); flex: none; }
+.buscar input { flex: 1; min-width: 0; border: 0; background: none; color: var(--estrella); font: 400 1rem var(--texto); padding: 13px 0; outline: none; }
+.orden select { appearance: none; border: 1px solid var(--filo); background: rgb(255 255 255 / 0.04) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23a9b0d6' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") right 12px center / 18px no-repeat; color: var(--estrella); font: 500 0.92rem var(--texto); padding: 13px 40px 13px 18px; border-radius: 999px; cursor: pointer; }
+.orden option { background: #0b0d1c; }
+.etiquetas { display: flex; flex-wrap: wrap; gap: 8px; }
+.etiquetas button { border: 1px solid var(--filo); background: rgb(255 255 255 / 0.03); color: var(--estrella-2); font: 500 0.85rem var(--texto); padding: 7px 14px; border-radius: 999px; cursor: pointer; transition: background-color .25s, color .25s, border-color .25s; }
+.etiquetas button:hover { color: var(--estrella); border-color: rgb(200 205 255 / 0.35); }
+.etiquetas button[aria-pressed="true"] { background: var(--estrella); color: var(--vacio); border-color: var(--estrella); }
+.cuenta { margin: 16px 0 0; font-size: 0.85rem; color: var(--estrella-3); }
+
+.rejilla { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: clamp(16px, 2vw, 28px); }
+.tarjeta a { display: flex; flex-direction: column; height: 100%; text-decoration: none; padding: 16px 16px 22px; border-radius: 24px; background: linear-gradient(160deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0.015)), rgb(10 12 32 / 0.55); border: 1px solid var(--filo); backdrop-filter: blur(14px); transition: transform .5s var(--salida), border-color .4s, box-shadow .5s; animation: entra .7s var(--salida) both; }
+.tarjeta:nth-child(2) a { animation-delay: .06s; } .tarjeta:nth-child(3) a { animation-delay: .12s; } .tarjeta:nth-child(n+4) a { animation-delay: .18s; }
+@keyframes entra { from { opacity: 0; transform: translateY(18px); } }
+.tarjeta a:hover { transform: translateY(-4px); border-color: color-mix(in oklab, var(--tinte) 45%, transparent); box-shadow: 0 24px 60px -30px var(--tinte); }
+.vista { position: relative; aspect-ratio: 16 / 10; border-radius: 14px; overflow: hidden; background: #000; margin-bottom: 18px; }
+.vista img, .vista video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.vista video { opacity: 0; transition: opacity .5s; }
+.vista.reproduciendo video { opacity: 1; }
+.sello { position: absolute; left: 10px; top: 10px; font: 600 0.72rem var(--texto); padding: 4px 10px; border-radius: 999px; background: rgb(3 4 11 / 0.7); backdrop-filter: blur(6px); color: var(--estrella); border: 1px solid var(--filo); }
+.tipo { margin: 0 4px 2px; font-size: 0.8rem; color: var(--tinte); }
+.tarjeta h2 { margin: 0 4px 8px; font-size: clamp(1.7rem, 2.6vw, 2.1rem); font-weight: 400; line-height: 1.1; color: var(--tinte); }
+.desc { margin: 0 4px 16px; color: var(--estrella-2); font-size: 0.95rem; flex: 1; }
+.chips { list-style: none; margin: 0 4px; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.chips li { font-size: 0.74rem; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--filo); color: var(--estrella-3); }
+.vacio { text-align: center; padding: 60px 0; color: var(--estrella-2); }
+.boton { display: inline-flex; padding: 11px 20px; border-radius: 999px; font: 600 0.9rem var(--texto); cursor: pointer; }
+.boton.fantasma { background: none; color: var(--estrella); border: 1px solid var(--filo); }
+@media (prefers-reduced-motion: reduce) { .tarjeta a { animation: none; transition: none; } }

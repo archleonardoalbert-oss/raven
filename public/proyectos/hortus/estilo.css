@@ -1,0 +1,59 @@
+/* Hortus Algorithmicus: lámina grabada de noche. Cielo plano azul noche con estrellas alineadas al píxel,
+   Cormorant para el texto y el título espaciado, JetBrains Mono para los datos, oro viejo del grabado,
+   figuras numeradas como las de la lámina y un Juego de la Vida en el suelo de la página. */
+@font-face { font-family: 'Cormorant'; src: url(../../hortus/fuentes/cormorant.ttf) format('truetype'); font-weight: 300 700; font-display: swap; }
+@font-face { font-family: 'Cormorant'; src: url(../../hortus/fuentes/cormorant-italica.ttf) format('truetype'); font-style: italic; font-weight: 300 700; font-display: swap; }
+@font-face { font-family: 'JetBrains Mono'; src: url(../../hortus/fuentes/jetbrains.ttf) format('truetype'); font-weight: 100 800; font-display: swap; }
+:root {
+  --noche: #04060e;
+  --tinta: #e9e4d6;
+  --tinta-2: #b9b5aa;
+  --oro: #e8d9a8;
+  --oro-vivo: #f2c46b;
+  --cian: #5fe3d0;
+  --p-linea: rgb(232 217 168 / 0.22);
+  --p-acento: var(--oro);
+  --serif: 'Cormorant', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --p-ui: var(--mono);
+  color-scheme: dark;
+}
+body { background: var(--noche); color: var(--tinta); font: 500 1.24rem/1.6 var(--serif); }
+#cielo { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+main, .p-barra { position: relative; z-index: 1; }
+.p-barra { position: fixed; font: 400 0.85rem var(--mono); color: var(--tinta-2); --p-barra-fondo: rgb(4 6 14 / 0.85); }
+
+.p-portada { min-height: 90vh; min-height: 90svh; }
+.titulo {
+  font: 400 clamp(2.6rem, 8.6vw, 7.2rem)/1.02 var(--serif); text-transform: uppercase;
+  letter-spacing: 0.14em; margin: 0 0 1.6rem; color: var(--tinta);
+  text-shadow: 0 0 40px rgb(232 217 168 / 0.15);
+}
+.p-lema { color: var(--tinta-2); font-size: clamp(1.2rem, 1.9vw, 1.5rem); font-style: italic; }
+.p-boton { font: 500 0.88rem var(--mono); border-radius: 2px; }
+.boton-oro { background: var(--oro); color: var(--noche); }
+.boton-oro:hover { background: #fff3cf; }
+.boton-linea { border: 1px solid var(--p-linea); color: var(--tinta-2); }
+
+/* el vídeo enmarcado como una figura de la lámina: doble filete y esquinas grabadas */
+.lamina { padding: 14px; border: 1px solid var(--p-linea); outline: 1px solid rgb(232 217 168 / 0.1); outline-offset: 6px; background: rgb(4 6 14 / 0.6); }
+.lamina::before, .lamina::after {
+  content: ""; position: absolute; width: 18px; height: 18px; border: 1px solid var(--oro); pointer-events: none;
+}
+.lamina::before { top: -7px; left: -7px; border-right: 0; border-bottom: 0; }
+.lamina::after { bottom: -7px; right: -7px; border-left: 0; border-top: 0; }
+.p-video figcaption { font: italic 500 1rem var(--serif); color: var(--tinta-2); text-align: center; }
+
+.fig { font: 400 0.8rem var(--mono); color: var(--oro); margin: 0 0 0.3rem; letter-spacing: 0.08em; }
+.p-texto h2 { font: 500 clamp(1.8rem, 3.2vw, 2.5rem)/1.1 var(--serif); letter-spacing: 0.02em; }
+.p-texto p, .p-texto li { color: var(--tinta-2); }
+.p-tabla th { font: 400 0.8rem var(--mono); color: var(--oro); padding-top: 14px; }
+.p-tabla td { color: var(--tinta-2); }
+.p-tabla tr:nth-child(2) th { color: #8fd8ff; }
+.p-tabla tr:nth-child(3) th { color: var(--cian); }
+.p-tabla tr:nth-child(4) th { color: #9be37a; }
+.p-tabla tr:nth-child(5) th { color: var(--oro-vivo); }
+.p-tabla tr:nth-child(6) th { color: #c9b8ff; }
+
+@media (max-width: 640px) { .titulo { font-size: clamp(1.7rem, 7vw, 3rem); letter-spacing: 0.1em; } }
+#vida { display: block; width: 100%; height: 120px; opacity: 0.85; }

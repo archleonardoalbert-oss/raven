@@ -1,0 +1,118 @@
+{
+  "nodos": {
+    "python-cientifico": {
+      "estado": "lista",
+      "error": null,
+      "intentos": 1,
+      "actualizado": "2026-11-02T06:51:07.404Z",
+      "sesion": "45bb4849-daa7-496f-807f-7ee1703a84ac",
+      "reanudar": false,
+      "errorAnterior": "API Error: Can't reach the API server — check your internet or DNS (EAI_AGAIN)",
+      "tokens": {
+        "generados": 581970,
+        "leidos": 110722182
+      },
+      "formato": 2,
+      "errorEstetica": null,
+      "estetica": null,
+      "esteticaBase": null
+    },
+    "mates-ml": {
+      "estado": "error",
+      "error": "Failed to authenticate. API Error: 403 Request not allowed",
+      "intentos": 0,
+      "actualizado": "2026-11-01T03:41:11.369Z",
+      "sesion": "fdbfe9ad-9c95-41ae-b00e-2e5d91879515",
+      "reanudar": true,
+      "errorAnterior": "API Error: Can't reach the API server — check your internet or DNS (EAI_AGAIN)",
+      "tokens": {
+        "generados": 0,
+        "leidos": 0
+      },
+      "formato": 2
+    },
+    "probabilidad": {
+      "estado": "pausada",
+      "error": null,
+      "intentos": 0,
+      "actualizado": "2026-10-27T02:18:57.657Z",
+      "sesion": "809a1bac-66b2-4b6f-bcec-ee7c05f4f935",
+      "reanudar": true,
+      "errorAnterior": "Failed to authenticate. API Error: 403 Request not allowed"
+    },
+    "estadistica": {
+      "estado": "pausada",
+      "error": null,
+      "intentos": 0,
+      "actualizado": "2026-10-27T02:18:57.599Z",
+      "sesion": "8ee3662d-4568-4965-8803-8c9768e7b3f1",
+      "reanudar": true,
+      "errorAnterior": "API Error: Connection dropped (ECONNRESET)"
+    },
+    "ml-fundamentos": {
+      "estado": "pausada",
+      "error": null,
+      "intentos": 0,
+      "actualizado": "2026-10-27T02:18:57.618Z",
+      "sesion": "3fb96e9e-807f-4df5-824c-aaa8cff9ba58",
+      "reanudar": true,
+      "errorAnterior": "Failed to authenticate. API Error: 403 Request not allowed"
+    },
+    "ml-tabular": {
+      "estado": "pausada",
+      "error": null,
+      "intentos": 0,
+      "actualizado": "2026-10-27T02:18:57.676Z",
+      "sesion": "2baef615-773d-4e35-9ce4-f367843bfce9",
+      "reanudar": true,
+      "errorAnterior": "API Error: Can't reach the API server — check your internet or DNS (EAI_AGAIN)"
+    },
+    "series-temporales": {
+      "estado": "pausada",
+      "error": null,
+      "intentos": 0,
+      "actualizado": "2026-10-27T02:18:57.695Z",
+      "sesion": "bbd35e85-1c99-42dc-a82c-7f47008790a1",
+      "reanudar": true,
+      "errorAnterior": "Failed to authenticate. API Error: 403 Request not allowed"
+    },
+    "deep-learning": {
+      "estado": "pausada",
+      "error": null,
+      "intentos": 0,
+      "actualizado": "2026-10-27T02:18:57.714Z",
+      "sesion": "98dcec62-c43e-48fe-bc7b-5aad05b2c852",
+      "reanudar": true,
+      "errorAnterior": "Failed to authenticate. API Error: 403 Request not allowed"
+    },
+    "transformers-nlp": {
+      "estado": "pausada",
+      "error": null,
+      "intentos": 0,
+      "actualizado": "2026-10-27T02:18:57.733Z",
+      "sesion": "9f35e6d8-9dd8-4b23-a221-64b76383b404",
+      "reanudar": true,
+      "errorAnterior": "Failed to authenticate. API Error: 403 Request not allowed"
+    },
+    "ingenieria-llm": {
+      "estado": "pausada",
+      "error": null,
+      "intentos": 0,
+      "actualizado": "2026-10-27T02:18:57.753Z",
+      "sesion": "46ad222a-2916-4bbd-8f5e-ddb0442fc5a6",
+      "reanudar": true,
+      "errorAnterior": "API Error: Can't reach the API server — check your internet or DNS (EAI_AGAIN)"
+    },
+    "mlops": {
+      "estado": "pausada",
+      "error": null,
+      "intentos": 0,
+      "actualizado": "2026-10-27T02:18:57.772Z",
+      "sesion": "4a9c98f8-2aa6-43fb-99fb-6deaa1851ffb",
+      "reanudar": true,
+      "errorAnterior": "Failed to authenticate. API Error: 403 Request not allowed"
+    }
+  },
+  "iniciada": true,
+  "pausada": true
+}

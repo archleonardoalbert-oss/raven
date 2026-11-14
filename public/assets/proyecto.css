@@ -1,0 +1,55 @@
+/* Estructura común de las páginas de proyecto. Cada proyecto pone encima su propia estética
+   (colores, tipografía, fondo y adornos) en proyectos/<nombre>/estilo.css. */
+html[data-idioma="es"] [lang="en"], html[data-idioma="en"] [lang="es"] { display: none !important; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+img, video { max-width: 100%; display: block; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--p-acento); outline-offset: 3px; border-radius: 4px; }
+
+.p-barra {
+  position: fixed; inset: 0 0 auto; z-index: 30; display: flex; align-items: center; gap: 1rem;
+  padding: 14px clamp(16px, 4vw, 48px);
+}
+.p-barra { transition: background-color 0.3s, backdrop-filter 0.3s; }
+html.desplazado .p-barra { background: var(--p-barra-fondo, rgb(0 0 0 / 0.82)); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.p-volver { display: inline-flex; align-items: center; gap: 0.45rem; text-decoration: none; font-size: 0.95rem; }
+.p-volver svg { width: 22px; height: 22px; fill: currentColor; }
+.p-idiomas { margin-left: auto; display: flex; border-radius: 999px; padding: 2px; border: 1px solid var(--p-linea); }
+.p-idiomas button { background: none; border: 0; font: 600 0.78rem/1 var(--p-ui, inherit); padding: 6px 10px; border-radius: 999px; cursor: pointer; color: inherit; opacity: 0.6; }
+.p-idiomas button[aria-pressed="true"] { opacity: 1; background: var(--p-linea); }
+
+.p-portada { position: relative; min-height: 88vh; min-height: 88svh; display: grid; align-content: end; padding: 120px clamp(16px, 5vw, 72px) clamp(40px, 8vh, 80px); overflow: hidden; }
+.p-portada > * { position: relative; z-index: 1; }
+.p-lema { max-width: 36em; margin: 0 0 1.8rem; }
+.p-acciones { display: flex; flex-wrap: wrap; gap: 12px; }
+.p-boton { display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; padding: 12px 20px; border-radius: 999px; font-weight: 600; }
+.p-boton svg { width: 18px; height: 18px; fill: currentColor; flex: none; }
+.p-boton[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; }
+
+.p-cuerpo {
+  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 80px); padding: clamp(40px, 8vh, 96px) clamp(16px, 5vw, 72px) clamp(80px, 14vh, 160px);
+  align-items: start;
+}
+.p-video { position: sticky; top: 84px; }
+.p-video video { width: 100%; height: auto; background: #000; }
+.p-video figcaption { margin-top: 10px; font-size: 0.85rem; opacity: 0.7; }
+.p-texto { max-width: 40em; }
+.p-texto section + section { margin-top: clamp(48px, 9vh, 96px); }
+.p-texto h2 { margin: 0 0 1rem; }
+.p-texto p, .p-texto li { margin: 0 0 1em; }
+.p-texto ul, .p-texto ol { padding-left: 1.2em; margin: 0 0 1em; }
+.p-tabla { width: 100%; border-collapse: collapse; margin: 0.5em 0 1.4em; font-size: 0.95em; }
+.p-tabla th, .p-tabla td { text-align: left; vertical-align: top; padding: 10px 12px 10px 0; border-bottom: 1px solid var(--p-linea); }
+.p-tabla th { font-weight: 600; white-space: nowrap; }
+
+@media (max-width: 900px) {
+  .p-cuerpo { grid-template-columns: 1fr; }
+  .p-video { position: relative; top: 0; }
+}
+@media (max-width: 520px) {
+  .p-tabla th { white-space: normal; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

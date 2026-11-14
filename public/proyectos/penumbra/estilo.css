@@ -1,0 +1,77 @@
+/* Penumbra: la noche del curso. Cielo azul noche, luna eclipsada, cordillera en alambre, serif «Lectura»
+   y el código de color fijo del curso: azul = μA, rosa = μB, oro = resultado. Los bordes de las cosas
+   se desdibujan según su grado de pertenencia. */
+:root {
+  --p-fondo: #000;
+  --p-cielo: #0f1d3d;
+  --p-texto: #f0ece0;
+  --p-texto-2: #c4c1b3;
+  --p-tenue: #9095a9;
+  --p-linea: #1d2030;
+  --azul: #58c4dd;
+  --rosa: #fc6282;
+  --oro: #f4d345;
+  --p-acento: var(--oro);
+  --lectura: 'Lectura', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  color-scheme: dark;
+}
+body { background: var(--p-fondo); color: var(--p-texto); font: 400 1.06rem/1.75 var(--lectura); }
+.p-barra { color: var(--p-texto-2); --p-barra-fondo: rgb(2 4 10 / 0.82); }
+.p-idiomas button { font-family: var(--mono); }
+
+/* portada: cielo, luna, curvas de pertenencia y cordillera */
+.p-portada { background: radial-gradient(120% 90% at 62% 0%, #1b2f5c 0%, var(--p-cielo) 38%, #050912 78%, #000 100%); }
+.p-portada::after {
+  content: ""; position: absolute; inset: auto 0 0; height: 45%; z-index: 0; pointer-events: none;
+  background: linear-gradient(transparent, rgb(0 0 0 / 0.65) 60%, #000);
+}
+#curvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+.luna {
+  position: absolute; z-index: 0; width: clamp(110px, 16vw, 220px); aspect-ratio: 1; right: 12%; top: 14%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 92% 50%, rgb(150 52 38 / 0.95) 0, rgb(140 48 36 / 0.8) 38%, rgb(140 48 36 / 0) 62%),
+    radial-gradient(circle at 30% 40%, rgb(0 0 0 / 0.12) 0 6%, transparent 7%),
+    radial-gradient(circle at 48% 66%, rgb(0 0 0 / 0.1) 0 9%, transparent 10%),
+    radial-gradient(circle at 58% 28%, rgb(0 0 0 / 0.08) 0 5%, transparent 6%),
+    radial-gradient(circle at 35% 35%, #f3efe6, #c9c4b8 45%, #8f8a82 80%);
+  box-shadow: 0 0 60px 18px rgb(150 170 230 / 0.18), 0 0 160px 60px rgb(80 110 200 / 0.12);
+}
+.cordillera { position: absolute; inset: auto 0 0; width: 100%; height: 38%; z-index: 0; opacity: 0.85; }
+.cordillera polyline { fill: none; stroke: rgb(140 170 230 / 0.32); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.cordillera polygon { fill: #060c1c; }
+
+/* «Penumbra» con las letras desdibujándose hacia el final, como en el logotipo del curso */
+.titulo-difuso { font: 400 clamp(3.6rem, 13vw, 9.5rem)/0.95 var(--lectura); margin: 0 0 1rem; letter-spacing: -0.01em; display: flex; flex-wrap: wrap; }
+.titulo-difuso span { filter: blur(calc(var(--b, 0) * 1px)); opacity: calc(1 - var(--b, 0) * 0.07); transition: filter 0.6s, opacity 0.6s; }
+.p-lema { color: var(--p-texto-2); font-size: clamp(1.05rem, 1.7vw, 1.3rem); }
+
+.boton-oro { background: var(--oro); color: #1a1505; box-shadow: 0 0 30px -6px rgb(244 211 69 / 0.6); }
+.boton-oro:hover { box-shadow: 0 0 44px -4px rgb(244 211 69 / 0.8); }
+.boton-linea { border: 1px solid rgb(240 236 224 / 0.25); color: var(--p-texto-2); }
+
+/* cuerpo */
+.p-video video { border-radius: 10px; border: 1px solid #1d2030; box-shadow: 0 30px 80px -30px rgb(88 196 221 / 0.25); }
+.p-video figcaption { color: var(--p-tenue); font-family: var(--mono); font-size: 0.78rem; }
+.p-texto h2 { font: 400 clamp(1.7rem, 3vw, 2.3rem)/1.15 var(--lectura); color: var(--p-texto); margin-bottom: 0.6rem; }
+.p-texto p, .p-texto li { color: var(--p-texto-2); }
+.p-texto sub { font-size: 0.7em; }
+.p-tabla th { color: var(--azul); font-weight: 400; font-family: var(--mono); font-size: 0.85rem; padding-top: 13px; }
+.p-tabla td { color: var(--p-texto-2); }
+.p-tabla tr:nth-child(2) th { color: var(--rosa); }
+.p-tabla tr:nth-child(3) th { color: var(--oro); }
+
+/* medidor de grado: cada sección se va «haciendo verdad» mientras la lees, de 0,00 a 1,00 */
+.medidor { display: flex; align-items: center; gap: 12px; margin: 0 0 1.4rem; font: 0.8rem var(--mono); color: var(--oro); }
+.medidor::before { content: "μ"; color: var(--p-tenue); }
+.medidor-barra { position: relative; flex: 0 1 180px; height: 3px; border-radius: 3px; background: #1d2030; overflow: hidden; }
+.medidor-barra::after { content: ""; position: absolute; inset: 0; transform-origin: left; transform: scaleX(var(--grado, 0)); background: linear-gradient(90deg, var(--azul), var(--rosa), var(--oro)); }
+.p-texto section { filter: blur(calc((1 - var(--grado, 0)) * 0.9px)); opacity: calc(0.7 + var(--grado, 0) * 0.3); transition: filter 0.4s, opacity 0.4s; }
+
+@media (max-width: 900px) {
+  .luna { right: 8%; top: 18%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .p-texto section { filter: none; opacity: 1; }
+}
