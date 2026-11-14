@@ -11,7 +11,8 @@ export async function construir({ raiz = process.cwd(), salida = 'dist' } = {}) 
   const dist = resolve(raiz, salida);
   await rm(dist, { recursive: true, force: true });
   await mkdir(dist, { recursive: true });
-  await cp(join(raiz, 'sitio'), dist, { recursive: true });
+  // las plantillas de página se rellenan abajo; no se publican tal cual
+  await cp(join(raiz, 'sitio'), dist, { recursive: true, filter: (o) => !o.endsWith('plantilla.html') });
   if (existsSync(join(raiz, 'demos'))) await cp(join(raiz, 'demos'), dist, { recursive: true });
   const leer = async (r) => JSON.parse(await readFile(join(raiz, r), 'utf8'));
   const textos = await leer('contenido/textos.json');
@@ -26,6 +27,17 @@ export async function construir({ raiz = process.cwd(), salida = 'dist' } = {}) 
   let portada = await readFile(join(raiz, 'plantillas/index.html'), 'utf8');
   portada = portada.replace('<!--PRINCIPALES-->\n', seccionesPrincipales(proyectos, sistemas, textos)).replace('<!--MUNDOS-->', nombresMundo(proyectos));
   await writeFile(join(dist, 'index.html'), rellenar(portada, textos, { archivo: 'plantillas/index.html' }));
+
+  // páginas de proyecto: cada una con su plantilla propia y sus textos; sin demo, sin botón de demo
+  for (const p of proyectos) {
+    const pl = join(raiz, `sitio/proyectos/${p.id}/plantilla.html`);
+    if (!existsSync(pl)) continue;
+    let html = await readFile(pl, 'utf8');
+    if (!p.demo) html = html.replace(/\s*<!--DEMO-->[\s\S]*?<!--\/DEMO-->/g, '');
+    html = html.replace(/<!--\/?DEMO-->/g, '');
+    const t = await leer(`contenido/paginas/${p.id}.json`);
+    await writeFile(join(dist, `proyectos/${p.id}/index.html`), rellenar(html, t, { archivo: `sitio/proyectos/${p.id}/plantilla.html` }));
+  }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) await construir();

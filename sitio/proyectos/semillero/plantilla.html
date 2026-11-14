@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es" data-idioma="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{es meta.titulo}}</title>
+<meta name="titulo-es" content="{{es meta.titulo}}">
+<meta name="titulo-en" content="{{en meta.titulo}}">
+<meta name="description" content="{{es meta.descripcion}}">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 27V14m0 0c-1-4.5-5.5-6.5-9-5.5 1 4.5 4.5 6.5 9 5.5m0 0c1-4.5 5.5-6.5 9-5.5-1 4.5-4.5 6.5-9 5.5' fill='none' stroke='%236fe3a5' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../../assets/proyecto.css">
+<link rel="stylesheet" href="estilo.css">
+<script src="../../assets/idioma.js"></script>
+</head>
+<body>
+<svg class="tallo" aria-hidden="true"><path class="tallo-fondo"/><path class="tallo-vivo"/></svg>
+
+<header class="p-barra">
+  <a class="p-volver" href="../">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 5.3a1 1 0 0 1 0 1.4L9.4 12l5.3 5.3a1 1 0 1 1-1.4 1.4l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 0 1 1.4 0z"/></svg>
+    {{t pagina.1}}
+  </a>
+  <div class="p-idiomas" role="group" aria-label="Idioma / Language">
+    <button type="button" data-poner-idioma="es">ES</button>
+    <button type="button" data-poner-idioma="en">EN</button>
+  </div>
+</header>
+
+<main>
+  <section class="p-portada">
+    <svg class="brote" viewBox="0 0 200 240" aria-hidden="true">
+      <ellipse class="suelo" cx="100" cy="214" rx="86" ry="9"/>
+      <path class="semilla" d="M100 222c-12 0-18-10-14-22 3-8 9-14 14-20 5 6 11 12 14 20 4 12-2 22-14 22z"/>
+      <path class="tallo-brote" d="M100 196 C99 160 101 128 100 92"/>
+      <path class="hoja hoja-i" d="M100 120 C82 98 52 96 36 106 C50 128 78 134 100 120 Z"/>
+      <path class="hoja hoja-d" d="M100 98 C116 70 148 64 168 74 C156 100 126 110 100 98 Z"/>
+    </svg>
+    <p class="bancal">{{t pagina.2}}</p>
+    <h1 class="titulo">Semillero</h1>
+    <p class="p-lema">
+      {{t pagina.3}}
+    </p>
+    <div class="p-acciones">
+      <!--DEMO--><a class="p-boton boton-liquen" href="../../semillero/">
+        {{t pagina.4}}
+      </a><!--/DEMO-->
+    </div>
+  </section>
+
+  <div class="p-cuerpo">
+    <figure class="p-video">
+      <video src="media/semillero.mp4" poster="media/miniatura.webp" autoplay muted loop playsinline preload="metadata"></video>
+      <figcaption>
+        {{t pagina.5}}
+      </figcaption>
+    </figure>
+
+    <article class="p-texto">
+      <section class="hito">
+        <h2>{{t pagina.6}}</h2>
+        <div lang="es">{{es-html pagina.7}}</div><div lang="en">{{en-html pagina.7}}</div>
+      </section>
+
+      <section class="hito">
+        <h2>{{t pagina.8}}</h2>
+        <div lang="es">{{es-html pagina.9}}</div><div lang="en">{{en-html pagina.9}}</div>
+      </section>
+
+      <section class="hito">
+        <h2>{{t pagina.10}}</h2>
+        <div lang="es">{{es-html pagina.11}}</div><div lang="en">{{en-html pagina.11}}</div>
+      </section>
+    </article>
+  </div>
+</main>
+
+<script src="semillero.js"></script>
+</body>
+</html>
