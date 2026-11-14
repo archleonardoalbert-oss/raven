@@ -1,13 +1,13 @@
+import { temporal } from './temporal.mjs';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { cpSync, mkdtempSync, readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { cpSync, readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { construir } from '../construir.mjs';
 
 // copia del proyecto sin demos/ para construir en aislado
 function copia() {
-  const r = mkdtempSync(join(tmpdir(), 'raven-raiz-'));
+  const r = temporal('raven-raiz-');
   for (const d of ['sitio', 'plantillas', 'contenido']) cpSync(d, join(r, d), { recursive: true });
   for (const id of ['penumbra', 'semillero', 'hortus']) mkdirSync(join(r, 'demos', id), { recursive: true });  // demos presentes (vacías)
   return r;

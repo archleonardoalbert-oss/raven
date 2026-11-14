@@ -1,13 +1,13 @@
+import { temporal } from './temporal.mjs';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { actualizarDemos } from '../herramientas/ci-demos.mjs';
 
 const P = [{ id: 'a', repo: 'o/a', rama: 'main', demo: true }, { id: 'b', repo: 'o/b', rama: 'main', demo: true }, { id: 'c', demo: false }];
 function entorno(cacheInicial = {}) {
-  const raiz = mkdtempSync(join(tmpdir(), 'ci-')), cache = join(raiz, 'cache'), demos = join(raiz, 'demos');
+  const raiz = temporal('ci-'), cache = join(raiz, 'cache'), demos = join(raiz, 'demos');
   for (const [id, sha] of Object.entries(cacheInicial)) { mkdirSync(join(cache, id), { recursive: true }); writeFileSync(join(cache, id, '.commit'), sha); writeFileSync(join(cache, id, 'index.html'), `vieja-${id}`); }
   return { cache, demos };
 }

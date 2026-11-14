@@ -1,7 +1,7 @@
+import { temporal } from './temporal.mjs';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, mkdtempSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { validarHabilidades, modulosDatos } from '../herramientas/datos.mjs';
 import { construir } from '../construir.mjs';
@@ -23,7 +23,7 @@ test('un área sin habilidades: error', () => {
   assert.throws(() => validarHabilidades([area([])], proyectos), /sin habilidades/);
 });
 test('construir genera los módulos de habilidades y sistemas a partir de los JSON', async () => {
-  const tmp = mkdtempSync(join(tmpdir(), 'raven-')); await construir({ salida: tmp });
+  const tmp = temporal('raven-'); await construir({ salida: tmp });
   const { AREAS } = await import(join(tmp, 'assets/habilidades-datos.js'));
   const { SISTEMAS } = await import(join(tmp, 'assets/sistemas-datos.js'));
   const h = JSON.parse(readFileSync('contenido/habilidades.json', 'utf8'));

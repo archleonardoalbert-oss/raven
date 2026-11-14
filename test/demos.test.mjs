@@ -1,20 +1,20 @@
+import { temporal } from './temporal.mjs';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
+import { mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
-import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { traerDemo } from '../herramientas/demos.mjs';
 
 // repo git de ejemplo con los archivos dados, en la rama «main»
 function repo(archivos) {
-  const d = mkdtempSync(join(tmpdir(), 'repo-'));
+  const d = temporal('repo-');
   for (const [r, c] of Object.entries(archivos)) { mkdirSync(join(d, r, '..'), { recursive: true }); writeFileSync(join(d, r), c); }
   const g = (...a) => execFileSync('git', a, { cwd: d, stdio: 'ignore' });
   g('init', '-q', '-b', 'main'); g('add', '-A'); g('-c', 'user.email=t@t', '-c', 'user.name=t', 'commit', '-qm', 'x');
   return d;
 }
-const destino = () => join(mkdtempSync(join(tmpdir(), 'dest-')), 'demo');
+const destino = () => join(temporal('dest-'), 'demo');
 
 test('copia la carpeta indicada, filtrada por «incluir»', async () => {
   const r = repo({ 'raven.json': JSON.stringify({ demo: { carpeta: '.', construir: null, incluir: ['index.html', 'css'] } }), 'index.html': 'hola', 'css/a.css': 'x', 'secreto.txt': 'no' });
