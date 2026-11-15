@@ -33,6 +33,7 @@ test('presentación imagen: la página muestra la imagen y no el botón de demo'
   await construir({ raiz: r, salida: 'dist' });
   const h = pagina(r, 'semillero');
   assert.match(h, /<img[^>]+src="media\/miniatura\.webp"/); assert.ok(!h.includes('<video')); assert.ok(!h.includes('href="../../semillero/"'));
+  assert.ok(h.includes('href="https://github.com/'), 'el enlace al repo sale siempre');
 });
 test('presentación demo con demo construida: vídeo al lado y botón de demo', async () => {
   const r = copia({ demos: ['semillero'] }); await construir({ raiz: r, salida: 'dist' });
