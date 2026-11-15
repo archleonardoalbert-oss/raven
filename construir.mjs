@@ -4,6 +4,7 @@ import { cp, rm, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { rellenar } from './herramientas/plantilla.mjs';
 import { validarProyectos, seccionesPrincipales, nombresMundo } from './herramientas/portada.mjs';
 import { validarHabilidades, modulosDatos } from './herramientas/datos.mjs';
+import { medioDe, htmlMedio, htmlNovedades } from './herramientas/medios.mjs';
 import { readdirSync } from 'node:fs';
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -19,11 +20,13 @@ export async function construir({ raiz = process.cwd(), salida = 'dist' } = {}) 
   if (existsSync(join(raiz, 'demos'))) await cp(join(raiz, 'demos'), dist, { recursive: true });
   const leer = async (r) => JSON.parse(await readFile(join(raiz, r), 'utf8'));
   const textos = await leer('contenido/textos.json');
-  const proyectos = await leer('contenido/proyectos.json');
+  const proyectos = (await leer('contenido/proyectos.json')).map((p) => p);
   const etiquetas = await leer('contenido/etiquetas.json');
   const sistemas = {};
   for (const f of readdirSync(join(raiz, 'contenido/sistemas')).filter((x) => x.endsWith('.json'))) sistemas[f.slice(0, -5)] = await leer(`contenido/sistemas/${f}`);
   validarProyectos(proyectos);
+  // presentación, medio y miniatura de cada proyecto (deducidos de sus archivos si no se dicen)
+  for (const p of proyectos) Object.assign(p, medioDe(p, join(raiz, 'sitio')));
   const habilidades = await leer('contenido/habilidades.json');
   validarHabilidades(habilidades, proyectos);
   const modulos = modulosDatos({ habilidades, proyectos, sistemas });
@@ -53,7 +56,7 @@ export async function construir({ raiz = process.cwd(), salida = 'dist' } = {}) 
       await mkdir(join(dist, `proyectos/${p.id}`), { recursive: true });
     }
     // hay demo si el proyecto la declara y además está construida en demos/<id>
-    const hayDemo = p.demo && existsSync(join(raiz, 'demos', p.id));
+    const hayDemo = p.presentacion === 'demo' && p.demo && existsSync(join(raiz, 'demos', p.id));
     if (p.demo && !hayDemo) console.warn(`Aviso: «${p.id}» declara demo pero no existe demos/${p.id}: se publica sin botón de demo`);
     if (!hayDemo) html = html.replace(/\s*<!--DEMO-->[\s\S]*?<!--\/DEMO-->/g, '');
     html = html.replace(/<!--\/?DEMO-->/g, '');
@@ -61,6 +64,8 @@ export async function construir({ raiz = process.cwd(), salida = 'dist' } = {}) 
     const codigo = p.repo ? `<a class="p-boton boton-linea" href="https://github.com/${p.repo}" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5a3.9 3.9 0 0 1 1-2.7 3.6 3.6 0 0 1 .1-2.7s.8-.3 2.8 1a9.6 9.6 0 0 1 5 0c2-1.3 2.8-1 2.8-1 .4 1 .2 2 .1 2.7a3.9 3.9 0 0 1 1 2.7c0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.8V21c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg><span lang="es">${textos.proyectos.codigo.es}</span><span lang="en">${textos.proyectos.codigo.en}</span></a>` : '';
     html = html.replace('<!--CODIGO-->', () => codigo);
     const t = existsSync(join(raiz, `contenido/paginas/${p.id}.json`)) ? await leer(`contenido/paginas/${p.id}.json`) : {};
+    for (const m of ['<!--MEDIO-->', '<!--NOVEDADES-->']) if (!html.includes(m)) throw new Error(`Falta el marcador ${m} en la página de «${p.id}»`);
+    html = html.replace('<!--MEDIO-->', () => htmlMedio(p)).replace('<!--NOVEDADES-->', () => htmlNovedades(t.novedades));
     await writeFile(join(dist, `proyectos/${p.id}/index.html`), rellenar(html, t, { archivo: `sitio/proyectos/${p.id}/plantilla.html` }));
   }
 }

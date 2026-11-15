@@ -53,3 +53,11 @@ html.desplazado .p-barra { background: var(--p-barra-fondo, rgb(0 0 0 / 0.82)); 
   .p-tabla th { white-space: normal; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* medio imagen y Novedades (comunes a todas las páginas de proyecto) */
+.p-video img { width: 100%; height: auto; display: block; border-radius: 10px; }
+.p-novedades ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+.p-novedades li { display: grid; grid-template-columns: 8.5em 1fr; gap: 16px; align-items: baseline; }
+.p-novedades time { font-size: 0.85rem; opacity: 0.7; white-space: nowrap; }
+.p-novedades p { margin: 0; }
+@media (max-width: 600px) { .p-novedades li { grid-template-columns: 1fr; gap: 2px; } }

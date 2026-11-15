@@ -1,5 +1,6 @@
 // Piezas de la portada que dependen del catálogo: las secciones de los proyectos principales (planetas), las
 // salidas entre ellas y los nombres que la escena 3D coloca sobre cada estrella.
+import { MINI_OBRA } from './medios.mjs';
 const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 export const MAX_PRINCIPALES = 3;
 
@@ -23,7 +24,7 @@ function seccion(p, sistema, textos) {
   if (!textos.proyectos?.conocer?.es || !textos.proyectos?.conocer?.en) throw new Error('Falta el texto «proyectos.conocer» en contenido/textos.json');
   return `  <section class="capitulo proyecto" id="p-${p.id}" data-camara="${sistema.camara.escritorio}" data-camara-movil="${sistema.camara.movil}" style="--tinte: ${p.tinte}">
     <article class="cristal tarjeta">
-      <div class="vista"><img src="proyectos/${p.id}/media/miniatura.webp" alt="" loading="lazy"><video data-src="proyectos/${p.id}/media/${p.id}.mp4" muted loop playsinline preload="none"></video></div>
+      <div class="vista">${p.miniatura === false ? MINI_OBRA : `<img src="proyectos/${p.id}/media/miniatura.webp" alt="" loading="lazy">`}${p.medio?.tipo === 'video' || p.medio === undefined ? `<video data-src="proyectos/${p.id}/${p.medio?.archivo ?? `media/${p.id}.mp4`}" muted loop playsinline preload="none"></video>` : ''}</div>
       <p class="tipo">${bilingue(p.tipo)}</p>
       <h3 class="t-${p.id}" style="font-family: '${esc(p.fuente)}', Georgia, serif; color: ${p.color}">${esc(p.nombre)}</h3>
       <p>${bilingue(p.desc)}</p>

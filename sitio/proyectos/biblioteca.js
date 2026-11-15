@@ -23,11 +23,13 @@ function textos() {
   for (const o of orden.options) o.textContent = o.dataset[L()];
 }
 
+// tarjeta de un proyecto que aún no tiene miniatura: un bichito colocando bloques
+const MINI_OBRA = '<div class="mini-obra" aria-hidden="true"><span class="mo-bloque"></span><span class="mo-bloque"></span><span class="mo-bloque mo-cae"></span><span class="mo-bicho"></span></div>';
 function tarjeta(p) {
   const l = L();
   return `<li class="tarjeta" style="--tinte:${p.color}">
     <a href="${p.id}/">
-      <div class="vista"><img src="${p.id}/media/miniatura.webp" alt="" loading="lazy" width="1200" height="750"><video data-src="${p.id}/media/${p.id}.mp4" muted loop playsinline preload="none"></video>${p.destacado ? `<span class="sello">${l === 'en' ? 'Featured' : 'Destacado'}</span>` : ''}</div>
+      <div class="vista">${p.miniatura === false ? MINI_OBRA : `<img src="${p.id}/media/miniatura.webp" alt="" loading="lazy" width="1200" height="750">`}${p.medio?.tipo === 'video' ? `<video data-src="${p.id}/${p.medio.archivo}" muted loop playsinline preload="none"></video>` : ''}${p.destacado ? `<span class="sello">${l === 'en' ? 'Featured' : 'Destacado'}</span>` : ''}</div>
       <p class="tipo">${esc(p.tipo[l])}</p>
       <h2 style="font-family:'${p.fuente}', Georgia, serif">${esc(p.nombre)}</h2>
       <p class="desc">${esc(p.desc[l])}</p>
