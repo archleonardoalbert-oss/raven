@@ -117,37 +117,95 @@ function iniciar(lienzo) {
     }
   }
 
-  // ── Clawd en pixel-art (cuerpo 12×4, ojos, bracitos y cuatro patitas, como el logo) ──
+  // ── Clawd con volumen: misma silueta que el logo (cuerpo ancho, dos ojos, bracitos y cuatro patitas), modelado
+  // como un muñeco de plástico: luz arriba a la izquierda, brillo especular, sombras suaves y casco brillante ──
+  function capsula(x, y, an, al) { const r = Math.min(an, al) / 2; ctx.beginPath(); ctx.roundRect(x, y, an, al, r); }
+  function redondo(x, y, an, al, r) { ctx.beginPath(); ctx.roundRect(x, y, an, al, r); }
+  function degradado(y0, y1, paradas) { const g = ctx.createLinearGradient(0, y0, 0, y1); paradas.forEach(([k, c]) => g.addColorStop(k, c)); return g; }
+
+  function brazo(lado, angulo, herramienta, pose) {
+    ctx.save();
+    ctx.translate(lado * 5.7 * P, -2.5 * P); ctx.scale(lado, 1); ctx.rotate(-angulo);
+    ctx.fillStyle = degradado(-0.5 * P, 0.5 * P, [[0, '#F2A07F'], [0.55, C.cuerpo], [1, C.sombra]]);
+    capsula(-0.4 * P, -0.5 * P, 2.9 * P, P); ctx.fill();
+    if (herramienta === 'martillo') {
+      ctx.fillStyle = degradado(-0.3 * P, 0.3 * P, [[0, '#a8835e'], [1, '#6e4f33']]); capsula(2 * P, -0.3 * P, 3.4 * P, 0.6 * P); ctx.fill();
+      ctx.fillStyle = degradado(-1.6 * P, 1.6 * P, [[0, '#e2e6f5'], [0.5, '#9aa3c7'], [1, '#5a6288']]); redondo(5 * P, -1.5 * P, 1.6 * P, 3 * P, 0.3 * P); ctx.fill();
+    } else if (herramienta === 'soplete') {
+      ctx.fillStyle = degradado(-0.5 * P, 0.5 * P, [[0, '#c9cfe6'], [1, '#5a6288']]); capsula(2.2 * P, -0.45 * P, 2.6 * P, 0.9 * P); ctx.fill();
+      const llama = ctx.createRadialGradient(5.4 * P, 0, 0, 5.4 * P, 0, 1.6 * P); llama.addColorStop(0, '#ffffff'); llama.addColorStop(0.35, '#9fe8ff'); llama.addColorStop(1, 'rgba(80,160,255,0)');
+      ctx.fillStyle = llama; ctx.beginPath(); ctx.ellipse(5.4 * P, 0, 1.7 * P * azar(0.8, 1.1), 0.7 * P, 0, 0, 7); ctx.fill();
+    } else if (herramienta === 'plano') {
+      ctx.save(); ctx.rotate(angulo - 0.15); ctx.fillStyle = '#dfeaff'; redondo(1.6 * P, -3.6 * P, 5 * P, 3.6 * P, 0.25 * P); ctx.fill();
+      ctx.strokeStyle = '#6f93d6'; ctx.lineWidth = Math.max(1, P / 4); ctx.beginPath();
+      ctx.moveTo(2.3 * P, -2.8 * P); ctx.lineTo(5.8 * P, -2.8 * P); ctx.moveTo(2.3 * P, -1.9 * P); ctx.lineTo(4.6 * P, -1.9 * P); ctx.rect(4.7 * P, -1.6 * P, 1.2 * P, 0.9 * P); ctx.stroke(); ctx.restore();
+    }
+    ctx.restore();
+  }
+
   function clawd(b, pose = {}) {
-    const mira = b.mira ?? 1, salto = pose.salto ?? 0;
-    const ox = Math.round(b.x - 9 * P), oy = Math.round(b.y - 5 * P - salto + (pose.sentado ? P : 0));
-    const r = (gx, gy, cw, ch, c) => { ctx.fillStyle = c; const x = mira > 0 ? gx : 18 - gx - cw; ctx.fillRect(ox + x * P, oy + gy * P, cw * P, ch * P); };
-    // sombra en el suelo
-    if (!pose.colgado) { ctx.fillStyle = 'rgba(0,0,0,0.35)'; ctx.fillRect(ox + 3 * P, Math.round(b.y), 12 * P, Math.max(1, P / 2)); }
-    r(3, 0, 12, 1, C.luz); r(3, 1, 12, 1, C.cuerpo); r(3, 2, 12, 1, C.cuerpo); r(3, 3, 12, 1, C.sombra);
-    // ojos (agujeros oscuros del logo); parpadeo
-    if (pose.careta) { r(3, 0, 12, 2, C.careta); r(5, 1, 8, 1, C.visor); }
-    else if (!pose.parpadeo) { r(5, 1, 1, 1, C.ojo); r(12, 1, 1, 1, C.ojo); }
-    // bracitos
+    const mira = b.mira ?? 1, salto = pose.salto ?? 0, sentado = !!pose.sentado;
+    // sombra de contacto
+    if (!pose.colgado) {
+      const k = Math.max(0.35, 1 - salto / (8 * P)), sg = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, 7 * P * k);
+      sg.addColorStop(0, `rgba(0,0,0,${0.5 * k})`); sg.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = sg; ctx.beginPath(); ctx.ellipse(b.x, b.y, 7 * P * k, 1.3 * P * k, 0, 0, 7); ctx.fill();
+    }
+    ctx.save();
+    ctx.translate(b.x, b.y - salto + (sentado ? P : 0)); ctx.scale(mira, 1);
+    // patitas (detrás del cuerpo); al andar se levanta un par
+    const paso = pose.paso ?? 0;
+    for (const [gx, par] of [[-4.5, 0], [-2.5, 1], [2.5, 0], [4.5, 1]]) {
+      const alzada = (paso === 1 && par === 1) || (paso === 2 && par === 0);
+      const largo = sentado ? 1.9 * P : alzada ? 0.9 * P : 1.5 * P, dx = sentado ? 0.4 * P : 0;
+      ctx.fillStyle = degradado(-1.2 * P, 0.4 * P, [[0, C.sombra], [1, '#8a3f27']]);
+      capsula(gx * P - 0.45 * P + dx, -1.3 * P - (alzada ? 0.35 * P : 0), 0.9 * P, largo); ctx.fill();
+    }
     const brazos = pose.brazos ?? 'fuera';
-    if (brazos === 'fuera') { r(1, 2, 2, 1, C.cuerpo); r(15, 2, 2, 1, C.cuerpo); }
-    else if (brazos === 'arriba') { r(2, 2, 1, 1, C.cuerpo); r(1, 0, 1, 2, C.cuerpo); r(15, 2, 1, 1, C.cuerpo); r(16, 0, 1, 2, C.cuerpo); }
-    else if (brazos === 'saluda') { r(1, 2, 2, 1, C.cuerpo); r(15, 2, 1, 1, C.cuerpo); pose.ola ? (r(16, 0, 1, 2, C.cuerpo), r(17, -1, 1, 1, C.cuerpo)) : r(16, 1, 2, 1, C.cuerpo); }
-    else if (brazos === 'martillo') {
-      r(1, 2, 2, 1, C.cuerpo);
-      if (pose.golpe) { r(15, 2, 2, 1, C.cuerpo); r(17, 2, 2, 1, '#8a6a4a'); r(19, 0, 1, 4, '#9aa3c7'); }
-      else { r(15, 1, 1, 1, C.cuerpo); r(16, 0, 1, 1, C.cuerpo); r(17, -1, 1, 1, '#8a6a4a'); r(18, -2, 1, 1, '#8a6a4a'); r(17, -4, 3, 2, '#9aa3c7'); }
-    } else if (brazos === 'soplete') { r(1, 2, 2, 1, C.cuerpo); r(15, 2, 2, 1, C.cuerpo); r(17, 1, 3, 1, '#7c84a8'); r(20, 1, 1, 1, '#ffffff'); }
-    else if (brazos === 'plano') { r(1, 2, 2, 1, C.cuerpo); r(15, 2, 1, 1, C.cuerpo); r(15, -1, 5, 4, '#cfe0ff'); r(16, 0, 3, 1, '#6f93d6'); r(16, 2, 2, 1, '#6f93d6'); }
-    // patitas: al andar se levanta un par
-    if (!pose.sentado) {
-      const paso = pose.paso ?? 0;
-      for (const [gx, par] of [[4, 0], [6, 1], [11, 0], [13, 1]]) { const alzada = (paso === 1 && par === 1) || (paso === 2 && par === 0); r(gx, 4, 1, alzada ? 0.5 : 1, C.sombra); }
-    } else { r(4, 4, 1, 1.5, C.sombra); r(6, 4, 1, 2, C.sombra); r(11, 4, 1, 2, C.sombra); r(13, 4, 1, 1.5, C.sombra); }
-    // casco de obra
-    if (pose.casco !== false) { r(4, -1, 10, 1, C.cascoSombra); r(6, -2, 6, 1, C.casco); r(7, -2, 2, 1, C.cascoLuz); }
-    // carga sobre la cabeza
-    if (pose.carga) { r(3, -7, 12, 5, C.tinte); r(3, -7, 12, 1, C.tinteClaro); r(3, -3, 12, 1, C.tinteOscuro); }
+    const ang = { fuera: [0.08, 0.08], arriba: [1.25, 1.25], saluda: [0.08, pose.ola ? 1.7 : 1.1], martillo: [0.1, pose.golpe ? -0.35 : 1.3], soplete: [0.1, 0.05], plano: [0.1, 0.35] }[brazos] ?? [0.08, 0.08];
+    const herramienta = { martillo: 'martillo', soplete: 'soplete', plano: 'plano' }[brazos];
+    brazo(-1, ang[0], null, pose);
+    // cuerpo: bloque redondeado con degradado, brillo especular y luz de borde
+    const x0 = -6 * P, y0 = -5.2 * P, an = 12 * P, al = 4.2 * P;
+    ctx.fillStyle = degradado(y0, y0 + al, [[0, '#F4A383'], [0.45, C.cuerpo], [1, '#A9502F']]);
+    redondo(x0, y0, an, al, 1.3 * P); ctx.fill();
+    const brillo = ctx.createRadialGradient(x0 + 3 * P, y0 + 0.8 * P, 0, x0 + 3 * P, y0 + 0.8 * P, 6 * P);
+    brillo.addColorStop(0, 'rgba(255,255,255,0.42)'); brillo.addColorStop(0.5, 'rgba(255,255,255,0.08)'); brillo.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = brillo; redondo(x0, y0, an, al, 1.3 * P); ctx.fill();
+    ctx.strokeStyle = alfa(TINTE, 0.35); ctx.lineWidth = Math.max(1, P / 3);
+    ctx.beginPath(); ctx.moveTo(x0 + 1.4 * P, y0 + al - P * 0.2); ctx.lineTo(x0 + an - 1.4 * P, y0 + al - P * 0.2); ctx.stroke();
+    // ojos (o careta de soldar)
+    if (pose.careta) {
+      ctx.fillStyle = degradado(y0 + 0.4 * P, y0 + 2.6 * P, [[0, '#454c6e'], [1, '#1d2134']]); redondo(x0 + 1.2 * P, y0 + 0.5 * P, an - 2.4 * P, 2.2 * P, 0.7 * P); ctx.fill();
+      ctx.fillStyle = C.visor; ctx.shadowColor = C.visor; ctx.shadowBlur = 3 * P; capsula(x0 + 2.6 * P, y0 + 1.25 * P, an - 5.2 * P, 0.7 * P); ctx.fill(); ctx.shadowBlur = 0;
+      ctx.fillStyle = 'rgba(255,255,255,0.25)'; capsula(x0 + 1.8 * P, y0 + 0.65 * P, 3 * P, 0.35 * P); ctx.fill();
+    } else {
+      const alto = pose.parpadeo ? 0.25 * P : 1.7 * P;
+      for (const ex of [-3.5, 3.5]) {
+        ctx.fillStyle = C.ojo; capsula(ex * P - 0.55 * P, y0 + 1.6 * P - alto / 2, 1.1 * P, alto); ctx.fill();
+        if (!pose.parpadeo) { ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.beginPath(); ctx.arc(ex * P - 0.15 * P, y0 + 1.2 * P, 0.26 * P, 0, 7); ctx.fill(); }
+      }
+    }
+    brazo(1, ang[1], herramienta, pose);
+    // casco de obra: cúpula brillante con ala
+    if (pose.casco !== false) {
+      const cy = y0 + 0.15 * P;
+      ctx.fillStyle = degradado(cy - 0.5 * P, cy + 0.5 * P, [[0, C.casco], [1, C.cascoSombra]]);
+      ctx.beginPath(); ctx.ellipse(0, cy, 4.6 * P, 0.65 * P, 0, 0, 7); ctx.fill();
+      const cg = ctx.createRadialGradient(-1.2 * P, cy - 2 * P, 0.2 * P, 0, cy - 0.8 * P, 3.8 * P);
+      cg.addColorStop(0, '#FFF1B8'); cg.addColorStop(0.35, C.casco); cg.addColorStop(1, C.cascoSombra);
+      ctx.fillStyle = cg; ctx.beginPath(); ctx.ellipse(0, cy - 0.1 * P, 3.3 * P, 2.3 * P, 0, Math.PI, 0); ctx.fill();
+      ctx.fillStyle = 'rgba(0,0,0,0.12)'; capsula(-0.4 * P, cy - 2.3 * P, 0.8 * P, 2.2 * P); ctx.fill();
+    }
+    // carga sobre la cabeza: caja con cara superior y frontal
+    if (pose.carga) {
+      const bx = -5.5 * P, by = y0 - 6.6 * P, ba = 11 * P, bh = 4.2 * P, d = 1.2 * P;
+      ctx.fillStyle = C.tinteClaro; ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(bx + d, by - d); ctx.lineTo(bx + ba + d, by - d); ctx.lineTo(bx + ba, by); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = C.tinteOscuro; ctx.beginPath(); ctx.moveTo(bx + ba, by); ctx.lineTo(bx + ba + d, by - d); ctx.lineTo(bx + ba + d, by + bh - d); ctx.lineTo(bx + ba, by + bh); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = degradado(by, by + bh, [[0, TINTE], [1, mezcla(TINTE, '#03040b', 0.3)]]); ctx.fillRect(bx, by, ba, bh);
+      ctx.fillStyle = 'rgba(0,0,0,0.18)'; ctx.fillRect(bx + ba / 2 - 0.6 * P, by, 1.2 * P, bh);
+    }
+    ctx.restore();
   }
   const pasoDe = (dist) => [0, 1, 0, 2][Math.floor(dist / (2.5 * P)) % 4];
 
@@ -212,7 +270,7 @@ function iniciar(lienzo) {
         const l = m.cola[0];
         m.soldando = false;
         if (l) {
-          if (moverHacia(m, l.x + l.w / 2 + 6 * P, 46 * P, dt)) {
+          if (moverHacia(m, l.x + l.w / 2 + 10 * P, 46 * P, dt)) {
             m.mira = -1; m.soldando = true; m.t += dt;
             l.relleno = Math.min(1, l.relleno + dt / (porLetra() * 0.75));
             if (Math.random() < dt * 40) chispas(l.x + l.w / 2 + azar(-0.3, 0.3) * l.w, l.y - l.relleno * l.asc, 3, Math.random() < 0.5 ? '#fff4d6' : '#ffb35c');
@@ -280,8 +338,11 @@ function iniciar(lienzo) {
     // cabina con el operador
     ctx.fillStyle = '#2b3360'; ctx.fillRect(x - 7 * P, brazo + 5 * P, 10 * P, 8 * P);
     ctx.fillStyle = '#ffe9b0'; ctx.fillRect(x - 6 * P, brazo + 6 * P, 8 * P, 4 * P);
-    ctx.fillStyle = C.cuerpo; ctx.fillRect(x - 5 * P, brazo + 8 * P, 6 * P, 2 * P);
-    if (Math.floor(reloj * 0.7) % 5) { ctx.fillStyle = C.ojo; ctx.fillRect(x - 4 * P, brazo + 8 * P, P, P); ctx.fillRect(x - P, brazo + 8 * P, P, P); }
+    ctx.save(); ctx.beginPath(); ctx.rect(x - 6 * P, brazo + 6 * P, 8 * P, 4 * P); ctx.clip();
+    ctx.fillStyle = degradado(brazo + 7.5 * P, brazo + 11 * P, [[0, '#F4A383'], [1, C.sombra]]); redondo(x - 5.5 * P, brazo + 7.6 * P, 7 * P, 4 * P, 1.2 * P); ctx.fill();
+    const abiertos = Math.floor(reloj * 0.7) % 5; ctx.fillStyle = C.ojo;
+    for (const ex of [x - 3.6 * P, x - 0.9 * P]) { capsula(ex, brazo + 8.2 * P + (abiertos ? 0 : 0.5 * P), 0.8 * P, abiertos ? 1.2 * P : 0.2 * P); ctx.fill(); }
+    ctx.restore();
     // carro
     ctx.fillStyle = '#4a548f'; ctx.fillRect(grua.carro - 3 * P, brazo + 3 * P, 6 * P, 3 * P);
   }
@@ -390,7 +451,7 @@ function iniciar(lienzo) {
     }
     // resplandor de cada soplete encendido
     for (const m of equipo) if (m.soldando && Math.random() > 0.15) {
-      const x = m.x - 12 * P, y = m.y - 3 * P, r = 26 * P * azar(0.8, 1.1), g = ctx.createRadialGradient(x, y, 0, x, y, r);
+      const x = m.x - 11.5 * P, y = m.y - 2.5 * P, r = 26 * P * azar(0.8, 1.1), g = ctx.createRadialGradient(x, y, 0, x, y, r);
       g.addColorStop(0, 'rgba(255,230,190,0.55)'); g.addColorStop(1, 'rgba(255,150,60,0)'); ctx.globalAlpha = 1; ctx.fillStyle = g; ctx.fillRect(x - r, y - r, 2 * r, 2 * r);
     }
     ctx.restore();

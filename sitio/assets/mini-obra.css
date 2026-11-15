@@ -1,12 +1,13 @@
 /* Miniatura «en obras» de las tarjetas: Clawds en pixel-art cargando y soldando bajo la grúa. */
 .mini-obra { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .mini-obra .mo-cargador { animation: mo-anda 6s ease-in-out infinite; }
-.mini-obra .mo-patas { animation: mo-paso 0.4s steps(1) infinite; }
-.mini-obra .mo-patas-b { animation-delay: 0.2s; }
+.mini-obra .mo-cargador .mo-pata { animation: mo-paso 0.4s steps(1) infinite; }
+.mini-obra .mo-cargador .mo-pata-b { animation-delay: 0.2s; }
+.mini-obra .mo-visor { animation: mo-chispa 0.3s steps(2) infinite; }
 .mini-obra .mo-gancho { animation: mo-gancho 4s ease-in-out infinite; }
 .mini-obra .mo-chispa { animation: mo-chispa 0.18s steps(2) infinite; }
 @keyframes mo-anda { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(52px); } }
-@keyframes mo-paso { 50% { transform: translateY(-0.6px); } }
+@keyframes mo-paso { 50% { transform: translateY(-1.2px); } }
 @keyframes mo-gancho { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(9px); } }
 @keyframes mo-chispa { 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .mini-obra * { animation: none !important; } }
