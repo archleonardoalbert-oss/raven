@@ -10,7 +10,9 @@ const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&l
 export function medioDe(p, sitio) {
   const base = join(sitio, 'proyectos', p.id), hay = (a) => existsSync(join(base, a));
   const miniatura = hay('media/miniatura.webp');
-  const medio = p.medio ?? (hay(`media/${p.id}.mp4`) ? { tipo: 'video', archivo: `media/${p.id}.mp4` } : miniatura ? { tipo: 'imagen', archivo: 'media/miniatura.webp' } : null);
+  // sin medio elegido a mano: si la presentación es «imagen», la miniatura; si no, el vídeo (o la miniatura si no hay vídeo)
+  const video = hay(`media/${p.id}.mp4`) ? { tipo: 'video', archivo: `media/${p.id}.mp4` } : null, imagen = miniatura ? { tipo: 'imagen', archivo: 'media/miniatura.webp' } : null;
+  const medio = p.medio ?? (p.presentacion === 'imagen' ? imagen ?? video : video ?? imagen);
   const mal = (m) => { throw new Error(`Proyecto «${p.id}»: ${m}`); };
   if (medio) {
     if (!['video', 'imagen'].includes(medio.tipo)) mal(`el medio debe ser «video» o «imagen» (es «${medio.tipo}»)`);

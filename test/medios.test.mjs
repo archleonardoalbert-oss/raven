@@ -55,3 +55,8 @@ test('un proyecto sin miniatura: la tarjeta de la biblioteca lleva la mini obra'
   assert.match(datos, /"id": "hortus"[\s\S]*?"miniatura": false/);
   assert.match(datos, /MINI_OBRA = .*mini-obra/);
 });
+
+test('sin medio elegido a mano, la presentación decide: imagen → miniatura, vídeo → vídeo', () => {
+  assert.deepEqual(medioDe({ id: 'penumbra', demo: true, presentacion: 'imagen' }, 'sitio').medio, { tipo: 'imagen', archivo: 'media/miniatura.webp' });
+  assert.deepEqual(medioDe({ id: 'penumbra', demo: true, presentacion: 'video', medio: null }, 'sitio').medio, { tipo: 'video', archivo: 'media/penumbra.mp4' });
+});
