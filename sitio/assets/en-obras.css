@@ -1,53 +1,31 @@
-/* Página «en obras» de un proyecto recién añadido: los bichitos naranjas de Claude Code construyen la página. */
-:root { --vacio: #03040b; --estrella: #eef0ff; --estrella-2: #a9b0d6; --naranja: #d97757; --naranja-osc: #b9583b; --casco: #f2c14e; --p-linea: rgb(200 205 255 / 0.14); --p-acento: var(--tinte); color-scheme: dark; }
-body.en-obras { background: radial-gradient(90% 70% at 50% 0%, #10132a 0%, var(--vacio) 60%); color: var(--estrella); font: 400 1.05rem/1.7 'Manrope', system-ui, sans-serif; min-height: 100vh; }
-.p-barra { font-family: 'Manrope', sans-serif; color: var(--estrella-2); }
-main { max-width: 1100px; margin: 0 auto; padding: 110px clamp(16px, 5vw, 64px) 64px; }
-.obra-cabeza { max-width: 44em; }
-.obra-tipo { margin: 0 0 6px; color: var(--tinte); font-size: 0.9rem; }
-.obra-nombre { margin: 0 0 14px; font: 400 clamp(2.6rem, 8vw, 5.6rem)/1 'Bodoni Moda', serif; color: var(--tinte); }
-.obra-desc { margin: 0 0 24px; color: var(--estrella-2); font-size: clamp(1.05rem, 1.7vw, 1.25rem); }
+/* Página «en obras»: la escena ocupa toda la pantalla (lienzo) y el texto real vive en el suelo de la obra. */
+:root { --vacio: #03040b; --estrella: #eef0ff; --estrella-2: #a9b0d6; --p-linea: rgb(200 205 255 / 0.14); --p-acento: var(--tinte); color-scheme: dark; }
+body.en-obras { margin: 0; background: var(--vacio); color: var(--estrella); font: 400 1.05rem/1.65 'Manrope', system-ui, sans-serif; }
+.en-obras .p-barra { position: absolute; z-index: 3; font-family: 'Manrope', sans-serif; color: var(--estrella-2); }
+.en-obras main { padding: 0; max-width: none; }
+
+.obra-heroe { position: relative; height: 100vh; height: 100svh; min-height: 560px; overflow: hidden; isolation: isolate; }
+.obra-lienzo { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; display: block; }
+.obra-arriba { position: absolute; top: 0; left: 0; right: 0; padding: 78px clamp(16px, 6vw, 72px) 0; text-align: center; }
+.obra-tipo { margin: 0; color: var(--tinte); font: 500 0.95rem 'Manrope', sans-serif; letter-spacing: 0.02em; }
+/* el nombre se ve construido en el lienzo; el h1 queda para lectores de pantalla y buscadores */
+.obra-nombre { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; margin: 0; }
+
+.obra-suelo { position: absolute; left: 0; right: 0; bottom: 0; display: flex; gap: 20px 40px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+  padding: 26px clamp(16px, 6vw, 72px) max(26px, env(safe-area-inset-bottom)); }
+.obra-info { max-width: 40em; }
+.obra-desc { margin: 0; font-size: clamp(1.02rem, 1.5vw, 1.2rem); color: var(--estrella); }
+.obra-nota { margin: 6px 0 0; color: var(--estrella-2); font-size: 0.92rem; }
+.obra-suelo .p-acciones { margin: 0; flex-shrink: 0; }
 .obra-boton { background: var(--estrella); color: var(--vacio); }
-.p-boton.boton-linea { border: 1px solid var(--p-linea); color: var(--estrella-2); }
-.obra-nota { text-align: center; color: var(--estrella-2); margin-top: 18px; font-style: italic; }
+.p-boton.boton-linea { border: 1px solid var(--p-linea); color: var(--estrella); background: rgb(3 4 11 / 0.5); backdrop-filter: blur(6px); }
 
-/* ── la obra ── */
-.obra { margin-top: clamp(32px, 6vh, 64px); }
-.obra-escena { position: relative; height: 320px; max-width: 760px; margin: 0 auto; overflow: hidden; }
-.suelo { position: absolute; left: 0; right: 0; bottom: 30px; height: 2px; background: linear-gradient(90deg, transparent, var(--p-linea) 15%, var(--p-linea) 85%, transparent); }
-.andamio { position: absolute; left: 50%; bottom: 32px; width: 260px; height: 168px; transform: translateX(-50%); border-left: 3px solid #39406a; border-right: 3px solid #39406a;
-  background: repeating-linear-gradient(0deg, transparent 0 54px, #39406a 54px 57px); }
-.bloque { position: absolute; width: 78px; height: 48px; border-radius: 6px; background: linear-gradient(160deg, color-mix(in oklab, var(--tinte) 55%, #fff), var(--tinte)); box-shadow: inset 0 -4px 0 rgb(0 0 0 / 0.18); }
-.b1 { left: 8px; bottom: 3px; } .b2 { left: 91px; bottom: 3px; } .b3 { left: 174px; bottom: 3px; }
-.b4 { left: 8px; bottom: 60px; } .b5 { left: 91px; bottom: 60px; }
-.b6 { left: 174px; bottom: 60px; animation: colocar 4s ease-in-out infinite; }
-@keyframes colocar { 0%, 30% { transform: translateY(-140px); opacity: 0; } 45% { opacity: 1; } 60%, 85% { transform: none; opacity: 1; } 100% { transform: none; opacity: 0; } }
-.grua { position: absolute; left: calc(50% + 150px); top: 0; width: 4px; height: 70px; background: #39406a; }
-.grua::before { content: ""; position: absolute; top: 0; right: 0; width: 230px; height: 4px; background: #39406a; }
-.grua-cable { position: absolute; top: 4px; left: -150px; width: 2px; height: 40px; background: #6b7299; transform-origin: top; animation: cable 4s ease-in-out infinite; }
-.grua-bloque { position: absolute; top: 44px; left: -205px; padding: 4px 10px; border-radius: 6px; font: 600 0.75rem 'Manrope', sans-serif; white-space: nowrap; color: var(--vacio); background: var(--casco); animation: cable-bloque 4s ease-in-out infinite; }
-@keyframes cable { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(2.2); } }
-@keyframes cable-bloque { 0%, 100% { transform: none; } 50% { transform: translateY(48px); } }
+.obra-medio { margin: 0 auto; padding: clamp(40px, 8vh, 80px) clamp(16px, 6vw, 72px) 0; max-width: 1000px; } .obra-medio:empty { display: none; }
+.obra-medio video, .obra-medio img { width: 100%; border-radius: 12px; border: 1px solid var(--p-linea); display: block; }
+.en-obras .p-novedades { max-width: 44em; margin: 56px auto 80px; padding: 0 16px; }
 
-/* bichito: cuerpo naranja cuadrado, ojos, patitas y casco amarillo */
-.bicho { position: absolute; bottom: 32px; width: 46px; height: 34px; border-radius: 8px; background: var(--naranja); box-shadow: inset 0 -5px 0 var(--naranja-osc); }
-.bicho::before { content: ""; position: absolute; top: 10px; left: 11px; width: 6px; height: 8px; border-radius: 3px; background: #1a1210; box-shadow: 18px 0 0 #1a1210; animation: parpadeo 3.5s infinite; }
-.bicho::after { content: ""; position: absolute; top: -9px; left: 7px; width: 32px; height: 12px; border-radius: 16px 16px 3px 3px; background: var(--casco); box-shadow: inset 0 -3px 0 #c99a2e; }
-.bicho > span::before { content: ""; position: absolute; bottom: -9px; left: 7px; width: 4px; height: 9px; border-radius: 2px; background: var(--naranja-osc); box-shadow: 9px 0 0 var(--naranja-osc), 18px 0 0 var(--naranja-osc), 27px 0 0 var(--naranja-osc); animation: pasos 0.5s steps(2) infinite; }
-@keyframes parpadeo { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
-@keyframes pasos { 50% { transform: translateY(-2px); } }
-.cargador { left: 4%; animation: andar 7s ease-in-out infinite; }
-.carga { position: absolute; top: -30px; left: 9px; width: 28px; height: 18px; border-radius: 4px; background: var(--tinte); }
-@keyframes andar { 0% { transform: translateX(0); } 45% { transform: translateX(170px); } 50% { transform: translateX(170px) scaleX(-1); } 95% { transform: translateX(0) scaleX(-1); } 100% { transform: translateX(0); } }
-.martillo { left: calc(50% + 140px); bottom: 100px; }
-.herramienta { position: absolute; top: 2px; right: -16px; width: 18px; height: 5px; background: #8b91b5; transform-origin: left center; animation: golpe 0.6s ease-in-out infinite; }
-@keyframes golpe { 50% { transform: rotate(-35deg); } }
-.mirador { right: 6%; }
-.plano { position: absolute; top: 4px; left: -22px; width: 22px; height: 16px; border-radius: 2px; background: #cfe0ff; box-shadow: inset 0 0 0 2px #7aa0e0; animation: mirar 3s ease-in-out infinite; }
-@keyframes mirar { 50% { transform: rotate(-8deg); } }
-
-@media (max-width: 600px) { .obra-escena { transform: scale(0.72); transform-origin: top center; height: 240px; } }
-@media (prefers-reduced-motion: reduce) { .obra *, .obra *::before, .obra *::after { animation: none !important; } }
-.obra-medio { margin: clamp(28px, 5vh, 48px) 0 0; } .obra-medio:empty { display: none; }
-.obra-medio video, .obra-medio img { width: 100%; max-width: 860px; border-radius: 12px; border: 1px solid var(--p-linea); display: block; }
-.en-obras .p-novedades { max-width: 44em; margin: 48px auto 0; }
+@media (max-width: 700px) {
+  .obra-arriba { padding-top: 70px; }
+  .obra-suelo { padding-top: 18px; gap: 14px; }
+  .obra-suelo .p-acciones { width: 100%; }
+}

@@ -29,33 +29,27 @@
 </header>
 
 <main>
-  <section class="obra-cabeza">
-    <p class="obra-tipo"><span lang="es">{{TIPO_ES}}</span><span lang="en">{{TIPO_EN}}</span></p>
+  <section class="obra-heroe">
+    <canvas class="obra-lienzo" data-nombre="{{NOMBRE}}" aria-hidden="true"></canvas>
+    <div class="obra-arriba">
+      <p class="obra-tipo"><span lang="es">{{TIPO_ES}}</span><span lang="en">{{TIPO_EN}}</span></p>
+    </div>
     <h1 class="obra-nombre">{{NOMBRE}}</h1>
-    <p class="obra-desc"><span lang="es">{{DESC_ES}}</span><span lang="en">{{DESC_EN}}</span></p>
-    <div class="p-acciones">
-      <!--DEMO--><a class="p-boton obra-boton" href="../../{{ID}}/"><span lang="es">Abrir la demo</span><span lang="en">Open the demo</span></a><!--/DEMO-->
-      <!--CODIGO-->
+    <div class="obra-suelo">
+      <div class="obra-info">
+        <p class="obra-desc"><span lang="es">{{DESC_ES}}</span><span lang="en">{{DESC_EN}}</span></p>
+        <p class="obra-nota"><span lang="es">La cuadrilla está levantando la página completa de {{NOMBRE}}.</span><span lang="en">The crew is building the full {{NOMBRE}} page.</span></p>
+      </div>
+      <div class="p-acciones">
+        <!--DEMO--><a class="p-boton obra-boton" href="../../{{ID}}/"><span lang="es">Abrir la demo</span><span lang="en">Open the demo</span></a><!--/DEMO-->
+        <!--CODIGO-->
+      </div>
     </div>
   </section>
 
   <figure class="obra-medio"><!--MEDIO--></figure>
-
-  <section class="obra" aria-hidden="true">
-    <div class="obra-escena">
-      <div class="grua"><span class="grua-cable"></span><span class="grua-bloque">{{NOMBRE}}</span></div>
-      <div class="andamio">
-        <span class="bloque b1"></span><span class="bloque b2"></span><span class="bloque b3"></span>
-        <span class="bloque b4"></span><span class="bloque b5"></span><span class="bloque b6 colocando"></span>
-      </div>
-      <div class="bicho cargador"><span class="carga"></span></div>
-      <div class="bicho martillo"><span class="herramienta"></span></div>
-      <div class="bicho mirador"><span class="plano"></span></div>
-      <div class="suelo"></div>
-    </div>
-  </section>
   <!--NOVEDADES-->
-  <p class="obra-nota"><span lang="es">La página completa de {{NOMBRE}} está en camino.</span><span lang="en">The full page for {{NOMBRE}} is on its way.</span></p>
 </main>
+<script type="module" src="../../assets/en-obras.js"></script>
 </body>
 </html>

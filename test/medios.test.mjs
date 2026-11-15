@@ -57,5 +57,5 @@ test('un proyecto sin miniatura: la tarjeta de la biblioteca lleva la mini obra'
   await construir({ raiz: r, salida: 'dist' });
   const datos = readFileSync(join(r, 'dist/assets/proyectos-datos.js'), 'utf8');
   assert.match(datos, /"id": "hortus"[\s\S]*?"miniatura": false/);
-  assert.match(readFileSync(join(r, 'dist/proyectos/biblioteca.js'), 'utf8'), /mini-obra/);
+  assert.match(datos, /MINI_OBRA = .*mini-obra/);
 });

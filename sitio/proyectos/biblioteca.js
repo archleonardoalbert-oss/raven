@@ -1,6 +1,6 @@
 // La biblioteca: todas las tarjetas, con búsqueda de texto, etiquetas combinables (deben cumplirse todas) y
 // orden. El estado vive en la URL (?q=…&e=ia,web&o=nombre), así una búsqueda se puede compartir.
-import { PROYECTOS, ETIQUETAS } from '../assets/proyectos-datos.js';
+import { PROYECTOS, ETIQUETAS, MINI_OBRA } from '../assets/proyectos-datos.js';
 
 const raiz = document.documentElement;
 const L = () => (raiz.dataset.idioma === 'en' ? 'en' : 'es');
@@ -23,8 +23,6 @@ function textos() {
   for (const o of orden.options) o.textContent = o.dataset[L()];
 }
 
-// tarjeta de un proyecto que aún no tiene miniatura: un bichito colocando bloques
-const MINI_OBRA = '<div class="mini-obra" aria-hidden="true"><span class="mo-bloque"></span><span class="mo-bloque"></span><span class="mo-bloque mo-cae"></span><span class="mo-bicho"></span></div>';
 function tarjeta(p) {
   const l = L();
   return `<li class="tarjeta" style="--tinte:${p.color}">

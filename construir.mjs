@@ -4,7 +4,7 @@ import { cp, rm, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { rellenar } from './herramientas/plantilla.mjs';
 import { validarProyectos, seccionesPrincipales, nombresMundo } from './herramientas/portada.mjs';
 import { validarHabilidades, modulosDatos } from './herramientas/datos.mjs';
-import { medioDe, htmlMedio, htmlNovedades } from './herramientas/medios.mjs';
+import { medioDe, htmlMedio, htmlNovedades, MINI_OBRA } from './herramientas/medios.mjs';
 import { readdirSync } from 'node:fs';
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -34,7 +34,7 @@ export async function construir({ raiz = process.cwd(), salida = 'dist' } = {}) 
   await writeFile(join(dist, 'assets/sistemas-datos.js'), modulos.sistemas);
   // catálogo para el navegador (biblioteca): «destacado» es el nombre que usa biblioteca.js para «principal»
   const catalogo = proyectos.map(({ principal, ...p }) => ({ ...p, destacado: principal }));
-  await writeFile(join(dist, 'assets/proyectos-datos.js'), `// Generado por construir.mjs desde contenido/: no editar a mano.\nexport const ETIQUETAS = ${JSON.stringify(etiquetas, null, 2)};\nexport const PROYECTOS = ${JSON.stringify(catalogo, null, 2)};\n`);
+  await writeFile(join(dist, 'assets/proyectos-datos.js'), `// Generado por construir.mjs desde contenido/: no editar a mano.\nexport const ETIQUETAS = ${JSON.stringify(etiquetas, null, 2)};\nexport const PROYECTOS = ${JSON.stringify(catalogo, null, 2)};\nexport const MINI_OBRA = ${JSON.stringify(MINI_OBRA)};\n`);
   // primero se rellenan los textos de la plantilla y después se insertan las piezas del catálogo (con función:
   // un «$» o un «{{» en los datos de un proyecto deben salir tal cual)
   const plantilla = await readFile(join(raiz, 'plantillas/index.html'), 'utf8');
