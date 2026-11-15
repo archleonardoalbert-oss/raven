@@ -6,7 +6,8 @@ const enviar = (m) => parent.postMessage(m, location.origin);
 const partes = (el) => { const [archivo, clave] = el.dataset.ravenTexto.split('|'); return { archivo, clave }; };
 const deClave = (archivo, clave) => document.querySelectorAll(`[data-raven-texto="${CSS.escape(`${archivo}|${clave}`)}"]`);
 const idiomaDe = (el) => el.getAttribute('lang') || el.dataset.idioma || null;
-let nombres = {};
+let nombres = {}, marcas = true;  // marcas: false en la ficha del proyecto (sin contornos ni edición por clic)
+const delManager = (el) => !!el.closest?.('[data-rv-manager]');  // interfaz del Manager montada en la página
 
 const etiqueta = document.createElement('div'); etiqueta.className = 'rv-etiqueta'; etiqueta.hidden = true;
 document.addEventListener('DOMContentLoaded', () => document.body.append(etiqueta));
@@ -20,7 +21,7 @@ function anunciar() {
 
 // pasar el ratón: contorno y etiqueta «Zona · Elemento»
 document.addEventListener('mouseover', (e) => {
-  const el = e.target.closest(SEL);
+  const el = marcas && !delManager(e.target) ? e.target.closest(SEL) : null;
   for (const x of document.querySelectorAll('.rv-encima')) if (!el || x.dataset.ravenTexto !== el.dataset.ravenTexto) x.classList.remove('rv-encima');
   if (!el) { etiqueta.hidden = true; return; }
   for (const x of deClave(...Object.values(partes(el)))) x.classList.add('rv-encima');
@@ -30,8 +31,8 @@ document.addEventListener('mouseover', (e) => {
 });
 // clic: se edita en el Manager; los enlaces y botones de la página no navegan en modo edición
 document.addEventListener('click', (e) => {
-  if (!e.isTrusted) return;  // clics simulados por el propio puente (cambio de idioma)
-  const el = e.target.closest(SEL);
+  if (!e.isTrusted || delManager(e.target)) return;  // clics simulados (cambio de idioma) o de la interfaz del Manager
+  const el = marcas ? e.target.closest(SEL) : null;
   e.preventDefault(); e.stopPropagation();
   if (el) { marcar(partes(el)); enviar({ tipo: 'clic', ...partes(el) }); }
 }, true);
@@ -53,5 +54,6 @@ addEventListener('message', (e) => {
   else if (m.tipo === 'idioma') document.querySelector(`[data-poner-idioma="${m.l === 'en' ? 'en' : 'es'}"]`)?.click();
   else if (m.tipo === 'etiquetas') nombres = m.mapa ?? {};
   else if (m.tipo === 'anunciar') anunciar();
+  else if (m.tipo === 'modo') { marcas = m.marcas !== false; document.documentElement.classList.toggle('rv-sin-marcas', !marcas); etiqueta.hidden = true; }
 });
 addEventListener('load', () => setTimeout(anunciar, 300));

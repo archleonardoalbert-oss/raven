@@ -7,3 +7,4 @@
 .rv-etiqueta[hidden] { display: none; }
 /* la pantalla de carga de la galaxia no debe tapar los textos mientras se edita */
 .carga { display: none !important; }
+.rv-sin-marcas [data-raven-texto] { cursor: auto; outline: none !important; box-shadow: none !important; }
