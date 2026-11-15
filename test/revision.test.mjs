@@ -36,8 +36,8 @@ test('un proyecto sin página propia usa la página «en obras» con sus datos',
   await construir({ raiz: r, salida: 'dist' });
   const html = readFileSync(join(r, 'dist/proyectos/hortus/index.html'), 'utf8');
   assert.match(html, /class="en-obras"/);
-  assert.ok(html.includes('Hortus Algorithmicus'));
-  assert.ok(html.includes('Fondo de escritorio vivo'));
+  const h = JSON.parse(readFileSync(join(MUESTRA, 'proyectos.json'), 'utf8')).find((p) => p.id === 'hortus');
+  assert.ok(html.includes(h.nombre)); assert.ok(html.includes(h.desc.es));
   assert.ok(!html.includes('href="../../hortus/"'), 'sin demo no hay botón de demo');
   assert.ok(html.includes('href="https://github.com/archleonardoalbert-oss/hortus"'));
 });

@@ -5,13 +5,9 @@ import { cpSync, readFileSync, writeFileSync, mkdirSync, rmSync, truncateSync } 
 import { join } from 'node:path';
 import { construir } from '../construir.mjs';
 import { medioDe } from '../herramientas/medios.mjs';
+import { copiaMuestra, MUESTRA } from './muestra.mjs';
 
-function copia({ demos = [] } = {}) {
-  const r = temporal('raven-med-');
-  for (const d of ['sitio', 'plantillas', 'contenido']) cpSync(d, join(r, d), { recursive: true });
-  for (const id of demos) mkdirSync(join(r, 'demos', id), { recursive: true });
-  return r;
-}
+const copia = ({ demos = [] } = {}) => copiaMuestra({ demos, prefijo: 'raven-med-' });
 const editar = (r, archivo, f) => { const ruta = join(r, 'contenido', archivo); const o = JSON.parse(readFileSync(ruta, 'utf8')); f(o); writeFileSync(ruta, JSON.stringify(o)); };
 const pagina = (r, id) => readFileSync(join(r, `dist/proyectos/${id}/index.html`), 'utf8');
 
