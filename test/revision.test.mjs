@@ -30,9 +30,16 @@ test('demo:true pero sin carpeta en demos/: no hay botón de demo', async () => 
   assert.ok(!readFileSync(join(r, 'dist/proyectos/hortus/index.html'), 'utf8').includes('href="../../hortus/"'));
   assert.ok(readFileSync(join(r, 'dist/proyectos/semillero/index.html'), 'utf8').includes('href="../../semillero/"'));
 });
-test('un proyecto sin plantilla de página: error que nombra el archivo', async () => {
+test('un proyecto sin página propia usa la página «en obras» con sus datos', async () => {
   const r = copia(); rmSync(join(r, 'sitio/proyectos/hortus/plantilla.html'));
-  await assert.rejects(construir({ raiz: r, salida: 'dist' }), /sitio\/proyectos\/hortus\/plantilla\.html/);
+  editarProyectos(r, (ps) => { ps.find((p) => p.id === 'hortus').demo = false; });
+  await construir({ raiz: r, salida: 'dist' });
+  const html = readFileSync(join(r, 'dist/proyectos/hortus/index.html'), 'utf8');
+  assert.match(html, /class="en-obras"/);
+  assert.ok(html.includes('Hortus Algorithmicus'));
+  assert.ok(html.includes('Fondo de escritorio vivo'));
+  assert.ok(!html.includes('href="../../hortus/"'), 'sin demo no hay botón de demo');
+  assert.ok(html.includes('href="https://github.com/archleonardoalbert-oss/hortus"'));
 });
 test('construir se niega a usar como salida la raíz o algo que la contenga', async () => {
   const r = copia();

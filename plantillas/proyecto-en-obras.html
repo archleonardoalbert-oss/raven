@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es" data-idioma="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{NOMBRE}} · Raven</title>
+<meta name="titulo-es" content="{{NOMBRE}} · Raven">
+<meta name="titulo-en" content="{{NOMBRE}} · Raven">
+<meta name="description" content="{{DESC_ES}}">
+<meta name="theme-color" content="#03040b">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Manrope:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/proyecto.css">
+<link rel="stylesheet" href="../../assets/en-obras.css">
+<script src="../../assets/idioma.js"></script>
+</head>
+<body class="en-obras" style="--tinte: {{COLOR}}">
+<header class="p-barra">
+  <a class="p-volver" href="../">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 5.3a1 1 0 0 1 0 1.4L9.4 12l5.3 5.3a1 1 0 1 1-1.4 1.4l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 0 1 1.4 0z"/></svg>
+    <span lang="es">Proyectos</span><span lang="en">Projects</span>
+  </a>
+  <div class="p-idiomas" role="group" aria-label="Idioma / Language">
+    <button type="button" data-poner-idioma="es">ES</button>
+    <button type="button" data-poner-idioma="en">EN</button>
+  </div>
+</header>
+
+<main>
+  <section class="obra-cabeza">
+    <p class="obra-tipo"><span lang="es">{{TIPO_ES}}</span><span lang="en">{{TIPO_EN}}</span></p>
+    <h1 class="obra-nombre">{{NOMBRE}}</h1>
+    <p class="obra-desc"><span lang="es">{{DESC_ES}}</span><span lang="en">{{DESC_EN}}</span></p>
+    <div class="p-acciones">
+      <!--DEMO--><a class="p-boton obra-boton" href="../../{{ID}}/"><span lang="es">Abrir la demo</span><span lang="en">Open the demo</span></a><!--/DEMO-->
+      <!--CODIGO-->
+    </div>
+  </section>
+
+  <section class="obra" aria-hidden="true">
+    <div class="obra-escena">
+      <div class="grua"><span class="grua-cable"></span><span class="grua-bloque">{{NOMBRE}}</span></div>
+      <div class="andamio">
+        <span class="bloque b1"></span><span class="bloque b2"></span><span class="bloque b3"></span>
+        <span class="bloque b4"></span><span class="bloque b5"></span><span class="bloque b6 colocando"></span>
+      </div>
+      <div class="bicho cargador"><span class="carga"></span></div>
+      <div class="bicho martillo"><span class="herramienta"></span></div>
+      <div class="bicho mirador"><span class="plano"></span></div>
+      <div class="suelo"></div>
+    </div>
+  </section>
+  <p class="obra-nota"><span lang="es">La página completa de {{NOMBRE}} está en camino.</span><span lang="en">The full page for {{NOMBRE}} is on its way.</span></p>
+</main>
+</body>
+</html>
