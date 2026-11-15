@@ -10,60 +10,62 @@
   },
   "estrellas": [
     {
-      "color": "#ffe08a",
+      "color": "#fff3c9",
       "radio": 5.5,
       "pos": [
-        -45,
-        20,
-        32
+        -44,
+        18,
+        34
       ]
     }
   ],
   "planeta": {
     "tipo": "rocoso",
-    "oceano": "#0e5e66",
-    "bajo": "#2f7d3a",
-    "alto": "#a8b36a",
-    "hielo": "#f2f6f2",
-    "mar": 0.5,
-    "semilla": 7.1
+    "oceano": "#0b3442",
+    "bajo": "#1b5a3d",
+    "alto": "#74cf93",
+    "hielo": "#f3f0d8",
+    "ciudad": "#b9ffd6",
+    "mar": 0.48,
+    "semilla": 12.4,
+    "inclinacion": 0.22
   },
   "nubes": {
-    "radio": 1.014,
-    "densidad": 0.5
+    "radio": 1.013,
+    "densidad": 0.32
   },
   "atmosfera": {
     "radio": 1.065,
-    "color": "#7fe8c0",
-    "fuerza": 1.1
+    "color": "#8ff0bb",
+    "fuerza": 0.8
   },
   "lunas": [
     {
-      "radio": 0.2,
-      "color": "#b9b39c",
-      "semilla": 11,
-      "orbita": 2.4,
-      "vel": 0.11,
-      "fase": 0,
-      "inc": 0.05
+      "radio": 0.11,
+      "color": "#a9845a",
+      "semilla": 31,
+      "orbita": 2.2,
+      "vel": 0.12,
+      "fase": 0.4,
+      "inc": 0.08
     },
     {
-      "radio": 0.15,
-      "color": "#a8c2a2",
-      "semilla": 14,
-      "orbita": 3.3,
-      "vel": 0.08,
-      "fase": 2.1,
-      "inc": -0.1
+      "radio": 0.16,
+      "color": "#b7d39a",
+      "semilla": 37,
+      "orbita": 3.1,
+      "vel": 0.085,
+      "fase": 2.3,
+      "inc": -0.06
     },
     {
-      "radio": 0.24,
-      "color": "#d2c7a8",
-      "semilla": 17,
-      "orbita": 4.6,
-      "vel": 0.05,
-      "fase": 4.2,
-      "inc": 0.16
+      "radio": 0.23,
+      "color": "#d9e7cf",
+      "semilla": 43,
+      "orbita": 4.3,
+      "vel": 0.055,
+      "fase": 4.4,
+      "inc": 0.12
     }
   ],
   "anillos": null,
