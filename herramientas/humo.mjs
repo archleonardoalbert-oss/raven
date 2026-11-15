@@ -11,7 +11,7 @@ export async function humo({ url = 'http://127.0.0.1:4500/', tamanos = [[1440, 9
   const errores = [];
   try {
     for (const [w, h] of tamanos) for (const r of rutas) {
-      const p = await b.newPage(); await p.setViewport({ width: w, height: h });
+      const p = await b.newPage(); await p.setViewport({ width: w, height: h }); p.setDefaultNavigationTimeout(90000);  // conexión lenta: margen amplio
       const donde = `${w}x${h} /${r}`;
       p.on('pageerror', (e) => errores.push(`${donde}: JS ${e.message}`));
       p.on('console', (m) => { if (m.type() === 'error') errores.push(`${donde}: ${m.text().slice(0, 200)}`); });
