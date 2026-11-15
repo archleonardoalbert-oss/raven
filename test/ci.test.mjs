@@ -38,3 +38,16 @@ test('nada cambió: cambiado=false y misma huella', async () => {
   const r = await actualizarDemos({ proyectos: P, ...e, remotos: async () => ({ a: 'sha-a-2', b: 'sha-b-2' }), traer: fingir() });
   assert.equal(r.cambiado, false); assert.equal(r.huella, 'a:sha-a-2 b:sha-b-2');
 });
+
+test('actualizarDemos deja el estado de cada demo en demos/demos-estado.json', async () => {
+  const { actualizarDemos } = await import('../herramientas/ci-demos.mjs');
+  const { mkdtempSync, mkdirSync: md, writeFileSync: wf, readFileSync: rf } = await import('node:fs');
+  const { join: j } = await import('node:path');
+  const base = temporal('raven-est-'), cache = j(base, 'cache'), demos = j(base, 'demos'); md(cache); md(demos);
+  const proyectos = [{ id: 'a', demo: true, repo: 'x/a', rama: 'main' }, { id: 'b', demo: true, repo: 'x/b', rama: 'main' }];
+  const traer = async ({ id, destino }) => { if (id === 'b') throw new Error('falló la construcción'); md(destino, { recursive: true }); wf(j(destino, 'index.html'), 'x'); return { demo: true, commit: 'c'.repeat(40) }; };
+  await actualizarDemos({ proyectos, cache, demos, remotos: async () => ({ a: 'c'.repeat(40), b: 'd'.repeat(40) }), traer, ahora: () => '2026-11-15T10:00:00.000Z' });
+  const est = JSON.parse(rf(j(demos, 'demos-estado.json'), 'utf8'));
+  assert.deepEqual(est.a, { ok: true, fecha: '2026-11-15T10:00:00.000Z', commit: 'c'.repeat(40) });
+  assert.equal(est.b.ok, false); assert.match(est.b.nota, /falló la construcción/);
+});

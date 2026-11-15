@@ -15,12 +15,20 @@ function idioma(v, l, clave, archivo) {
   return v[l];
 }
 
-export function rellenar(html, textos, { archivo = '¿?' } = {}) {
-  return html.replace(/\{\{(t|es|en|es-html|en-html|json) ([\w.-]+)\}\}/g, (_, tipo, clave) => {
+// ¿La posición `i` cae dentro de una etiqueta (un atributo) o de <title>? Ahí el modo edición no puede marcar.
+export function enAtributo(html, i) {
+  return html.lastIndexOf('<', i - 1) > html.lastIndexOf('>', i - 1) || html.lastIndexOf('<title', i) > html.lastIndexOf('</title>', i);
+}
+
+// `marcar` (modo edición del Manager): nombre del archivo lógico ('textos', 'paginas/<id>'); cada texto sale con
+// data-raven-texto="<marcar>|<clave>" para que el editor visual sepa qué se pincha. Nunca en la web pública.
+export function rellenar(html, textos, { archivo = '¿?', marcar = null } = {}) {
+  return html.replace(/\{\{(t|es|en|es-html|en-html|json) ([\w.-]+)\}\}/g, (_, tipo, clave, i) => {
     const v = buscar(textos, clave, archivo);
     if (tipo === 'json') return JSON.stringify(v);
-    if (tipo === 't') return `<span lang="es">${idioma(v, 'es', clave, archivo)}</span><span lang="en">${idioma(v, 'en', clave, archivo)}</span>`;
-    if (tipo.endsWith('-html')) return idioma(v, tipo.slice(0, 2), clave, archivo);
-    return escapar(idioma(v, tipo, clave, archivo));
+    const m = marcar && !enAtributo(html, i) ? ` data-raven-texto="${marcar}|${clave}"` : '';
+    if (tipo === 't') return `<span lang="es"${m}>${idioma(v, 'es', clave, archivo)}</span><span lang="en"${m}>${idioma(v, 'en', clave, archivo)}</span>`;
+    const l = tipo.slice(0, 2), texto = tipo.endsWith('-html') ? idioma(v, l, clave, archivo) : escapar(idioma(v, tipo, clave, archivo));
+    return m ? `<span${m} lang="${l}">${texto}</span>` : texto;
   });
 }

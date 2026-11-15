@@ -1,7 +1,7 @@
 // Construye el sitio publicable en dist/: fuentes estáticas (sitio/), demos ya construidas (demos/) y, en
 // las fases siguientes, el contenido de contenido/ rellenando las plantillas. Uso: node construir.mjs
 import { cp, rm, mkdir, readFile, writeFile } from 'node:fs/promises';
-import { rellenar } from './herramientas/plantilla.mjs';
+import { rellenar, enAtributo } from './herramientas/plantilla.mjs';
 import { validarProyectos, seccionesPrincipales, nombresMundo } from './herramientas/portada.mjs';
 import { validarHabilidades, modulosDatos } from './herramientas/datos.mjs';
 import { medioDe, htmlMedio, htmlNovedades, MINI_OBRA } from './herramientas/medios.mjs';
@@ -9,7 +9,8 @@ import { readdirSync } from 'node:fs';
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
-export async function construir({ raiz = process.cwd(), salida = 'dist' } = {}) {
+// edicion: construcción para el editor visual de Raven Manager (marcas data-raven-texto y el puente); nunca se publica
+export async function construir({ raiz = process.cwd(), salida = 'dist', edicion = false } = {}) {
   const dist = resolve(raiz, salida), base = resolve(raiz);
   // nunca borrar la raíz del proyecto ni nada que la contenga
   if (dist === base || base.startsWith(dist + '/')) throw new Error(`La salida no puede ser la raíz del proyecto ni contenerla: ${dist}`);
@@ -39,8 +40,8 @@ export async function construir({ raiz = process.cwd(), salida = 'dist' } = {}) 
   // un «$» o un «{{» en los datos de un proyecto deben salir tal cual)
   const plantilla = await readFile(join(raiz, 'plantillas/index.html'), 'utf8');
   for (const m of ['<!--PRINCIPALES-->', '<!--MUNDOS-->']) if (!plantilla.includes(m)) throw new Error(`Falta el marcador ${m} en plantillas/index.html`);
-  const secciones = seccionesPrincipales(proyectos, sistemas, textos), mundos = nombresMundo(proyectos);
-  const portada = rellenar(plantilla, textos, { archivo: 'plantillas/index.html' }).replace(/<!--PRINCIPALES-->\r?\n?/, () => secciones).replace('<!--MUNDOS-->', () => mundos);
+  const secciones = seccionesPrincipales(proyectos, sistemas, textos, { edicion }), mundos = nombresMundo(proyectos, { edicion });
+  const portada = rellenar(plantilla, textos, { archivo: 'plantillas/index.html', marcar: edicion ? 'textos' : null }).replace(/<!--PRINCIPALES-->\r?\n?/, () => secciones).replace('<!--MUNDOS-->', () => mundos);
   await writeFile(join(dist, 'index.html'), portada);
 
   // páginas de proyecto: cada una con su plantilla propia y sus textos; sin demo, sin botón de demo
@@ -52,7 +53,10 @@ export async function construir({ raiz = process.cwd(), salida = 'dist' } = {}) 
     if (enObras) {
       const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
       const v = { ID: p.id, NOMBRE: esc(p.nombre), COLOR: esc(p.color), TIPO_ES: esc(p.tipo.es), TIPO_EN: esc(p.tipo.en), DESC_ES: esc(p.desc.es), DESC_EN: esc(p.desc.en) };
-      html = html.replace(/\{\{(ID|NOMBRE|COLOR|TIPO_ES|TIPO_EN|DESC_ES|DESC_EN)\}\}/g, (_, k) => v[k]);
+      // en edición, los campos del catálogo se marcan donde son texto (no dentro de atributos)
+      const campo = { NOMBRE: 'nombre', TIPO_ES: 'tipo', TIPO_EN: 'tipo', DESC_ES: 'desc', DESC_EN: 'desc' };
+      html = html.replace(/\{\{(ID|NOMBRE|COLOR|TIPO_ES|TIPO_EN|DESC_ES|DESC_EN)\}\}/g, (_, k, i, todo) =>
+        edicion && campo[k] && !enAtributo(todo, i) ? `<span data-raven-texto="proyectos|${p.id}.${campo[k]}"${k.endsWith('_EN') ? ' data-idioma="en"' : k.endsWith('_ES') ? ' data-idioma="es"' : ''}>${v[k]}</span>` : v[k]);
       await mkdir(join(dist, `proyectos/${p.id}`), { recursive: true });
     }
     // hay demo si el proyecto la declara y además está construida en demos/<id>
@@ -66,8 +70,21 @@ export async function construir({ raiz = process.cwd(), salida = 'dist' } = {}) 
     const t = existsSync(join(raiz, `contenido/paginas/${p.id}.json`)) ? await leer(`contenido/paginas/${p.id}.json`) : {};
     for (const m of ['<!--MEDIO-->', '<!--NOVEDADES-->']) if (!html.includes(m)) throw new Error(`Falta el marcador ${m} en la página de «${p.id}»`);
     html = html.replace('<!--MEDIO-->', () => htmlMedio(p)).replace('<!--NOVEDADES-->', () => htmlNovedades(t.novedades));
-    await writeFile(join(dist, `proyectos/${p.id}/index.html`), rellenar(html, t, { archivo: `sitio/proyectos/${p.id}/plantilla.html` }));
+    await writeFile(join(dist, `proyectos/${p.id}/index.html`), rellenar(html, t, { archivo: `sitio/proyectos/${p.id}/plantilla.html`, marcar: edicion ? `paginas/${p.id}` : null }));
   }
+  if (edicion) await inyectarPuente(dist, proyectos);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) await construir();
+
+// modo edición: copia el puente (herramientas/edicion, fuera de sitio/ para que «volver a una versión» no lo toque)
+// y lo enlaza en cada página generada (no en las demos)
+async function inyectarPuente(dist, proyectos) {
+  await cp(new URL('./herramientas/edicion', import.meta.url).pathname, join(dist, '_edicion'), { recursive: true });
+  const demos = new Set(proyectos.map((p) => p.id));
+  for (const rel of readdirSync(dist, { recursive: true }).filter((f) => f.endsWith('.html') && !demos.has(f.split('/')[0]))) {
+    const nivel = '../'.repeat(rel.split('/').length - 1), f = join(dist, rel);
+    const html = await readFile(f, 'utf8');
+    await writeFile(f, html.replace('</head>', `<link rel="stylesheet" href="${nivel}_edicion/puente.css">\n<script type="module" src="${nivel}_edicion/puente.js"></script>\n</head>`));
+  }
+}

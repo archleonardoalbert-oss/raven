@@ -1,0 +1,7 @@
+/* Modo edición (Raven Manager): solo en la construcción para el editor, nunca en la web pública. */
+[data-raven-texto] { cursor: text; transition: outline-color .15s; outline: 1.5px dashed transparent; outline-offset: 3px; border-radius: 3px; }
+[data-raven-texto].rv-encima { outline-color: rgb(110 243 255 / .75); }
+[data-raven-texto].rv-activo { outline: 2px solid #6ef3ff; box-shadow: 0 0 0 6px rgb(110 243 255 / .14); }
+.rv-etiqueta { position: fixed; z-index: 2147483647; pointer-events: none; font: 600 11px/1 Manrope, system-ui, sans-serif; color: #05070f; background: #6ef3ff;
+  padding: 4px 8px; border-radius: 5px; white-space: nowrap; box-shadow: 0 6px 18px -6px #000; transform: translateY(-100%); margin-top: -6px; }
+.rv-etiqueta[hidden] { display: none; }
