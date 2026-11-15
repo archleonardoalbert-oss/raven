@@ -1,0 +1,38 @@
+{
+  "curso": {
+    "es": "Curso",
+    "en": "Course"
+  },
+  "herramienta": {
+    "es": "Herramienta",
+    "en": "Tool"
+  },
+  "ia": {
+    "es": "IA",
+    "en": "AI"
+  },
+  "matematicas": {
+    "es": "Matemáticas",
+    "en": "Mathematics"
+  },
+  "graficos": {
+    "es": "Gráficos 3D",
+    "en": "3D graphics"
+  },
+  "simulacion": {
+    "es": "Simulación",
+    "en": "Simulation"
+  },
+  "algoritmos": {
+    "es": "Algoritmos",
+    "en": "Algorithms"
+  },
+  "web": {
+    "es": "Web",
+    "en": "Web"
+  },
+  "linux": {
+    "es": "Linux",
+    "en": "Linux"
+  }
+}

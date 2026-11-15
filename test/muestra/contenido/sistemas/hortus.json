@@ -1,0 +1,65 @@
+{
+  "galaxia": {
+    "r": 24,
+    "th": 5.6,
+    "color": "#ffd37a"
+  },
+  "camara": {
+    "escritorio": "@hortus:5.0,1.9,7.2|@hortus:-2.2,0,1.6",
+    "movil": "@hortus:4.4,1.7,9.6|@hortus:0,-1.6,0"
+  },
+  "estrellas": [
+    {
+      "color": "#ffcf7a",
+      "radio": 6,
+      "pos": [
+        -46,
+        24,
+        28
+      ]
+    },
+    {
+      "color": "#bcd6ff",
+      "radio": 3,
+      "pos": [
+        -38,
+        -10,
+        -52
+      ]
+    }
+  ],
+  "planeta": {
+    "tipo": "gaseoso",
+    "c1": "#d9b26a",
+    "c2": "#a5743a",
+    "c3": "#f2deb0",
+    "tormenta": "#c7653a",
+    "inclinacion": 0.18
+  },
+  "nubes": null,
+  "atmosfera": {
+    "radio": 1.04,
+    "color": "#ffd38a",
+    "fuerza": 0.7
+  },
+  "lunas": [
+    {
+      "radio": 0.12,
+      "color": "#c9bfae",
+      "semilla": 23,
+      "orbita": 3.4,
+      "vel": 0.06,
+      "fase": 1.2,
+      "inc": 0.3
+    }
+  ],
+  "anillos": {
+    "interior": 1.4,
+    "exterior": 2.6,
+    "c1": "#e8d2a0",
+    "c2": "#8a6a44",
+    "rotX": 1.1507963267948966,
+    "rotY": 0.18
+  },
+  "agujero": null
+}

@@ -5,6 +5,7 @@ import { existsSync, writeFileSync, readFileSync, mkdirSync, cpSync } from 'node
 import { join } from 'node:path';
 import { construir } from '../construir.mjs';
 import { volcarTextos } from '../herramientas/volcar-textos.mjs';
+import { copiaMuestra } from './muestra.mjs';
 
 const referencia = JSON.parse(readFileSync('test/referencia/textos.json', 'utf8'));
 const nuevo = () => temporal('raven-');
@@ -14,13 +15,9 @@ test('dist contiene sitio y demos', async () => {
   assert.ok(existsSync(`${tmp}/index.html`));
   if (existsSync('demos/penumbra')) assert.ok(existsSync(`${tmp}/penumbra/index.html`));  // en CI las demos pueden faltar si fallan
 });
-// la referencia no depende de que las demos existan: se construye en una copia con las tres demos presentes
-function copiaConDemos() {
-  const r = temporal('raven-raiz-');
-  for (const d of ['sitio', 'plantillas', 'contenido']) cpSync(d, join(r, d), { recursive: true });
-  for (const id of ['penumbra', 'semillero', 'hortus']) mkdirSync(join(r, 'demos', id), { recursive: true });
-  return r;
-}
+// la referencia se construye con la muestra fija de contenido (no con contenido/, que edita Raven Manager) y con
+// las tres demos presentes: vigila que el código de construcción no altere ningún texto
+const copiaConDemos = () => copiaMuestra({ demos: ['penumbra', 'semillero', 'hortus'], prefijo: 'raven-raiz-' });
 test('los textos de dist coinciden con la referencia', async () => {
   const r = copiaConDemos(), tmp = join(r, 'dist'); await construir({ raiz: r, salida: 'dist' });
   assert.deepEqual(volcarTextos(tmp), referencia);

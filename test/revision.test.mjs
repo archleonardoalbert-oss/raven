@@ -3,19 +3,21 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { cpSync, readFileSync, writeFileSync, existsSync, mkdirSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
+import { MUESTRA } from './muestra.mjs';
 import { construir } from '../construir.mjs';
 import { validarProyectos } from '../herramientas/portada.mjs';
 
 function copia({ demos = [] } = {}) {
   const r = temporal('raven-rev-');
-  for (const d of ['sitio', 'plantillas', 'contenido']) cpSync(d, join(r, d), { recursive: true });
+  for (const d of ['sitio', 'plantillas']) cpSync(d, join(r, d), { recursive: true });
+  cpSync(MUESTRA, join(r, 'contenido'), { recursive: true });
   for (const id of demos) mkdirSync(join(r, 'demos', id), { recursive: true });
   return r;
 }
 const editarProyectos = (r, f) => { const ruta = join(r, 'contenido/proyectos.json'); const ps = JSON.parse(readFileSync(ruta, 'utf8')); f(ps); writeFileSync(ruta, JSON.stringify(ps)); };
 
 test('un proyecto sin traducción de su descripción: error que nombra proyecto y campo', () => {
-  const ps = JSON.parse(readFileSync('contenido/proyectos.json', 'utf8')); delete ps[0].desc.en;
+  const ps = JSON.parse(readFileSync(join(MUESTRA, 'proyectos.json'), 'utf8')); delete ps[0].desc.en;
   assert.throws(() => validarProyectos(ps), /penumbra.*desc\.en/);
 });
 test('un $ o un {{ en los textos de un proyecto sale literal', async () => {

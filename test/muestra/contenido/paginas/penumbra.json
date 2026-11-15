@@ -1,0 +1,54 @@
+{
+  "pagina": {
+    "1": {
+      "es": "Proyectos",
+      "en": "Projects"
+    },
+    "2": {
+      "es": "Un curso de lógica difusa que se recorre como un mapa: de lo que tiene borde a lo que no, de la noche al amanecer, hasta caer en un agujero negro.",
+      "en": "A fuzzy logic course you travel like a map: from what has an edge to what doesn't, from night to dawn, until you fall into a black hole."
+    },
+    "3": {
+      "es": "Abrir el curso",
+      "en": "Open the course"
+    },
+    "4": {
+      "es": "El mapa, una parada por dentro y la caída hacia El Horizonte.",
+      "en": "The map, one stop from the inside, and the fall towards The Horizon."
+    },
+    "5": {
+      "es": "Qué problema resuelve",
+      "en": "The problem it solves"
+    },
+    "6": {
+      "es": "<p>¿Quién es alto? Si mides 181 cm, sí. ¿Y con 179? Dos centímetros no deberían cambiarlo todo, pero la lógica clásica obliga a trazar un borde. La lógica difusa existe para lo que no tiene borde, y es justo lo difícil de enseñar con pizarra: una t-norma, una implicación difusa o la desdifusión son ideas geométricas que en una fórmula quedan planas.</p>\n          <p>Penumbra lo convierte en algo que se ve y se toca: cambias una función de pertenencia y el resultado se redibuja al momento, combinas dos conjuntos y ves la superficie que forman, ajustas un controlador y miras cómo sostiene un péndulo invertido.</p>",
+      "en": "<p>Who is tall? At 181 cm, you are. At 179? Two centimetres shouldn't change everything, yet classical logic forces you to draw an edge. Fuzzy logic exists for things without edges, and that is exactly what's hard to teach on a blackboard: a t-norm, a fuzzy implication or defuzzification are geometric ideas that go flat inside a formula.</p>\n          <p>Penumbra turns it into something you can see and touch: change a membership function and the result redraws instantly, combine two sets and see the surface they form, tune a controller and watch it balance an inverted pendulum.</p>"
+    },
+    "7": {
+      "es": "Cómo funciona",
+      "en": "How it works"
+    },
+    "8": {
+      "es": "<p>Penumbra es un curso web que se recorre como un territorio de noche. Cada montaña es un capítulo y crece y se vuelve dorada con lo que demuestras en los retos: mirar no la sube.</p>\n          <p>Cada concepto se aprende en cinco pasos: la pregunta, míralo, tócalo, entiéndelo y demuéstralo. Las animaciones siguen la escuela de 3Blue1Brown: terrenos en WebGL que se construyen corte a corte, con el mapa y el corte en 2D enlazados, y un código de color que nunca cambia (azul para μ<sub>A</sub>, rosa para μ<sub>B</sub>, oro para el resultado).</p>\n          <table class=\"p-tabla\">\n            <tr><th>La noche</th><td>8 regiones, 55 paradas y 168 retos: de los conjuntos difusos al razonamiento aproximado. El hilo conductor es un péndulo invertido: los retos te dan piezas y al final tu propio controlador difuso lo sostiene y lo centra en el riel.</td></tr>\n            <tr><th>El amanecer</th><td>5 regiones y 21 paradas sobre lógica difusa e IA: la neurona difusa, las reglas como función de pérdida, la calibración y las Células de Concepto Difusas. Se entra tocando la Luna.</td></tr>\n            <tr><th>El Horizonte</th><td>19 paradas para aprender fuzzython en una órbita que cae a un agujero negro con física real. El disco son las capas de la librería; el horizonte de sucesos, la desdifusión; detrás, los modelos decisores.</td></tr>\n          </table>\n          <p>Las salidas de los ejemplos de código no están escritas a mano: las genera la fuzzython real, y un test falla si alguien cambia un bloque sin volver a ejecutarlo. En total, 936 pruebas automáticas. El curso funciona sin conexión y también se empaqueta en ejecutables para Linux y Windows.</p>",
+      "en": "<p>Penumbra is a web course you explore like a landscape at night. Each mountain is a chapter, and it grows and turns golden with what you prove in the challenges: just looking doesn't raise it.</p>\n          <p>Every concept is learned in five steps: the question, see it, touch it, understand it and prove it. The animations follow the 3Blue1Brown school: WebGL terrains built slice by slice, with the map and the 2D slice linked, and a colour code that never changes (blue for μ<sub>A</sub>, pink for μ<sub>B</sub>, gold for the result).</p>\n          <table class=\"p-tabla\">\n            <tr><th>The night</th><td>8 regions, 55 stops and 168 challenges: from fuzzy sets to approximate reasoning. The common thread is an inverted pendulum: challenges give you parts, and in the end your own fuzzy controller balances it and centres it on the rail.</td></tr>\n            <tr><th>The dawn</th><td>5 regions and 21 stops on fuzzy logic and AI: the fuzzy neuron, rules as a loss function, calibration and Fuzzy Concept Cells. You enter by touching the Moon.</td></tr>\n            <tr><th>The Horizon</th><td>19 stops to learn fuzzython on an orbit falling into a black hole with real physics. The disk is the library's layers; the event horizon, defuzzification; beyond it, decision models.</td></tr>\n          </table>\n          <p>Code example outputs aren't written by hand: the real fuzzython generates them, and a test fails if anyone edits a block without running it again. 936 automated tests in total. The course works offline and is also packaged as executables for Linux and Windows.</p>"
+    },
+    "9": {
+      "es": "Hacia dónde va",
+      "en": "Where it's heading"
+    },
+    "10": {
+      "es": "<p>Quiero que Penumbra sea la referencia de lógica difusa para los estudiantes de MatCom y para quien llega desde la IA buscando modelos que se puedan explicar.</p>\n          <p>El siguiente bloque amplía el temario con medidas e integrales difusas, decisión y programación lineal difusas, y la versión en inglés.</p>",
+      "en": "<p>I want Penumbra to be the fuzzy logic reference for MatCom students and for anyone coming from AI looking for models that can be explained.</p>\n          <p>The next block extends the syllabus with fuzzy measures and integrals, fuzzy decision making and linear programming, and an English version.</p>"
+    }
+  },
+  "meta": {
+    "titulo": {
+      "es": "Penumbra · Raven",
+      "en": "Penumbra · Raven"
+    },
+    "descripcion": {
+      "es": "Penumbra: un curso de lógica difusa que se recorre como un mapa nocturno.",
+      "en": "Penumbra: a fuzzy logic course you explore like a night-time map."
+    }
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "barra": {
+    "1": {
+      "es": "Sobre mí",
+      "en": "About"
+    },
+    "2": {
+      "es": "Proyectos",
+      "en": "Projects"
+    },
+    "3": {
+      "es": "Contacto",
+      "en": "Contact"
+    }
+  },
+  "inicio": {
+    "1": {
+      "es": "Ciencia de la Computación, MatCom, Universidad de La Habana",
+      "en": "Computer Science, MatCom, University of Havana"
+    },
+    "2": {
+      "es": "Hago cursos interactivos, herramientas de escritorio y simulaciones en la GPU.",
+      "en": "I make interactive courses, desktop tools and GPU simulations."
+    },
+    "3": {
+      "es": "Comenzar el viaje",
+      "en": "Start the journey"
+    },
+    "4": {
+      "es": "o ve directo a",
+      "en": "or jump to"
+    },
+    "5": {
+      "es": "Proyectos",
+      "en": "Projects"
+    },
+    "6": {
+      "es": "Habilidades",
+      "en": "Skills"
+    },
+    "7": {
+      "es": "Contacto",
+      "en": "Contact"
+    }
+  },
+  "manifiesto": {
+    "1": {
+      "es": "Cada punto de luz de esta galaxia es algo que construí.",
+      "en": "Every point of light in this galaxy is something I built."
+    }
+  },
+  "sobre-mi": {
+    "1": {
+      "es": "Sobre mí",
+      "en": "About me"
+    },
+    "2": {
+      "es": "Cuando quiero dominar una materia, construyo el curso que me hubiera gustado tener.",
+      "en": "When I want to master a subject, I build the course I wish I'd had."
+    },
+    "3": {
+      "es": "De ahí salieron cursos de lógica difusa, ecuaciones diferenciales y teoría de números, y buena parte de las herramientas que uso a diario en Linux. Programo con agentes de IA; la idea, el diseño y el control de calidad son míos.",
+      "en": "That's where my courses on fuzzy logic, differential equations and number theory came from, along with most of the tools I use every day on Linux. I code with AI agents; the idea, the design and the quality control are mine."
+    },
+    "4": {
+      "es": "Estudio",
+      "en": "Studying"
+    },
+    "5": {
+      "es": "Ciencia de la Computación",
+      "en": "Computer Science"
+    },
+    "6": {
+      "es": "Facultad",
+      "en": "Faculty"
+    },
+    "7": {
+      "es": "Universidad",
+      "en": "University"
+    },
+    "8": {
+      "es": "Universidad de La Habana",
+      "en": "University of Havana"
+    },
+    "9": {
+      "es": "Ciudad",
+      "en": "City"
+    },
+    "10": {
+      "es": "La Habana, Cuba",
+      "en": "Havana, Cuba"
+    }
+  },
+  "habilidades": {
+    "1": {
+      "es": "Habilidades",
+      "en": "Skills"
+    },
+    "2": {
+      "es": "Sigue bajando para entrar.",
+      "en": "Keep scrolling to fall in."
+    },
+    "3": {
+      "es": "Ver todo de una vez",
+      "en": "See it all at once"
+    },
+    "4": {
+      "es": "Lo que sé hacer",
+      "en": "What I can do"
+    }
+  },
+  "proyectos": {
+    "1": {
+      "es": "Proyectos destacados",
+      "en": "Featured projects"
+    },
+    "2": {
+      "es": "Ver todos los proyectos",
+      "en": "See all projects"
+    },
+    "conocer": {
+      "es": "Conocer el proyecto",
+      "en": "Explore the project"
+    },
+    "codigo": {
+      "es": "Ver el código en GitHub",
+      "en": "View the code on GitHub"
+    }
+  },
+  "contacto": {
+    "1": {
+      "es": "Hablemos",
+      "en": "Let's talk"
+    },
+    "2": {
+      "es": "Para trabajo, colaboraciones o un proyecto concreto, escríbeme.",
+      "en": "For work, collaborations or a specific project, write to me."
+    }
+  },
+  "pie": {
+    "1": {
+      "es": "La Habana",
+      "en": "Havana"
+    }
+  },
+  "meta": {
+    "titulo": {
+      "es": "Raven · Leonardo Albert López",
+      "en": "Raven · Leonardo Albert López"
+    },
+    "descripcion": {
+      "es": "Portafolio de Leonardo Albert López: cursos, herramientas y mundos construidos con IA.",
+      "en": "Portfolio of Leonardo Albert López: courses, tools and worlds built with AI."
+    },
+    "ogDescripcion": {
+      "es": "Cursos, herramientas y mundos construidos con IA, en una galaxia que se recorre con el scroll.",
+      "en": "Courses, tools and worlds built with AI, in a galaxy you explore by scrolling."
+    }
+  }
+}
