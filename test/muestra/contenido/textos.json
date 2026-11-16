@@ -107,6 +107,18 @@
     "4": {
       "es": "Lo que sé hacer",
       "en": "What I can do"
+    },
+    "5": {
+      "es": "Cruzar el horizonte",
+      "en": "Cross the horizon"
+    },
+    "6": {
+      "es": "todas mis habilidades",
+      "en": "all my skills"
+    },
+    "7": {
+      "es": "Seguir a Proyectos",
+      "en": "On to Projects"
     }
   },
   "proyectos": {
