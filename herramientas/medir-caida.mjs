@@ -10,26 +10,33 @@ const espera = (ms) => new Promise((r) => setTimeout(r, ms));
 export function analizar(muestras) {
   const v = [];
   for (let i = 1; i < muestras.length; i++) {
-    const [t0, a] = muestras[i - 1], [t1, b] = muestras[i], dt = (t1 - t0) / 1000;
+    const [t0, a] = muestras[i - 1], [t1, b, donde] = muestras[i], dt = (t1 - t0) / 1000;
     if (dt <= 0) continue;
     const d = Math.hypot(b[0] - a[0], b[1] - a[1], b[2] - a[2]), r = Math.max(1e-6, Math.hypot(...a));
     // también el giro: cuánto cambia la dirección en que mira (radianes)
     const giro = Math.acos(Math.min(1, Math.max(-1, a[3] * b[3] + a[4] * b[4] + a[5] * b[5])));
-    v.push({ t: t1, v: d / r / dt + giro / dt, dt });
+    v.push({ t: t1, v: d / r / dt + giro / dt, dt, donde });
   }
   const mediana = [...v].map((x) => x.v).sort((p, q) => p - q)[Math.floor(v.length / 2)] ?? 0;
-  const cambios = [];
+  let cambios = [];
   for (let i = 1; i < v.length; i++) {
     const a = v[i - 1].v, b = v[i].v, m = Math.max(a, b);
     if (m < mediana * 0.15) continue;  // quieta o casi: no cuenta
-    cambios.push({ t: v[i].t, c: Math.abs(b - a) / m, a, b });
+    // cuadros irregulares del navegador oculto (más de 45 ms o el doble que el anterior): el reloj de la escena se
+    // recorta a 50 ms y la velocidad medida miente; se cuentan aparte
+    const irregular = v[i].dt > 0.045 || v[i - 1].dt > 0.045 || v[i].dt > 1.8 * v[i - 1].dt || v[i - 1].dt > 1.8 * v[i].dt;
+    // fuera de la escena (más allá de la llegada a Proyectos, p ≈ 1,12) no cuenta
+    if (parseFloat(String(v[i].donde).split('@')[1]) > 1.13) continue;
+    // un arranque desde parada (0,03 → 0,3) no es un tirón: el cambio se compara con la velocidad típica si es mayor
+    cambios.push({ t: v[i].t, c: Math.abs(b - a) / Math.max(m, mediana), a, b, irregular, donde: v[i].donde, dt: v[i].dt });
   }
+  const todos = cambios; cambios = todos.filter((x) => !x.irregular);
   const ord = [...cambios].sort((p, q) => q.c - p.c);
   return {
     cuadros: v.length, mediana: +mediana.toFixed(3),
     p99: +(ord[Math.floor(ord.length * 0.01)]?.c ?? 0).toFixed(3), max: +(ord[0]?.c ?? 0).toFixed(3),
-    tirones: cambios.filter((x) => x.c > 0.25).length,
-    peores: ord.slice(0, 5).map((x) => `${(x.t / 1000).toFixed(2)}s ${(x.c * 100).toFixed(0)}% (${x.a.toFixed(2)}→${x.b.toFixed(2)})`),
+    tirones: cambios.filter((x) => x.c > 0.25).length, irregulares: todos.length - cambios.length,
+    peores: ord.slice(0, 6).map((x) => `${x.donde} ${(x.c * 100).toFixed(0)}% (${x.a.toFixed(2)}→${x.b.toFixed(2)}) dt=${(x.dt * 1000).toFixed(0)}ms`),
   };
 }
 
@@ -51,7 +58,7 @@ export async function medirCaida({ url = 'http://127.0.0.1:4500/', arriba = fals
         window.__muestras = []; window.__fin = false;
         const vel = 700, t0 = performance.now();  // px/s
         // la cámara se muestrea justo tras pintar cada cuadro (un muestreo por cuadro pintado, sin duplicados)
-        window.__ravenTrasCuadro = () => { if (window.__fin) return; const c = window.__ravenCamara, e = c.matrixWorld.elements; window.__muestras.push([performance.now(), [c.position.x, c.position.y, c.position.z, -e[8], -e[9], -e[10]]]); };
+        window.__ravenTrasCuadro = () => { if (window.__fin) return; const c = window.__ravenCamara, e = c.matrixWorld.elements; window.__muestras.push([window.__tEscena = (window.__tEscena ?? 0) + (window.__ravenDt ?? 0.016) * 1000, [c.position.x, c.position.y, c.position.z, -e[8], -e[9], -e[10]], `${window.__ravenBH?.fase ?? ''}@${(window.__ravenBH?.p ?? 0).toFixed(3)}`]); };
         const paso = (t) => {
           if (constante) { const y = y0 + Math.sign(y1 - y0) * vel * (t - t0) / 1000; scrollTo({ top: y, behavior: 'instant' }); if ((y1 - y) * Math.sign(y1 - y0) <= 0) { window.__fin = true; return; } }
           if (!window.__fin) requestAnimationFrame(paso);

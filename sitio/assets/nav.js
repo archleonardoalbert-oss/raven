@@ -15,7 +15,7 @@
   const ANCLA = {
     inicio: () => 0,
     'sobre-mi': (el) => el.offsetTop - innerHeight * 0.05,
-    habilidades: (el) => el.offsetTop + (el.offsetHeight - innerHeight) * 0.085,
+    habilidades: (el) => el.offsetTop + (el.offsetHeight - innerHeight) * (window.__ravenCaida?.pFaro(0) ?? 0.12),  // en el primer faro
     resumen: () => { const el = document.getElementById('habilidades'); return el.offsetTop + (el.offsetHeight - innerHeight) * 0.91; },
     proyectos: (el) => el.offsetTop - innerHeight * 0.1,
     contacto: (el) => el.offsetTop + innerHeight * 0.1,

@@ -349,9 +349,21 @@ const suave = (t) => t * t * t * (t * (t * 6 - 15) + 10);
 const objetivoP = new THREE.Vector3(), objetivoT = new THREE.Vector3(), mirada = new THREE.Vector3(), dir = new THREE.Vector3(), da_ = new THREE.Vector3(), db_ = new THREE.Vector3();
 // el scroll se suaviza aquí (no la posición de la cámara): así la cámara siempre está sobre su trayectoria,
 // también a escala de planeta, donde un retraso de millonésimas de unidad serían varios radios
-let yS = scrollY;
+let yS = scrollY, vS = 0;
+// el scroll suavizado lo usa también la caída al agujero negro (agujero.js): un solo avance para toda la escena
+window.__ravenYS = () => yS;
+// muelle críticamente amortiguado: sigue al scroll con el mismo retraso que antes, pero con la velocidad continua
+// (un filtro de primer orden la hacía saltar con cada paso de la rueda: eran tirones)
+const OMEGA = 12;
+function seguirScroll(dt) {
+  if (reducido) { yS = scrollY; vS = 0; return; }
+  for (let paso = Math.min(dt, 1 / 120), resto = dt; resto > 1e-6; resto -= paso, paso = Math.min(paso, resto)) {
+    vS += (OMEGA * OMEGA * (scrollY - yS) - 2 * OMEGA * vS) * paso; yS += vS * paso;
+  }
+  if (Math.abs(scrollY - yS) < 0.05 && Math.abs(vS) < 0.5) { yS = scrollY; vS = 0; }
+}
 // saltos (índice, atajos): se coloca el scroll y la cámara llega sin recorrer el camino
-window.__ravenFijarScroll = () => { yS = scrollY; destino(); camara.position.copy(objetivoP); mirada.copy(objetivoT); camara.lookAt(mirada); };
+window.__ravenFijarScroll = () => { yS = scrollY; vS = 0; destino(); camara.position.copy(objetivoP); mirada.copy(objetivoT); camara.lookAt(mirada); };
 // zonas de descanso (donde la cámara está quieta) en coordenadas de scroll, para el imán de nav.js
 window.__ravenDescansos = () => { const r = []; for (let i = 0; i < paradas.length; i++) { const a = paradas[i], b = paradas[i + 1]; const m = Number(a.el.dataset.mantener ?? 0.5); const ini = a.y - innerHeight * 0.5, fin = b ? ini + m * (b.y - a.y) : document.documentElement.scrollHeight; if (m > 0) r.push({ id: a.el.id, ini, fin, sinIman: a.el.id === 'habilidades' }); } return r; };
 function destino() {
@@ -362,7 +374,9 @@ function destino() {
   // quieta en la primera mitad de cada sección (mientras lees), viaja en la segunda
   const bruto = a === b ? 0 : (y - a.y) / Math.max(1, b.y - a.y);
   const m = Number(a.el.dataset.mantener ?? 0.5);
-  const t = suave(Math.min(1, Math.max(0, (bruto - m) / (1 - m))));
+  const x = Math.min(1, Math.max(0, (bruto - m) / (1 - m)));
+  // al salir del agujero negro el vuelo no arranca desde parada: sigue con la velocidad de la retirada (agujero.js)
+  const t = a.el.id === 'habilidades' ? 1 - (1 - x) * (1 - x) : suave(x);
   // la distancia al objetivo se interpola en escala logarítmica: de lejísimos a muy cerca sin saltos
   const da = a.p.distanceTo(a.t), db = b.p.distanceTo(b.t);
   // el punto al que se mira cambia mientras aún se está lejos: al acercarse a un planeta, el destino ya es su
@@ -414,8 +428,10 @@ const bhP = new THREE.Vector3(), bhX = new THREE.Vector3(), bhY = new THREE.Vect
 let cuadros = 0;
 function fotograma() {
   const dt = Math.min(0.05, reloj.getDelta()), t = reloj.elapsedTime;
+  window.__ravenDt = dt;  // herramientas/medir-caida.mjs: el paso de tiempo con que avanza la escena en este cuadro
   const k = reducido ? 1 : 1 - Math.pow(0.003, dt);
-  yS += (scrollY - yS) * (reducido ? 1 : 1 - Math.pow(0.002, dt));
+  seguirScroll(dt);
+  window.__ravenActualizarCaida?.(dt);
   const { i } = destino();
   const bh = window.__ravenBH;
   if (bh && bh.activo) {
@@ -423,8 +439,12 @@ function fotograma() {
     bhP.set(bh.C[0], bh.C[1], bh.C[2]).applyMatrix3(B2G).multiplyScalar(RS);
     bhX.set(...bh.de).applyMatrix3(B2G); bhY.set(...bh.ar).applyMatrix3(B2G); bhZ.set(-bh.f[0], -bh.f[1], -bh.f[2]).applyMatrix3(B2G);
     bhQ.setFromRotationMatrix(bhM.makeBasis(bhX, bhY, bhZ));
-    camara.position.lerp(bhP, k); camara.quaternion.slerp(bhQ, k);
-    const fov = (bh.fov * 180) / Math.PI; if (Math.abs(camara.fov - fov) > 1e-3) { camara.fov += (fov - camara.fov) * k; camara.updateProjectionMatrix(); }
+    // la cámara está exactamente donde dice la caída (sin perseguirla: el retraso hacía variar la velocidad)
+    camara.position.copy(bhP); camara.quaternion.copy(bhQ);
+    // el leve paralaje del ratón de la galaxia, que se apaga al adentrarse (así el relevo coincide)
+    const fuera = 1 - (bh.mezcla ?? 1), dd = camara.position.length();
+    camara.position.x += raton.x * 0.0012 * dd * fuera; camara.position.y -= raton.y * 0.0008 * dd * fuera;
+    const fov = (bh.fov * 180) / Math.PI; if (Math.abs(camara.fov - fov) > 1e-4) { camara.fov = fov; camara.updateProjectionMatrix(); }
     mirada.copy(camara.position).addScaledVector(bhZ, -camara.position.length());
   } else {
     if (Math.abs(camara.fov - 50) > 1e-3) { camara.fov += (50 - camara.fov) * k; camara.updateProjectionMatrix(); }
@@ -445,7 +465,12 @@ function fotograma() {
   if (lente) {
     v.set(0, 0, 0).project(camara);
     // margen amplio: el pase se enciende mucho antes de que el agujero negro pueda notarse
-    const on = dc < 100 && v.z < 1 && Math.abs(v.x) < 2.2 && Math.abs(v.y) < 2.2;
+    // muy cerca, la sombra ocupa decenas de grados: el centro puede quedar fuera del encuadre y la sombra verse igual
+    // (la vista de lado junto al horizonte); se enciende si el disco de la sombra toca el campo de visión
+    const tfv = Math.tan((camara.fov * Math.PI) / 360), sombra = Math.asin(Math.min(1, (2.598076 * Math.sqrt(Math.max(0, 1 - 1 / r0))) / r0));
+    camara.getWorldDirection(bhX); bhY.copy(camara.position).negate().normalize();
+    const angulo = Math.acos(Math.min(1, Math.max(-1, bhX.dot(bhY)))), diagonal = Math.atan(tfv * Math.hypot(camara.aspect, 1));
+    const on = dc < 100 && ((v.z < 1 && Math.abs(v.x) < 2.2 && Math.abs(v.y) < 2.2) || angulo < diagonal + sombra + 0.05);
     lente.pase.enabled = on;
     if (on) {
       const u = lente.material.uniforms;

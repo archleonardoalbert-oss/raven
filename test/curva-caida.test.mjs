@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { splineMonotona, crearCurva, TRAMOS } from '../sitio/assets/curva-caida.js';
+import { splineMonotona, crearCurva, TRAMOS, desplazamiento } from '../sitio/assets/curva-caida.js';
+import { vista } from '../sitio/assets/penumbra/caida.js';
 
 const C = crearCurva({ R0: 125, radios: [30, 17, 9.5, 5.6, 3.6], rBoton: 2.8, salida: 30 });
 const h = 1e-7;
@@ -47,6 +48,16 @@ test('la retirada deshace el camino (más rápida) y sale con la velocidad pedid
   assert.ok(Math.abs(v - 30) / 30 < 0.05, `velocidad de salida ${v}`);
   assert.ok((TRAMOS.R - TRAMOS.B) * 3 <= TRAMOS.A + 1e-9, 'al menos tres veces más corta');
 });
-test('al principio la pose es la de la galaxia (mezcla 0) y en los faros, la de la caída (mezcla 1)', () => {
+test('al principio la pose es la de la galaxia (mezcla 0, inclinación y campo de la galaxia) y en los faros, la de la caída (mezcla 1)', () => {
   assert.equal(C.pose(0).mezcla, 0); assert.equal(C.pose(C.pFaro(0)).mezcla, 1);
+  assert.ok(Math.abs(C.pose(0).inc - Math.atan2(2, 4.6)) < 1e-9); assert.ok(Math.abs(C.pose(0).fov - (50 * Math.PI) / 180) < 1e-9);
+});
+
+test('ritmo constante: en el centro de la aproximación la cámara real (posición y mirada) avanza a ritmo parejo (±12 %)', () => {
+  // velocidad percibida: cambio de log r, del ángulo y del giro de la mirada
+  const cam = (p) => { const q = C.pose(p); return vista(q, { lado: 0.08 * q.mezcla }); };
+  const vp = (p) => desplazamiento(cam(p - 1e-6), cam(p + 1e-6)) / 2e-6;
+  const vs = []; for (let p = TRAMOS.A * 0.15; p < TRAMOS.A * 0.85; p += 0.005) vs.push(vp(p));
+  const med = vs.reduce((s, x) => s + x, 0) / vs.length;
+  for (const v of vs) assert.ok(Math.abs(v - med) / med < 0.12, `velocidad ${v.toFixed(2)} frente a media ${med.toFixed(2)}`);
 });
