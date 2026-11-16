@@ -19,11 +19,11 @@
     proyectos: (el) => el.offsetTop - innerHeight * 0.1,
     contacto: (el) => el.offsetTop + innerHeight * 0.1,
   };
-  // la llegada se ajusta a la zona en que la cámara está quieta en ese capítulo (nunca a mitad de un viaje)
+  // la llegada se ajusta a la zona segura de la parada de ese capítulo (nunca a mitad de un viaje)
   const posDe = (id) => {
     const el = document.getElementById(id); const f = ANCLA[id] || ((e) => e.offsetTop);
     let y = f(el);
-    const d = id !== 'habilidades' && id !== 'resumen' && window.__ravenDescansos?.().find((x) => x.id === id);
+    const d = id !== 'habilidades' && id !== 'resumen' && (window.__ravenConductor?.paradas() ?? window.__ravenDescansos?.() ?? []).find((x) => x.id === id);
     if (d) y = Math.min(d.fin - 2, Math.max(d.ini + 2, y));
     return Math.max(0, Math.round(y));
   };

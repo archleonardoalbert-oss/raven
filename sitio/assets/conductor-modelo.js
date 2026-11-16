@@ -15,6 +15,19 @@ export function construirParadas({ descansos = [], faros = [], resumen = null })
     .filter((p) => p.fin > p.ini)
     .sort((a, b) => a.ini - b.ini);
 }
+// Zona segura de una parada a partir de su contenido (px de documento) y del reposo de la cámara [restIni, restFin]:
+// empieza cuando el contenido se ve entero (o, si no cabe, con su tope al 15 % de la pantalla) y acaba un 15 % de
+// pantalla después de su último punto cómodo de lectura. Mide al menos un 40 % de pantalla. `cubre` dice si el
+// reposo de la cámara alcanza (si no, hay que alargar su data-mantener).
+export function zonaSegura({ restIni, restFin, top, bottom, alto }) {
+  const a = top - 0.15 * alto, z = bottom - 0.85 * alto, lo = Math.min(a, z), hi = Math.max(a, z), c = 0.15 * alto, min = 0.4 * alto;
+  let ini = restIni <= 0 ? 0 : Math.max(restIni, lo), fin = Math.min(restFin, hi + c);
+  if (fin - ini < min) fin = Math.min(restFin, ini + min);
+  if (fin - ini < min) ini = Math.max(restIni, fin - min);
+  // al bajar se llega donde el contenido se ve mejor sin salir de la zona (en la última parada puede ser el fondo)
+  const llegada = Math.round(Math.min(fin, Math.max(ini, lo)));
+  return { ini: Math.round(ini), fin: Math.round(fin), llegada, cubre: fin >= hi + c - 0.5 && fin - ini >= min - 0.5 };
+}
 export const paradaEn = (paradas, y) => paradas.findIndex((p) => y >= p.ini - 2 && y <= p.fin + 2);
 
 const ABAJO = new Set([' ', 'Spacebar', 'PageDown', 'ArrowDown']), ARRIBA = new Set(['PageUp', 'ArrowUp']);
@@ -23,7 +36,7 @@ export function crearAutomata({ alto, ahora = () => performance.now() }) {
   let acumulado = 0, ultimoEmpuje = -Infinity, ultimoGesto = -Infinity, desdeLlegada = false;
   const enBorde = (p, y, dir) => (dir > 0 ? y >= p.fin - 1 : y <= p.ini + 1);
   const viajar = (paradas, j, dir, y0) => {
-    const d = paradas[j], y = dir > 0 ? d.ini + 1 : d.fin - 1;
+    const d = paradas[j], y = dir > 0 ? (d.llegada > d.ini ? d.llegada : d.ini + 1) : d.fin - 1;
     acumulado = 0; desdeLlegada = true;
     return { hacer: 'viajar', y, duracion: duracionViaje(y - y0, alto), destino: d };
   };
@@ -33,6 +46,7 @@ export function crearAutomata({ alto, ahora = () => performance.now() }) {
     if (!dir) return { hacer: 'nativo' };
     const reciente = t - ultimoGesto < PAUSA_LLEGADA_MS;
     ultimoGesto = t;
+    if (!reciente) desdeLlegada = false;  // un gesto nuevo (tras una pausa) ya no es la inercia de la llegada
     if (i < 0) return { hacer: 'nativo' };
     const p = paradas[i];
     if (!enBorde(p, y, dir)) {

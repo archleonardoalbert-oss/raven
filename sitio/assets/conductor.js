@@ -1,10 +1,12 @@
 // Conductor del scroll por paradas (solo en la portada). Dentro de cada parada el navegador desplaza con normalidad
 // y la cámara está quieta; al empujar más allá de su borde se acumula el empuje (con un aviso que se llena) y, al
 // llegar al umbral, la cámara viaja sola a la parada vecina. La lógica vive en conductor-modelo.js.
-import { construirParadas, paradaEn, crearAutomata } from './conductor-modelo.js';
+import { construirParadas, paradaEn, crearAutomata, zonaSegura } from './conductor-modelo.js';
 
 const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const paradas = () => construirParadas({ descansos: window.__ravenDescansos?.() ?? [], faros: window.__ravenFaros?.() ?? [], resumen: window.__ravenResumen?.() ?? null });
+// zona segura de cada parada de la galaxia: según su contenido, dentro del reposo de la cámara
+const conZona = (d) => (d.top === undefined ? d : { ...d, ...zonaSegura({ restIni: d.ini, restFin: d.fin, top: d.top, bottom: d.bottom, alto: innerHeight }) });
+const paradas = () => construirParadas({ descansos: (window.__ravenDescansos?.() ?? []).map(conZona), faros: window.__ravenFaros?.() ?? [], resumen: window.__ravenResumen?.() ?? null });
 let automata = crearAutomata({ alto: innerHeight });
 addEventListener('resize', () => { automata = crearAutomata({ alto: innerHeight }); });
 

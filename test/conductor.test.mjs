@@ -72,3 +72,39 @@ test('duración: entre 1,4 y 2,6 s, con ritmo por pantallas', () => {
   assert.equal(duracionViaje(100, 1000), 1400); assert.equal(duracionViaje(20000, 1000), 2600);
   assert.equal(duracionViaje(3000, 1000), 1650);
 });
+
+import { zonaSegura } from '../sitio/assets/conductor-modelo.js';
+test('zona segura: contenido que cabe → desde que se ve entero hasta un 15 % más allá de su tope', () => {
+  // contenido de 300 px en [2000, 2300], pantalla 1000: entero visible desde 1450 (abajo al 85 %); tope al 15 % en 1850
+  assert.deepEqual(zonaSegura({ restIni: 1000, restFin: 3000, top: 2000, bottom: 2300, alto: 1000 }), { ini: 1450, fin: 2000, llegada: 1450, cubre: true });
+});
+test('zona segura: contenido más alto que la pantalla → desde su tope al 15 % hasta su final al 85 % (+15 %)', () => {
+  assert.deepEqual(zonaSegura({ restIni: 1000, restFin: 5000, top: 2000, bottom: 3500, alto: 1000 }), { ini: 1850, fin: 2800, llegada: 1850, cubre: true });
+});
+test('zona segura: se recorta al reposo de la cámara y avisa si no cubre el contenido', () => {
+  const z = zonaSegura({ restIni: 1000, restFin: 1600, top: 2000, bottom: 2300, alto: 1000 });
+  assert.equal(z.ini, 1200); assert.equal(z.fin, 1600); assert.equal(z.cubre, false);  // se alarga hacia atrás hasta el 40 %
+});
+test('zona segura: nunca menos del 40 % de pantalla si el reposo lo permite; la primera parada empieza en 0', () => {
+  const z = zonaSegura({ restIni: 1000, restFin: 4000, top: 2000, bottom: 2900, alto: 1000 });
+  assert.ok(z.fin - z.ini >= 400);
+  assert.equal(zonaSegura({ restIni: 0, restFin: 900, top: 344, bottom: 810, alto: 900 }).ini, 0);
+});
+
+test('llegada bajando: donde mejor se ve el contenido dentro de la zona (la última parada, al fondo)', () => {
+  const z = zonaSegura({ restIni: 12735, restFin: 13095, top: 13360, bottom: 13906, alto: 900 });
+  assert.equal(z.llegada, 13095);
+  const Q = construirParadas({ descansos: [{ id: 'a', ini: 0, fin: 400 }, { id: 'contacto', ...z }] });
+  const r = { t: 0 }, a = crearAutomata({ alto: 900, ahora: () => r.t });
+  assert.equal(a.evento('tecla', { tecla: 'PageDown', y: 400, paradas: Q }).y, 13095);
+  assert.equal(zonaSegura({ restIni: 1000, restFin: 3000, top: 2000, bottom: 2300, alto: 1000 }).llegada, 1450);
+});
+
+test('tras llegar y pausar, un gesto que empieza dentro de la zona y sigue en el borde sí acumula', () => {
+  const r = reloj(), a = crearAutomata({ alto: ALTO, ahora: r.ahora });
+  a.evento('llegada', {}); r.pasar(450);
+  assert.equal(a.evento('rueda', { dy: 100, y: 2500, paradas: P }).hacer, 'nativo');
+  r.pasar(40);
+  const o = a.evento('rueda', { dy: 100, y: 3000, paradas: P });
+  assert.ok(o.progreso > 0, `progreso ${o.progreso}`);
+});

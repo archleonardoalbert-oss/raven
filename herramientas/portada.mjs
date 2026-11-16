@@ -23,7 +23,7 @@ const SALIDA = '  <div class="salida" data-camara="0,95,80|0,0,0" data-mantener=
 function seccion(p, sistema, textos, edicion) {
   if (!sistema?.camara) throw new Error(`Falta el sistema planetario de ${p.id} (contenido/sistemas/${p.id}.json)`);
   if (!textos.proyectos?.conocer?.es || !textos.proyectos?.conocer?.en) throw new Error('Falta el texto «proyectos.conocer» en contenido/textos.json');
-  return `  <section class="capitulo proyecto" id="p-${p.id}" data-camara="${sistema.camara.escritorio}" data-camara-movil="${sistema.camara.movil}" style="--tinte: ${p.tinte}">
+  return `  <section class="capitulo proyecto" id="p-${p.id}" data-camara="${sistema.camara.escritorio}" data-camara-movil="${sistema.camara.movil}" data-mantener="0.93" style="--tinte: ${p.tinte}">
     <article class="cristal tarjeta">
       <div class="vista">${p.miniatura === false ? MINI_OBRA : `<img src="proyectos/${p.id}/media/miniatura.webp" alt="" loading="lazy">`}${p.medio?.tipo === 'video' || p.medio === undefined ? `<video data-src="proyectos/${p.id}/${p.medio?.archivo ?? `media/${p.id}.mp4`}" muted loop playsinline preload="none"></video>` : ''}</div>
       <p class="tipo">${bilingue(p.tipo, marcaDe(edicion, p.id, 'tipo'))}</p>
