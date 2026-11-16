@@ -61,7 +61,20 @@ function progreso() {
 
 const faros = estado.faros, farosC = estado.farosC;
 let s = 0, t = 0, ult = performance.now();
-window.__ravenFijarCaida = () => { s = lim((progreso() - T_ENTRA) / (T_FAROS - T_ENTRA), 0, 1) * MAX; };
+// scroll por paradas: en la zona de cada faro la cámara queda clavada en él (meseta); entre faros, el viaje
+const SEG = 1 / Math.max(1, MAX), MESETA = 0.32 * SEG;
+function sDe(p) {
+  const q = lim((p - T_ENTRA) / (T_FAROS - T_ENTRA), 0, 1), k = Math.round(q / SEG);
+  if (Math.abs(q - k * SEG) <= MESETA) return k;
+  const k0 = Math.floor(q / SEG), u = (q - (k0 * SEG + MESETA)) / (SEG - 2 * MESETA);
+  return lim(k0 + suave(lim(u, 0, 1)), 0, MAX);
+}
+window.__ravenFijarCaida = () => { s = sDe(progreso()); };
+// zonas de scroll (px) de cada faro y del resumen, para el conductor de paradas
+const yDe = (p) => seccion.offsetTop + p * Math.max(1, seccion.offsetHeight - innerHeight);
+const pDe = (q) => T_ENTRA + lim(q, 0, 1) * (T_FAROS - T_ENTRA);
+window.__ravenFaros = () => AREAS.map((g, k) => ({ id: `faro-${k}`, nombre: { es: g.es, en: g.en }, ini: Math.round(yDe(pDe(k * SEG - MESETA))), fin: Math.round(yDe(pDe(k * SEG + MESETA))) }));
+window.__ravenResumen = () => ({ id: 'resumen', nombre: { es: 'el resumen de habilidades', en: 'the skills overview' }, ini: Math.round(yDe(0.885)), fin: Math.round(yDe(0.95)) });
 function cuadro(ahora) {
   requestAnimationFrame(cuadro);
   const dt = Math.min(0.05, (ahora - ult) / 1000); ult = ahora;
@@ -80,7 +93,7 @@ function cuadro(ahora) {
   t += reducido ? 0 : dt;
 
   // dónde está quien cae
-  const objetivoS = lim((p - T_ENTRA) / (T_FAROS - T_ENTRA), 0, 1) * MAX;
+  const objetivoS = sDe(p);
   s += (objetivoS - s) * (reducido ? 1 : 1 - Math.pow(0.02, dt));
   let po;
   if (p < T_ENTRA) {

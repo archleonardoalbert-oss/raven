@@ -352,7 +352,10 @@ let yS = scrollY;
 // saltos (índice, atajos): se coloca el scroll y la cámara llega sin recorrer el camino
 window.__ravenFijarScroll = () => { yS = scrollY; destino(); camara.position.copy(objetivoP); mirada.copy(objetivoT); camara.lookAt(mirada); };
 // zonas de descanso (donde la cámara está quieta) en coordenadas de scroll, para el imán de nav.js
-window.__ravenDescansos = () => { const r = []; for (let i = 0; i < paradas.length; i++) { const a = paradas[i], b = paradas[i + 1]; const m = Number(a.el.dataset.mantener ?? 0.5); const ini = a.y - innerHeight * 0.5, fin = b ? ini + m * (b.y - a.y) : document.documentElement.scrollHeight; if (m > 0) r.push({ id: a.el.id, ini, fin, sinIman: a.el.id === 'habilidades' }); } return r; };
+// el nombre con que el indicador del conductor anuncia cada parada («Sigue para ir a …»)
+const NOMBRES = { inicio: { es: 'la portada', en: 'the start' }, manifiesto: { es: 'el manifiesto', en: 'the manifesto' }, 'sobre-mi': { es: 'Sobre mí', en: 'About me' }, proyectos: { es: 'Proyectos', en: 'Projects' }, contacto: { es: 'Contacto', en: 'Contact' } };
+const nombreDe = (el) => NOMBRES[el.id] ?? (() => { const h = el.querySelector('h3, h2'); const t = (l) => (h?.querySelector(`[lang="${l}"]`) ?? h)?.textContent.trim() ?? el.id; return { es: t('es'), en: t('en') }; })();
+window.__ravenDescansos = () => { const r = []; for (let i = 0; i < paradas.length; i++) { const a = paradas[i], b = paradas[i + 1]; const m = Number(a.el.dataset.mantener ?? 0.5); const ini = a.y - innerHeight * 0.5, fin = b ? ini + m * (b.y - a.y) : document.documentElement.scrollHeight - innerHeight; if (m > 0) r.push({ id: a.el.id, nombre: nombreDe(a.el), ini: Math.max(0, Math.round(ini)), fin: Math.round(fin), sinIman: a.el.id === 'habilidades' }); } return r; };
 function destino() {
   const y = yS + innerHeight * 0.5;
   let i = 0;
