@@ -302,11 +302,3 @@ html[data-escena="agujero"] .indice-nombre { opacity: 0 !important; }
 .resumen-grupo p { font-size: 0.82rem; margin-bottom: 0.6rem; }
 .resumen-grupo li { padding: 6px 0; font-size: 0.9rem; }
 @media (min-width: 1100px) { .resumen-grupos { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: clamp(16px, 2vw, 36px) !important; } }
-
-/* ── scroll por paradas: aviso «Sigue para ir a …» al empujar en el borde de una parada ── */
-.parada-aviso { position: fixed; left: 50%; bottom: clamp(18px, 4vh, 36px); z-index: 30; display: grid; gap: 8px; justify-items: center; padding: 10px 18px 12px; border-radius: 999px; background: var(--cristal); border: 1px solid var(--filo); backdrop-filter: blur(12px); font: 500 0.82rem var(--texto); letter-spacing: 0.04em; color: var(--estrella); opacity: 0; transform: translate(-50%, 10px); transition: opacity 0.35s var(--salida), transform 0.35s var(--salida); pointer-events: none; }
-.parada-aviso.arriba { bottom: auto; top: clamp(70px, 10vh, 96px); transform: translate(-50%, -10px); }
-.parada-aviso.visible { opacity: 1; transform: translate(-50%, 0); }
-.parada-aviso-barra { width: 140px; height: 2px; border-radius: 2px; background: rgb(255 255 255 / 0.12); overflow: hidden; }
-.parada-aviso-barra span { display: block; height: 100%; background: linear-gradient(90deg, #8fb8ff, #eef0ff); transform: scaleX(0); transform-origin: left; transition: transform 0.12s linear; }
-@media (prefers-reduced-motion: reduce) { .parada-aviso, .parada-aviso-barra span { transition: none; } }
