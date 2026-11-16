@@ -27,6 +27,7 @@ const escena = new THREE.Scene();
 // el fondo como color de escena: three.js lo convierte bien de sRGB a lineal (el color de borrado no)
 escena.background = new THREE.Color(0x010207);
 const camara = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.05, 3000);
+window.__ravenCamara = camara;  // para herramientas/medir-caida.mjs
 escena.add(camara);
 
 let semilla = 20251112;
@@ -500,6 +501,7 @@ function fotograma() {
   for (const e of etiquetas) { const d = camara.position.distanceTo(e.p); colocar(e.el, e.p, Math.max(0, Math.min(1, (34 - d) / 14))); }
   document.documentElement.dataset.seccion = paradas[i]?.el.id || '';
   composer.render();
+  window.__ravenTrasCuadro?.();  // herramientas/medir-caida.mjs muestrea aquí la cámara de cada cuadro pintado
   requestAnimationFrame(fotograma);
 }
 addEventListener('resize', () => {
