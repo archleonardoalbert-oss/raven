@@ -1,6 +1,5 @@
 // Navegación de la portada: índice de capítulos con progreso, saltos instantáneos con un destello de
-// hiperespacio (sin recorrer todo el viaje), volver al inicio, atajos y un imán de scroll que completa los
-// tramos vacíos de cámara cuando te detienes a mitad. Todo lo que ancla un salto es un elemento con id.
+// hiperespacio (sin recorrer todo el viaje), volver al inicio y atajos. El scroll por paradas lo lleva conductor.js. Todo lo que ancla un salto es un elemento con id.
 (function () {
   const raiz = document.documentElement;
   const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -56,10 +55,10 @@
   const vx = velo.getContext('2d');
   const ESTRELLAS = Array.from({ length: 520 }, () => ({ a: Math.random() * Math.PI * 2, r: Math.random(), h: 205 + Math.random() * 60, l: 0.4 + Math.random() * 0.6 }));
   let saltando = false;
+  window.__ravenSaltando = () => saltando;  // el conductor de paradas no actúa durante un salto
   function saltar(destinoY) {
     if (saltando) return;
-    cancelarIman();
-    const colocar = () => { scrollTo({ top: destinoY, behavior: 'instant' }); window.__ravenFijarScroll?.(); window.__ravenFijarCaida?.(); };
+    const colocar = () => { scrollTo({ top: destinoY, behavior: 'instant' }); window.__ravenFijarScroll?.(); window.__ravenFijarCaida?.(); window.__ravenConductor?.trasSalto(); };
     if (reducido) { colocar(); return; }
     saltando = true;
     const dpr = Math.min(2, devicePixelRatio || 1), W = innerWidth, H = innerHeight;
@@ -132,33 +131,4 @@
   addEventListener('resize', actualizar);
   actualizar();
 
-  // ── imán: si te detienes en un tramo de viaje (sin contenido), la cámara completa el trayecto ───
-  let quieto = 0, ultimoY = scrollY, sentido = 1, animIman = 0;
-  function cancelarIman() { cancelAnimationFrame(animIman); animIman = 0; }
-  ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach((ev) => addEventListener(ev, cancelarIman, { passive: true }));
-  function animarHasta(y) {
-    const y0 = scrollY, d = y - y0, dur = Math.min(1100, 450 + Math.abs(d) * 0.35), t0 = performance.now();
-    const paso = (t) => {
-      const u = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - u, 3);
-      scrollTo({ top: y0 + d * e, behavior: 'instant' });
-      if (u < 1) animIman = requestAnimationFrame(paso); else animIman = 0;
-    };
-    animIman = requestAnimationFrame(paso);
-  }
-  function revisarIman() {
-    if (reducido || saltando || animIman || !window.__ravenDescansos) return;
-    const y = scrollY, D = window.__ravenDescansos();
-    for (let i = 0; i < D.length - 1; i++) {
-      const a = D[i], b = D[i + 1];
-      if (y > a.fin + 2 && y < b.ini - 2) {           // estás en el tramo entre el descanso a y el b
-        if (a.sinIman || b.sinIman) return;
-        animarHasta(sentido > 0 ? b.ini + 1 : a.fin - 1);
-        return;
-      }
-    }
-  }
-  addEventListener('scroll', () => {
-    const dy = scrollY - ultimoY; if (Math.abs(dy) > 1) sentido = Math.sign(dy); ultimoY = scrollY;
-    clearTimeout(quieto); quieto = setTimeout(revisarIman, 240);
-  }, { passive: true });
 })();
