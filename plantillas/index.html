@@ -112,13 +112,25 @@
       <p class="reloj"></p>
       <a class="saltar-caida" href="#resumen" data-ir="resumen">{{t habilidades.3}}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l7 7-7 7V5zm8 0l7 7-7 7V5z"/></svg></a>
       <div class="negro"></div>
-      <div class="destello-salida"></div>
-      <div class="resumen">
-        <h2 class="titulo grande">{{t habilidades.4}}</h2>
-        <div class="resumen-grupos"></div>
-      </div>
+      <button class="cruzar" type="button" tabindex="-1">
+        <span class="cruzar-orbita">
+          <span class="cruzar-anillo" aria-hidden="true"></span>
+          <span class="cruzar-nucleo">
+            <span class="cruzar-titulo">{{t habilidades.5}}</span>
+            <span class="cruzar-sub">{{t habilidades.6}}</span>
+          </span>
+        </span>
+      </button>
     </div>
   </section>
+
+  <div class="resumen" id="resumen" role="dialog" aria-modal="true" aria-labelledby="t-resumen" hidden>
+    <div class="resumen-dentro">
+      <h2 class="titulo grande" id="t-resumen">{{t habilidades.4}}</h2>
+      <div class="resumen-grupos"></div>
+      <button class="resumen-seguir boton" type="button">{{t habilidades.7}}</button>
+    </div>
+  </div>
 
   <section class="proyectos-intro" id="proyectos" data-camara="0,125,95|0,0,0">
     <h2 class="titulo grande">{{t proyectos.1}}</h2>
@@ -143,6 +155,7 @@
 <script src="assets/raven.js"></script>
 <script type="module" src="assets/galaxia.js"></script>
 <script type="module" src="assets/agujero.js"></script>
+<script type="module" src="assets/cruzar.js"></script>
 <script src="assets/nav.js"></script>
 </body>
 </html>

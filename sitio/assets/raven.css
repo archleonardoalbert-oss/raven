@@ -302,3 +302,43 @@ html[data-escena="agujero"] .indice-nombre { opacity: 0 !important; }
 .resumen-grupo p { font-size: 0.82rem; margin-bottom: 0.6rem; }
 .resumen-grupo li { padding: 6px 0; font-size: 0.9rem; }
 @media (min-width: 1100px) { .resumen-grupos { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: clamp(16px, 2vw, 36px) !important; } }
+
+/* ── cruzar el horizonte: el botón de la vista junto al agujero negro ──
+   Un horizonte en miniatura: anillo de luz con los colores del disco de acreción que gira, interior negro con su
+   anillo de fotones, y una precesión lenta (como algo en órbita) que se aquieta al pasar el ratón. */
+@property --amp { syntax: '<number>'; inherits: true; initial-value: 1; }
+.cruzar { position: absolute; left: 71%; top: 71%; width: 158px; height: 158px; margin: -79px 0 0 -79px; padding: 0; border: 0; background: none; color: #fff; cursor: pointer; z-index: 4; opacity: var(--ver, 0); scale: calc(0.82 + 0.18 * var(--ver, 0)); pointer-events: none; -webkit-tap-highlight-color: transparent; }
+.cruzar.activo { pointer-events: auto; }
+.cruzar-orbita { position: absolute; inset: 0; display: grid; place-items: center; --amp: 1; transition: --amp 0.7s var(--salida); animation: cruzar-precesion 6.5s linear infinite, cruzar-vaiven 3.6s ease-in-out infinite alternate; }
+.cruzar-orbita::before { content: ""; position: absolute; inset: -34px; border-radius: 50%; background: radial-gradient(closest-side, transparent 60%, rgb(255 150 70 / 0.26) 71%, rgb(255 115 40 / 0.07) 86%, transparent); animation: cruzar-halo 2.9s ease-in-out infinite; pointer-events: none; }
+.cruzar-anillo { position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, #fff0d8, #ffb36b 12%, #ff8a3d 24%, #5a2310 40%, #ff9a4a 56%, #ffe2b8 64%, #ffb36b 78%, #fff0d8); -webkit-mask: radial-gradient(closest-side, transparent calc(100% - 8px), #000 calc(100% - 7px), #000 calc(100% - 1.5px), transparent 100%); mask: radial-gradient(closest-side, transparent calc(100% - 8px), #000 calc(100% - 7px), #000 calc(100% - 1.5px), transparent 100%); animation: cruzar-giro 7s linear infinite; transition: scale 0.6s var(--salida); }
+.cruzar-nucleo { position: relative; width: calc(100% - 18px); height: calc(100% - 18px); border-radius: 50%; display: grid; place-content: center; gap: 5px; padding: 0 16px; text-align: center; background: radial-gradient(circle at 50% 42%, #070707 0 55%, #000 72%); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.07), inset 0 0 26px rgb(255 160 90 / 0.14); }
+.cruzar-nucleo::after { content: ""; position: absolute; inset: 7px; border-radius: 50%; border: 1px solid rgb(255 236 214 / 0.2); pointer-events: none; }
+.cruzar-titulo { font: italic 400 1.14rem/1.04 var(--display); letter-spacing: 0.01em; }
+.cruzar-sub { font: 500 0.68rem/1.2 var(--texto); letter-spacing: 0.06em; color: rgb(255 214 170 / 0.82); }
+.cruzar:hover .cruzar-orbita, .cruzar:focus-visible .cruzar-orbita { --amp: 0; }
+.cruzar:hover .cruzar-anillo, .cruzar:focus-visible .cruzar-anillo { scale: 1.07; animation-duration: 2.6s; }
+.cruzar:focus-visible { outline: none; }
+.cruzar:focus-visible .cruzar-nucleo { outline: 2px solid #ffd9a8; outline-offset: 5px; }
+@keyframes cruzar-precesion {
+  0% { transform: perspective(700px) rotateX(calc(var(--amp) * 17deg)) rotateY(0deg) rotateZ(calc(var(--amp) * -3deg)); }
+  25% { transform: perspective(700px) rotateX(0deg) rotateY(calc(var(--amp) * 17deg)) rotateZ(calc(var(--amp) * 3deg)); }
+  50% { transform: perspective(700px) rotateX(calc(var(--amp) * -17deg)) rotateY(0deg) rotateZ(calc(var(--amp) * -3deg)); }
+  75% { transform: perspective(700px) rotateX(0deg) rotateY(calc(var(--amp) * -17deg)) rotateZ(calc(var(--amp) * 3deg)); }
+  100% { transform: perspective(700px) rotateX(calc(var(--amp) * 17deg)) rotateY(0deg) rotateZ(calc(var(--amp) * -3deg)); }
+}
+@keyframes cruzar-vaiven { from { translate: 0 calc(var(--amp) * -6px); } to { translate: 0 calc(var(--amp) * 6px); } }
+@keyframes cruzar-giro { to { rotate: 360deg; } }
+@keyframes cruzar-halo { 0%, 100% { opacity: 0.65; scale: 0.96; } 50% { opacity: 1; scale: 1.04; } }
+@media (max-width: 760px) { .cruzar { left: 50%; top: 74%; width: 138px; height: 138px; margin: -69px 0 0 -69px; } .cruzar-titulo { font-size: 1.02rem; } }
+@media (prefers-reduced-motion: reduce) { .cruzar-orbita, .cruzar-orbita::before, .cruzar-anillo { animation: none; } }
+/* mientras se cruza: fuera los controles flotantes */
+html.cruzando .indice, html.cruzando .arriba, html.cruzando .todos-flotante { opacity: 0 !important; pointer-events: none !important; }
+.caida .negro { transition: opacity 0.5s linear; }
+
+/* ── el resumen de habilidades: una capa dentro del agujero negro ── */
+.resumen { position: fixed; inset: 0; z-index: 60; display: block; padding: 0; overflow-y: auto; overscroll-behavior: contain; background: radial-gradient(ellipse at 50% 115%, rgb(255 160 80 / 0.07), transparent 60%), #000; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.8s var(--salida), visibility 0s linear 0.8s; }
+.resumen.abierto { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity 0.8s var(--salida); }
+.resumen-dentro { min-height: 100%; box-sizing: border-box; display: grid; align-content: center; padding: clamp(84px, 13vh, 140px) var(--margen) clamp(40px, 8vh, 90px); }
+.resumen-seguir { justify-self: start; margin-top: clamp(28px, 5vh, 52px); font-family: var(--texto); cursor: pointer; }
+@media (max-width: 760px) { .resumen-dentro { align-content: start; } .resumen-seguir { justify-self: stretch; } }

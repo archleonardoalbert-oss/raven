@@ -16,7 +16,6 @@
     inicio: () => 0,
     'sobre-mi': (el) => el.offsetTop - innerHeight * 0.05,
     habilidades: (el) => el.offsetTop + (el.offsetHeight - innerHeight) * (window.__ravenCaida?.pFaro(0) ?? 0.12),  // en el primer faro
-    resumen: () => { const el = document.getElementById('habilidades'); return el.offsetTop + (el.offsetHeight - innerHeight) * 0.91; },
     proyectos: (el) => el.offsetTop - innerHeight * 0.1,
     contacto: (el) => el.offsetTop + innerHeight * 0.1,
   };
@@ -56,10 +55,11 @@
   const vx = velo.getContext('2d');
   const ESTRELLAS = Array.from({ length: 520 }, () => ({ a: Math.random() * Math.PI * 2, r: Math.random(), h: 205 + Math.random() * 60, l: 0.4 + Math.random() * 0.6 }));
   let saltando = false;
-  function saltar(destinoY) {
+  // alColocar: lo que debe cambiar justo cuando la pantalla está tapada (p. ej. salir del agujero negro)
+  function saltar(destinoY, alColocar) {
     if (saltando) return;
     cancelarIman();
-    const colocar = () => { scrollTo({ top: destinoY, behavior: 'instant' }); window.__ravenFijarScroll?.(); window.__ravenFijarCaida?.(); };
+    const colocar = () => { alColocar?.(); scrollTo({ top: destinoY, behavior: 'instant' }); window.__ravenFijarScroll?.(); window.__ravenFijarCaida?.(); };
     if (reducido) { colocar(); return; }
     saltando = true;
     const dpr = Math.min(2, devicePixelRatio || 1), W = innerWidth, H = innerHeight;
@@ -101,12 +101,15 @@
     const a = e.target.closest('[data-ir], .menu a[href^="#"], .marca, .hero-atajos a, .saltar-caida');
     if (!a) return;
     const id = a.dataset.ir || (a.getAttribute('href') || '#inicio').slice(1);
+    // el resumen de habilidades no es un sitio del scroll: se abre como capa dentro del agujero negro (cruzar.js)
+    if (id === 'resumen') { e.preventDefault(); window.__ravenAbrirResumen?.(); return; }
     if (!ANCLA[id] && !document.getElementById(id)) return;
     e.preventDefault();
     saltar(posDe(id));
     history.replaceState(null, '', id === 'inicio' ? location.pathname : `#${id}`);
   });
   arriba.addEventListener('click', () => saltar(0));
+  window.__ravenSaltar = (id, alColocar) => saltar(posDe(id), alColocar);
   addEventListener('keydown', (e) => {
     if (e.target.closest('input, textarea')) return;
     if (e.key === 'Home') { e.preventDefault(); saltar(0); }

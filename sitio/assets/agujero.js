@@ -22,7 +22,7 @@ const coma = (x, d) => (idioma() === 'en' ? x.toFixed(d) : x.toFixed(d).replace(
 
 const $ = (s) => seccion.querySelector(s);
 const faroEl = $('.faro'), faroTit = $('.faro-titulo'), faroLinea = $('.faro-linea');
-const destelloSalida = $('.destello-salida'), grupoEl = $('.grupo-caida'), relojEl = $('.reloj'), resumenEl = $('.resumen'), negro = $('.negro'), pista = $('.pista-caida');
+const grupoEl = $('.grupo-caida'), relojEl = $('.reloj'), resumenEl = document.querySelector('.resumen'), pista = $('.pista-caida'), botonEl = $('.cruzar');
 
 // resumen: todas las habilidades por grupo
 function pintarResumen() {
@@ -92,6 +92,11 @@ window.__ravenActualizarCaida = function cuadro(dt) {
   pista.style.opacity = String(suave((p - 0.012) / 0.02) * (1 - suave((p - 0.055) / 0.02)));
   // «Ver todo de una vez»: visible durante la aproximación
   seccion.style.setProperty('--saltar', String(cruce ? 0 : suave((p - 0.03) / 0.03) * (1 - suave((p - A + 0.03) / 0.03))));
+  // el botón para cruzar: aparece mientras la cámara frena junto al horizonte y se va al empezar la retirada
+  const ver = cruce ? 0 : suave((p - (A - 0.035)) / 0.035) * (1 - suave((p - B) / 0.015));
+  botonEl.style.setProperty('--ver', ver.toFixed(3));
+  const activoBoton = ver > 0.5;
+  if (botonEl.classList.contains('activo') !== activoBoton) { botonEl.classList.toggle('activo', activoBoton); botonEl.tabIndex = activoBoton ? 0 : -1; }
   if (!estado.activo) { faroEl.style.opacity = 0; grupoEl.style.opacity = 0; relojEl.style.opacity = 0; return; }
   t += reducido ? 0 : dt;
 
