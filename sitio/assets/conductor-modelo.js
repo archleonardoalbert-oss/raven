@@ -11,10 +11,17 @@ export const VELOCIDAD_RAPIDA = 0.9; // px/ms de un gesto táctil que sale al mo
 export const duracionViaje = (distancia, alto) => Math.round(Math.min(2600, Math.max(1400, 900 + (250 * Math.abs(distancia)) / Math.max(1, alto))));
 
 export function construirParadas({ descansos = [], faros = [], resumen = null }) {
-  return [...descansos.filter((d) => d.id !== 'habilidades'), ...faros, ...(resumen ? [resumen] : [])]
+  // sin las paradas de la galaxia (sin WebGL, o si three.js no cargó) no hay recorrido: scroll normal en toda la página
+  if (!descansos.length) return [];
+  const P = [...descansos.filter((d) => d.id !== 'habilidades'), ...faros, ...(resumen ? [resumen] : [])]
     .filter((p) => p.fin > p.ini)
     .sort((a, b) => a.ini - b.ini);
+  // una zona nunca invade la siguiente
+  for (let i = 0; i < P.length - 1; i++) if (P[i].fin >= P[i + 1].ini) P[i] = { ...P[i], fin: P[i + 1].ini - 1, llegada: P[i].llegada === undefined ? undefined : Math.min(P[i].llegada, P[i + 1].ini - 1) };
+  return P;
 }
+// ¿algún contenedor interior (de dentro hacia fuera) aún puede desplazarse en el sentido dy? Entonces el gesto es suyo
+export const desplazableDentro = (cadena, dy) => cadena.some((c) => c.desplazable && c.scrollHeight > c.clientHeight + 1 && (dy < 0 ? c.scrollTop > 0 : c.scrollTop + c.clientHeight < c.scrollHeight - 1));
 // Zona segura de una parada a partir de su contenido (px de documento) y del reposo de la cámara [restIni, restFin]:
 // empieza cuando el contenido se ve entero (o, si no cabe, con su tope al 15 % de la pantalla) y acaba un 15 % de
 // pantalla después de su último punto cómodo de lectura. Mide al menos un 40 % de pantalla. `cubre` dice si el
@@ -24,6 +31,8 @@ export function zonaSegura({ restIni, restFin, top, bottom, alto }) {
   let ini = restIni <= 0 ? 0 : Math.max(restIni, lo), fin = Math.min(restFin, hi + c);
   if (fin - ini < min) fin = Math.min(restFin, ini + min);
   if (fin - ini < min) ini = Math.max(restIni, fin - min);
+  // contenido más alto que la pantalla: aunque la cámara empiece a moverse, la zona llega hasta poder leer su final
+  if (z > a && fin < z) fin = z;
   // al bajar se llega donde el contenido se ve mejor sin salir de la zona (en la última parada puede ser el fondo)
   const llegada = Math.round(Math.min(fin, Math.max(ini, lo)));
   return { ini: Math.round(ini), fin: Math.round(fin), llegada, cubre: fin >= hi + c - 0.5 && fin - ini >= min - 0.5 };
@@ -32,13 +41,14 @@ export const paradaEn = (paradas, y) => paradas.findIndex((p) => y >= p.ini - 2 
 
 const ABAJO = new Set([' ', 'Spacebar', 'PageDown', 'ArrowDown']), ARRIBA = new Set(['PageUp', 'ArrowUp']);
 
-export function crearAutomata({ alto, ahora = () => performance.now() }) {
-  let acumulado = 0, ultimoEmpuje = -Infinity, ultimoGesto = -Infinity, desdeLlegada = false;
+export function crearAutomata({ alto: altoDe, ahora = () => performance.now() }) {
+  const altoF = typeof altoDe === 'function' ? altoDe : () => altoDe;
+  let acumulado = 0, ultimoEmpuje = -Infinity, ultimoGesto = -Infinity, desdeLlegada = false, enBordeAntes = false;
   const enBorde = (p, y, dir) => (dir > 0 ? y >= p.fin - 1 : y <= p.ini + 1);
   const viajar = (paradas, j, dir, y0) => {
     const d = paradas[j], y = dir > 0 ? (d.llegada > d.ini ? d.llegada : d.ini + 1) : d.fin - 1;
     acumulado = 0; desdeLlegada = true;
-    return { hacer: 'viajar', y, duracion: duracionViaje(y - y0, alto), destino: d };
+    return { hacer: 'viajar', y, duracion: duracionViaje(y - y0, altoF()), destino: d };
   };
 
   function rueda({ dy, y, paradas }) {
@@ -47,21 +57,25 @@ export function crearAutomata({ alto, ahora = () => performance.now() }) {
     const reciente = t - ultimoGesto < PAUSA_LLEGADA_MS;
     ultimoGesto = t;
     if (!reciente) desdeLlegada = false;  // un gesto nuevo (tras una pausa) ya no es la inercia de la llegada
-    if (i < 0) return { hacer: 'nativo' };
+    if (i < 0) { enBordeAntes = false; return { hacer: 'nativo' }; }
     const p = paradas[i];
     if (!enBorde(p, y, dir)) {
+      enBordeAntes = false;
       if (dir > 0 && y + dy > p.fin) return { hacer: 'ajustar', y: p.fin };
       if (dir < 0 && y + dy < p.ini) return { hacer: 'ajustar', y: p.ini };
       return { hacer: 'nativo' };
     }
     const destino = paradas[i + dir] ?? null;
+    // un gesto continuo que acaba de llegar al borde (rueda, inercia del trackpad) se queda en él: salir pide una pausa
+    if (!enBordeAntes && reciente) desdeLlegada = true;
+    enBordeAntes = true;
     // la inercia del gesto que trajo hasta aquí no cuenta: hace falta un gesto nuevo
     if (desdeLlegada && reciente) return { hacer: 'retener', progreso: 0, destino };
     desdeLlegada = false;
     if (t - ultimoEmpuje > OLVIDO_MS) acumulado = 0;
     acumulado += Math.abs(dy); ultimoEmpuje = t;
-    if (!destino) return { hacer: 'retener', progreso: Math.min(1, acumulado / (UMBRAL * alto)), destino: null };
-    const progreso = acumulado / (UMBRAL * alto);
+    if (!destino) return { hacer: 'retener', progreso: Math.min(1, acumulado / (UMBRAL * altoF())), destino: null };
+    const progreso = acumulado / (UMBRAL * altoF());
     if (progreso >= 1) return viajar(paradas, i + dir, dir, y);
     return { hacer: 'retener', progreso, destino };
   }
@@ -99,6 +113,7 @@ export function crearAutomata({ alto, ahora = () => performance.now() }) {
       if (tipo === 'tecla') return tecla(datos);
       if (tipo === 'toqueFin') return toqueFin(datos);
       if (tipo === 'quieto') return quieto(datos);
+      if (tipo === 'gesto') { ultimoGesto = ahora(); return { hacer: 'nativo' }; }
       if (tipo === 'llegada') { desdeLlegada = true; acumulado = 0; ultimoGesto = ahora(); return { hacer: 'nativo' }; }
       return { hacer: 'nativo' };
     },

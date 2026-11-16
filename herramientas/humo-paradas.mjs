@@ -18,10 +18,12 @@ export async function humoParadas({ url = 'http://127.0.0.1:4500/' } = {}) {
     await p.mouse.move(720, 450);
     // empuja hasta que cambie de parada (o se agoten los intentos); devuelve si el aviso llegó a verse
     const empujar = async (dy) => {
-      const antes = (await donde()).id; let aviso = false;
+      const antes = (await donde()).id; let aviso = false, pausado = false;
       await espera(450);  // gesto nuevo
       for (let n = 0; n < 60; n++) {
         await p.mouse.wheel({ deltaY: dy }); await espera(40);
+        // al llegar al borde con un gesto continuo hay que hacer una pausa (la inercia no saca de la parada)
+        if (!pausado && (await p.evaluate(() => document.querySelector('.parada-aviso')?.classList.contains('visible') && /scaleX\(0(\.0+)?\)/.test(document.querySelector('.parada-aviso-barra span').style.transform)))) { pausado = true; await espera(450); }
         aviso ||= await p.evaluate(() => document.querySelector('.parada-aviso')?.classList.contains('visible'));
         const d = await donde(); if (d.id !== antes && d.id) break;
       }
@@ -63,9 +65,21 @@ export async function humoParadas({ url = 'http://127.0.0.1:4500/' } = {}) {
     // 4. volver una parada hacia arriba
     r = await empujar(-120);
     ok(r.id === esperado.at(-2), `subir desde Contacto lleva a ${esperado.at(-2)} (llegó a ${r.id})`);
+    // 5. un salto (Fin) durante un viaje gana: no lo deshace el viaje en curso
+    await p.keyboard.press('Home'); await espera(2500);
+    await p.evaluate(() => { const z = window.__ravenConductor.paradas()[0]; scrollTo({ top: z.fin, behavior: 'instant' }); });
+    await espera(500); await p.keyboard.press('PageDown'); await espera(250); await p.keyboard.press('End'); await espera(4500);
+    r = await donde();
+    ok(r.id === 'contacto', `Fin durante un viaje lleva a Contacto (llegó a ${r.id})`);
+
+    // 6. cambiar el tamaño a mitad de un faro: sigue en ese faro
+    await p.evaluate(() => { const z = window.__ravenConductor.paradas().find((x) => x.id === 'faro-2'); scrollTo({ top: Math.round((z.ini + z.fin) / 2), behavior: 'instant' }); window.__ravenConductor.trasSalto(); });
+    await espera(1500); await p.setViewport({ width: 1280, height: 720 }); await espera(2000);
+    r = await donde();
+    ok(r.id === 'faro-2', `tras cambiar el tamaño sigue en el faro 3 (está en ${r.id})`);
     await p.close();
 
-    // 5. móvil: Sobre mí se lee entera dentro de su parada
+    // 7. móvil: Sobre mí se lee entera dentro de su parada
     const m = await b.newPage(); await m.setViewport({ width: 390, height: 844 });
     m.on('pageerror', (e) => errores.push(`móvil: JS ${e.message}`));
     await m.goto(url, { waitUntil: 'load' }); await espera(5000);

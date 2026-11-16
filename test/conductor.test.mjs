@@ -100,11 +100,52 @@ test('llegada bajando: donde mejor se ve el contenido dentro de la zona (la últ
   assert.equal(zonaSegura({ restIni: 1000, restFin: 3000, top: 2000, bottom: 2300, alto: 1000 }).llegada, 1450);
 });
 
-test('tras llegar y pausar, un gesto que empieza dentro de la zona y sigue en el borde sí acumula', () => {
+test('tras llegar y pausar, un gesto que empieza dentro de la zona y, tras otra pausa en el borde, acumula', () => {
   const r = reloj(), a = crearAutomata({ alto: ALTO, ahora: r.ahora });
   a.evento('llegada', {}); r.pasar(450);
   assert.equal(a.evento('rueda', { dy: 100, y: 2500, paradas: P }).hacer, 'nativo');
-  r.pasar(40);
+  r.pasar(40); a.evento('rueda', { dy: 100, y: 3000, paradas: P });  // llega al borde: se queda (I5)
+  r.pasar(400);
   const o = a.evento('rueda', { dy: 100, y: 3000, paradas: P });
   assert.ok(o.progreso > 0, `progreso ${o.progreso}`);
+});
+
+// ── revisión final ──
+import { desplazableDentro } from '../sitio/assets/conductor-modelo.js';
+test('C1: sin la galaxia (sin WebGL) no hay paradas: el conductor no retiene a nadie', () => {
+  assert.deepEqual(construirParadas({ descansos: [], faros: [{ id: 'faro-0', ini: 10, fin: 20 }], resumen: { id: 'resumen', ini: 30, fin: 40 } }), []);
+});
+test('I2: un contenedor interior que aún puede desplazarse se queda la rueda', () => {
+  const lista = { scrollTop: 50, clientHeight: 300, scrollHeight: 900, desplazable: true };
+  assert.equal(desplazableDentro([lista], -100), true);
+  assert.equal(desplazableDentro([lista], 100), true);
+  assert.equal(desplazableDentro([{ ...lista, scrollTop: 0 }], -100), false);
+  assert.equal(desplazableDentro([{ ...lista, scrollTop: 600 }], 100), false);
+  assert.equal(desplazableDentro([{ ...lista, desplazable: false }], 100), false);
+});
+test('I5: un gesto continuo que llega al borde no acumula (inercia del trackpad); tras una pausa sí', () => {
+  const r = reloj(), a = crearAutomata({ alto: ALTO, ahora: r.ahora });
+  r.pasar(5000);
+  assert.equal(a.evento('rueda', { dy: 100, y: 450, paradas: P }).hacer, 'nativo');
+  for (let i = 0; i < 15; i++) { r.pasar(16); const o = a.evento('rueda', { dy: 100, y: 600, paradas: P }); assert.equal(o.hacer, 'retener'); assert.equal(o.progreso, 0); }
+  r.pasar(400);
+  assert.ok(a.evento('rueda', { dy: 100, y: 600, paradas: P }).progreso > 0);
+});
+test('I6: contenido más alto que la pantalla con reposo corto → la zona llega igualmente a su final', () => {
+  const z = zonaSegura({ restIni: 1000, restFin: 2000, top: 2000, bottom: 3500, alto: 1000 });
+  assert.ok(z.fin >= 2650, `fin ${z.fin}`);
+});
+test('I6: una zona nunca invade la siguiente', () => {
+  const Q = construirParadas({ descansos: [{ id: 'a', ini: 0, fin: 900 }, { id: 'b', ini: 800, fin: 1200 }] });
+  assert.ok(Q[0].fin < Q[1].ini);
+});
+test('I7: el alto puede leerse en vivo (cambios de tamaño sin perder el estado)', () => {
+  let alto = 1000; const r = reloj(), a = crearAutomata({ alto: () => alto, ahora: r.ahora });
+  alto = 2000;
+  assert.ok(Math.abs(a.evento('rueda', { dy: 100, y: 600, paradas: P }).progreso - 100 / 660) < 0.01);
+});
+test('I4: la inercia táctil cuenta como gesto (vuelve al borde, no viaja)', () => {
+  const r = reloj(), a = crearAutomata({ alto: ALTO, ahora: r.ahora });
+  r.pasar(5000); a.evento('gesto', {});
+  assert.equal(a.evento('quieto', { y: 700, paradas: P, sentido: 1 }).hacer, 'ajustar');
 });
