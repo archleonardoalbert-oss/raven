@@ -4,7 +4,7 @@ import { cp, rm, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { rellenar, enAtributo } from './herramientas/plantilla.mjs';
 import { validarProyectos, seccionesPrincipales, nombresMundo } from './herramientas/portada.mjs';
 import { validarHabilidades, modulosDatos } from './herramientas/datos.mjs';
-import { medioDe, htmlMedio, htmlNovedades, MINI_OBRA } from './herramientas/medios.mjs';
+import { medioDe, htmlMedio, htmlNovedades, htmlCifras, MINI_OBRA } from './herramientas/medios.mjs';
 import { readdirSync } from 'node:fs';
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -70,6 +70,7 @@ export async function construir({ raiz = process.cwd(), salida = 'dist', edicion
     const t = existsSync(join(raiz, `contenido/paginas/${p.id}.json`)) ? await leer(`contenido/paginas/${p.id}.json`) : {};
     for (const m of ['<!--MEDIO-->', '<!--NOVEDADES-->']) if (!html.includes(m)) throw new Error(`Falta el marcador ${m} en la página de «${p.id}»`);
     html = html.replace('<!--MEDIO-->', () => htmlMedio(p)).replace('<!--NOVEDADES-->', () => htmlNovedades(t.novedades));
+    html = html.replace('<!--CIFRAS-->', () => htmlCifras(t.cifras));  // opcional
     await writeFile(join(dist, `proyectos/${p.id}/index.html`), rellenar(html, t, { archivo: `sitio/proyectos/${p.id}/plantilla.html`, marcar: edicion ? `paginas/${p.id}` : null }));
   }
   if (edicion) await inyectarPuente(dist, proyectos);

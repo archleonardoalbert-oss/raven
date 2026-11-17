@@ -38,3 +38,12 @@ test('con repo, la página enlaza al código en GitHub; sin repo, no', async () 
   assert.ok(readFileSync(join(r, 'dist/proyectos/penumbra/index.html'), 'utf8').includes('href="https://github.com/archleonardoalbert-oss/penumbra-logica-difusa"'));
   assert.ok(!readFileSync(join(r, 'dist/proyectos/hortus/index.html'), 'utf8').includes('github.com'));
 });
+test('«En cifras»: con cifras la página las pinta; sin cifras no queda el marcador', async () => {
+  const r = copia();
+  const f = join(r, 'contenido/paginas/hortus.json'); const p = JSON.parse(readFileSync(f, 'utf8'));
+  p.cifras = [{ n: '4', es: 'algoritmos', en: 'algorithms' }]; writeFileSync(f, JSON.stringify(p));
+  await construir({ raiz: r, salida: 'dist' });
+  const h = readFileSync(join(r, 'dist/proyectos/hortus/index.html'), 'utf8');
+  assert.match(h, /class="p-cifras"/);
+  for (const id of ['penumbra', 'semillero', 'hortus']) assert.ok(!readFileSync(join(r, `dist/proyectos/${id}/index.html`), 'utf8').includes('<!--CIFRAS-->'), `${id} deja el marcador`);
+});
