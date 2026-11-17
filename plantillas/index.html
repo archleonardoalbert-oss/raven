@@ -7,7 +7,7 @@
 <meta name="titulo-es" content="{{es meta.titulo}}">
 <meta name="titulo-en" content="{{en meta.titulo}}">
 <meta name="description" content="{{es meta.descripcion}}">
-<meta name="theme-color" content="#03040b">
+<meta name="theme-color" content="#050505">
 <meta property="og:title" content="Raven · Leonardo Albert López">
 <meta property="og:description" content="{{es meta.ogDescripcion}}">
 <meta property="og:image" content="https://raven.raven-0.workers.dev/assets/fondo.jpg">
@@ -16,7 +16,7 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Manrope:wght@300..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Instrument+Sans:wght@400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/raven.css">
 <link rel="stylesheet" href="assets/mini-obra.css">
 <script src="assets/idioma.js"></script>
@@ -48,6 +48,7 @@
     <a href="#proyectos">{{t barra.2}}</a>
     <a href="#contacto">{{t barra.3}}</a>
   </nav>
+  <button class="movimiento" type="button" data-movimiento-interruptor aria-pressed="true"><span class="movimiento-punto" aria-hidden="true"></span>{{t barra.4}}</button>
   <div class="idiomas" role="group" aria-label="Idioma / Language">
     <button type="button" data-poner-idioma="es">ES</button>
     <button type="button" data-poner-idioma="en">EN</button>
@@ -69,14 +70,11 @@
       {{t inicio.2}}
     </p>
     <div class="hero-acciones">
-      <a class="hero-bajar" href="#manifiesto">{{t inicio.3}}</a>
-      <nav class="hero-atajos" aria-label="Atajos">
-        {{t inicio.4}}
-        <a href="#proyectos" data-ir="proyectos">{{t inicio.5}}</a>
-        <a href="#habilidades" data-ir="habilidades">{{t inicio.6}}</a>
-        <a href="#contacto" data-ir="contacto">{{t inicio.7}}</a>
-      </nav>
+      <a class="boton" href="proyectos/">{{t inicio.8}}</a>
+      <a class="boton fantasma" href="https://github.com/archleonardoalbert-oss" rel="noopener">GitHub</a>
+      <a class="boton fantasma" href="mailto:archleonardoalbert@gmail.com">{{t inicio.9}}</a>
     </div>
+    <a class="hero-bajar" href="#manifiesto">{{t inicio.3}}</a>
   </section>
 
   <section class="manifiesto" id="manifiesto" data-camara="0,175,58|0,0,0">

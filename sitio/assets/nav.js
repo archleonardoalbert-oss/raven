@@ -3,7 +3,7 @@
 // tramos vacíos de cámara cuando te detienes a mitad. Todo lo que ancla un salto es un elemento con id.
 (function () {
   const raiz = document.documentElement;
-  const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reducido = (window.ravenReducido ?? matchMedia('(prefers-reduced-motion: reduce)').matches);
   const CAPITULOS = [
     { id: 'inicio', es: 'Inicio', en: 'Start' },
     { id: 'sobre-mi', es: 'Sobre mí', en: 'About' },
@@ -53,7 +53,7 @@
   velo.className = 'hiperespacio'; velo.setAttribute('aria-hidden', 'true');
   document.body.append(velo);
   const vx = velo.getContext('2d');
-  const ESTRELLAS = Array.from({ length: 520 }, () => ({ a: Math.random() * Math.PI * 2, r: Math.random(), h: 205 + Math.random() * 60, l: 0.4 + Math.random() * 0.6 }));
+  const ESTRELLAS = Array.from({ length: 520 }, () => ({ a: Math.random() * Math.PI * 2, r: Math.random(), h: Math.random() < 0.65 ? 34 + Math.random() * 16 : 345 + Math.random() * 18, l: 0.4 + Math.random() * 0.6 }));
   let saltando = false;
   // alColocar: lo que debe cambiar justo cuando la pantalla está tapada (p. ej. salir del agujero negro)
   function saltar(destinoY, alColocar) {
@@ -75,7 +75,7 @@
       else if (t < T_IDA + T_PAUSA) { v = 1; fondo = 1; flash = Math.max(0, 1 - (t - T_IDA) / 160); if (!colocado) { colocado = true; colocar(); } }
       else { const u = Math.min(1, (t - T_IDA - T_PAUSA) / T_VUELTA); v = (1 - u) ** 2; fondo = (1 - u) ** 1.6; flash = 0; }
       vx.clearRect(0, 0, W, H);
-      vx.fillStyle = `rgba(2,3,10,${Math.min(1, fondo).toFixed(3)})`; vx.fillRect(0, 0, W, H);
+      vx.fillStyle = `rgba(5,5,5,${Math.min(1, fondo).toFixed(3)})`; vx.fillRect(0, 0, W, H);
       const fase = (t / 1000) * (0.5 + 2.6 * v);
       vx.lineCap = 'round';
       for (const e of ESTRELLAS) {
@@ -83,12 +83,12 @@
         const d0 = Math.pow(r, 1.8) * R, largo = (18 + 520 * v * v) * Math.pow(r, 1.4) * e.l;
         const c = Math.cos(e.a), sn = Math.sin(e.a);
         const alfa = Math.min(1, r * 3) * (0.25 + 0.75 * v) * Math.max(fondo, 0.15);
-        vx.strokeStyle = `hsla(${e.h} 90% ${78 + 18 * v}% / ${alfa.toFixed(3)})`;
+        vx.strokeStyle = `hsla(${e.h} 70% ${80 + 16 * v}% / ${alfa.toFixed(3)})`;
         vx.lineWidth = 0.6 + 1.6 * r * e.l;
         vx.beginPath(); vx.moveTo(cx + c * d0, cy + sn * d0); vx.lineTo(cx + c * (d0 + largo), cy + sn * (d0 + largo)); vx.stroke();
       }
       const g = vx.createRadialGradient(cx, cy, 0, cx, cy, R * 0.6);
-      g.addColorStop(0, `rgba(200,195,255,${(0.35 * v).toFixed(3)})`); g.addColorStop(1, 'rgba(0,0,0,0)');
+      g.addColorStop(0, `rgba(255,228,196,${(0.35 * v).toFixed(3)})`); g.addColorStop(1, 'rgba(0,0,0,0)');
       vx.fillStyle = g; vx.fillRect(0, 0, W, H);
       if (flash > 0) { vx.fillStyle = `rgba(255,255,255,${(0.85 * flash).toFixed(3)})`; vx.fillRect(0, 0, W, H); }
       if (t < T_IDA + T_PAUSA + T_VUELTA) requestAnimationFrame(cuadro);

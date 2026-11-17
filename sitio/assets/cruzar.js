@@ -3,7 +3,7 @@
 // habilidades. Al cerrarlo (botón, Esc o seguir bajando al final de la lista) se sale con el salto de hiperespacio de
 // nav.js y se aterriza en Proyectos. Mientras dura, el scroll de la página está bloqueado; siempre se libera.
 const raiz = document.documentElement;
-const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const reducido = (window.ravenReducido ?? matchMedia('(prefers-reduced-motion: reduce)').matches);
 const movil = matchMedia('(max-width: 760px), (pointer: coarse)').matches;
 const boton = document.querySelector('.cruzar'), capa = document.querySelector('.resumen'), negro = document.querySelector('.caida .negro');
 const seguir = capa.querySelector('.resumen-seguir');

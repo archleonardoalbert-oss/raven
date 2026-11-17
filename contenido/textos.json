@@ -11,36 +11,32 @@
     "3": {
       "es": "Contacto",
       "en": "Contact"
+    },
+    "4": {
+      "es": "Movimiento",
+      "en": "Motion"
     }
   },
   "inicio": {
     "1": {
-      "es": "Ciencia de la Computación, MatCom, Universidad de La Habana",
-      "en": "Computer Science, MatCom, University of Havana"
+      "es": "Ciencia de la Computación en MatCom, Universidad de La Habana",
+      "en": "Computer Science at MatCom, University of Havana"
     },
     "2": {
-      "es": "Hago cursos interactivos, herramientas de escritorio y simulaciones en la GPU.",
-      "en": "I make interactive courses, desktop tools and GPU simulations."
+      "es": "Diseño agentes de IA y software que se pueden medir, y los explico con la claridad de un buen curso.",
+      "en": "I design AI agents and software you can measure, and explain them as clearly as a good course."
     },
     "3": {
       "es": "Comenzar el viaje",
       "en": "Start the journey"
     },
-    "4": {
-      "es": "o ve directo a",
-      "en": "or jump to"
+    "8": {
+      "es": "Ver proyectos",
+      "en": "See projects"
     },
-    "5": {
-      "es": "Proyectos",
-      "en": "Projects"
-    },
-    "6": {
-      "es": "Habilidades",
-      "en": "Skills"
-    },
-    "7": {
-      "es": "Contacto",
-      "en": "Contact"
+    "9": {
+      "es": "Escríbeme",
+      "en": "Email me"
     }
   },
   "manifiesto": {
@@ -161,12 +157,12 @@
       "en": "Raven · Leonardo Albert López"
     },
     "descripcion": {
-      "es": "Portafolio de Leonardo Albert López: cursos, herramientas y mundos construidos con IA.",
-      "en": "Portfolio of Leonardo Albert López: courses, tools and worlds built with AI."
+      "es": "Leonardo Albert López, ingeniero de IA y software: agentes que se pueden medir, herramientas y cursos interactivos.",
+      "en": "Leonardo Albert López, AI and software engineer: measurable agents, tools and interactive courses."
     },
     "ogDescripcion": {
-      "es": "Cursos, herramientas y mundos construidos con IA, en una galaxia que se recorre con el scroll.",
-      "en": "Courses, tools and worlds built with AI, in a galaxy you explore by scrolling."
+      "es": "Agentes de IA, herramientas y cursos interactivos de Leonardo Albert López, en una galaxia que se recorre con el scroll.",
+      "en": "AI agents, tools and interactive courses by Leonardo Albert López, in a galaxy you explore by scrolling."
     }
   }
 }

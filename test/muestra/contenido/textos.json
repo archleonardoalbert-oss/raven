@@ -11,6 +11,10 @@
     "3": {
       "es": "Contacto",
       "en": "Contact"
+    },
+    "4": {
+      "es": "Movimiento",
+      "en": "Motion"
     }
   },
   "inicio": {
@@ -26,21 +30,13 @@
       "es": "Comenzar el viaje",
       "en": "Start the journey"
     },
-    "4": {
-      "es": "o ve directo a",
-      "en": "or jump to"
+    "8": {
+      "es": "Ver proyectos",
+      "en": "See projects"
     },
-    "5": {
-      "es": "Proyectos",
-      "en": "Projects"
-    },
-    "6": {
-      "es": "Habilidades",
-      "en": "Skills"
-    },
-    "7": {
-      "es": "Contacto",
-      "en": "Contact"
+    "9": {
+      "es": "Escríbeme",
+      "en": "Email me"
     }
   },
   "manifiesto": {

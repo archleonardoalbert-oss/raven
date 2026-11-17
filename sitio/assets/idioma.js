@@ -24,6 +24,20 @@
     if (b) aplicar(b.dataset.ponerIdioma);
   });
   window.ravenIdioma = () => raiz.dataset.idioma;
+  // Movimiento: el interruptor de la barra (guardado en este navegador) manda sobre la preferencia del sistema.
+  // Con el movimiento reducido no hay animaciones y la cámara se mueve a saltos; se aplica al recargar la página.
+  let mov = null;
+  try { mov = localStorage.getItem('raven-movimiento'); } catch (e) {}
+  window.ravenReducido = mov ? mov === 'reducido' : matchMedia('(prefers-reduced-motion: reduce)').matches;
+  raiz.dataset.movimiento = window.ravenReducido ? 'reducido' : 'normal';
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-movimiento-interruptor]');
+    if (!b) return;
+    try { localStorage.setItem('raven-movimiento', window.ravenReducido ? 'normal' : 'reducido'); } catch (err) {}
+    location.reload();
+  });
+  const pintarMov = () => { for (const b of document.querySelectorAll('[data-movimiento-interruptor]')) b.setAttribute('aria-pressed', String(!window.ravenReducido)); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', pintarMov); else pintarMov();
   // La barra de las páginas toma fondo en cuanto el contenido pasa por debajo.
   const marcar = () => raiz.classList.toggle('desplazado', scrollY > 40);
   addEventListener('scroll', marcar, { passive: true });

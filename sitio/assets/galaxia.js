@@ -14,7 +14,7 @@ import { crearSistemas } from './sistemas.js';
 import { SISTEMAS } from './sistemas-datos.js';
 
 const lienzo = document.getElementById('galaxia');
-const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const reducido = (window.ravenReducido ?? matchMedia('(prefers-reduced-motion: reduce)').matches);
 const movil = matchMedia('(max-width: 760px), (pointer: coarse)').matches;
 const CALIDAD = movil ? 0.45 : 1;
 

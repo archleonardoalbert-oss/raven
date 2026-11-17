@@ -9,7 +9,7 @@ function iniciar(lienzo) {
   const heroe = lienzo.closest('.obra-heroe'), suelo = heroe.querySelector('.obra-suelo'), arriba = heroe.querySelector('.obra-arriba');
   const NOMBRE = (lienzo.dataset.nombre || '').trim();
   const TINTE = getComputedStyle(document.body).getPropertyValue('--tinte').trim() || '#8fb8ff';
-  const QUIETO = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const QUIETO = (window.ravenReducido ?? matchMedia('(prefers-reduced-motion: reduce)').matches);
 
   // ── color ──
   const rgb = (hex) => { const n = parseInt(hex.replace('#', '').padEnd(6, '0').slice(0, 6), 16); return [n >> 16, (n >> 8) & 255, n & 255]; };
@@ -19,7 +19,7 @@ function iniciar(lienzo) {
     cuerpo: '#D97757', luz: '#E58C6B', sombra: '#B35A3D', ojo: '#140d0b',
     casco: '#F2C14E', cascoLuz: '#FFE28E', cascoSombra: '#C48F2A', careta: '#2A2F45', visor: '#8BEBFF',
     acero: '#343c6b', aceroLuz: '#5964a3', tabla: '#4b3a33', tablaLuz: '#76594a',
-    tinte: TINTE, tinteClaro: mezcla(TINTE, '#ffffff', 0.55), tinteOscuro: mezcla(TINTE, '#03040b', 0.55),
+    tinte: TINTE, tinteClaro: mezcla(TINTE, '#ffffff', 0.55), tinteOscuro: mezcla(TINTE, '#050505', 0.55),
   };
 
   // ── estado ──
@@ -202,7 +202,7 @@ function iniciar(lienzo) {
       const bx = -5.5 * P, by = y0 - 6.6 * P, ba = 11 * P, bh = 4.2 * P, d = 1.2 * P;
       ctx.fillStyle = C.tinteClaro; ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(bx + d, by - d); ctx.lineTo(bx + ba + d, by - d); ctx.lineTo(bx + ba, by); ctx.closePath(); ctx.fill();
       ctx.fillStyle = C.tinteOscuro; ctx.beginPath(); ctx.moveTo(bx + ba, by); ctx.lineTo(bx + ba + d, by - d); ctx.lineTo(bx + ba + d, by + bh - d); ctx.lineTo(bx + ba, by + bh); ctx.closePath(); ctx.fill();
-      ctx.fillStyle = degradado(by, by + bh, [[0, TINTE], [1, mezcla(TINTE, '#03040b', 0.3)]]); ctx.fillRect(bx, by, ba, bh);
+      ctx.fillStyle = degradado(by, by + bh, [[0, TINTE], [1, mezcla(TINTE, '#050505', 0.3)]]); ctx.fillRect(bx, by, ba, bh);
       ctx.fillStyle = 'rgba(0,0,0,0.18)'; ctx.fillRect(bx + ba / 2 - 0.6 * P, by, 1.2 * P, bh);
     }
     ctx.restore();
@@ -302,7 +302,7 @@ function iniciar(lienzo) {
   // ── dibujo ──
   function fondo() {
     const g = ctx.createLinearGradient(0, 0, 0, h);
-    g.addColorStop(0, '#060818'); g.addColorStop(0.6, '#04050f'); g.addColorStop(1, '#03040b');
+    g.addColorStop(0, '#060818'); g.addColorStop(0.6, '#04050f'); g.addColorStop(1, '#050505');
     ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
     const halo = ctx.createRadialGradient(w * 0.5, lineas[0].y - fs * 0.4, 0, w * 0.5, lineas[0].y - fs * 0.4, Math.max(w, h) * 0.6);
     halo.addColorStop(0, alfa(TINTE, 0.16)); halo.addColorStop(1, 'rgba(0,0,0,0)');
@@ -361,7 +361,7 @@ function iniciar(lienzo) {
       ctx.globalAlpha = l.aparicion;
       ctx.font = fuente; ctx.textBaseline = 'alphabetic';
       const bx = -l.w / 2, by = jinete.y + l.asc;
-      ctx.fillStyle = '#0b0e20'; ctx.fillText(l.ch, bx, by);
+      ctx.fillStyle = '#0a0908'; ctx.fillText(l.ch, bx, by);
       ctx.strokeStyle = C.tinteClaro; ctx.lineWidth = Math.max(1, fs / 90); ctx.strokeText(l.ch, bx, by);
       ctx.globalAlpha = 1;
     }
@@ -373,7 +373,7 @@ function iniciar(lienzo) {
     for (const l of letras) {
       if (l.estado === 1) continue;
       if (l.estado === 0) { ctx.setLineDash([P * 1.5, P * 1.5]); ctx.strokeStyle = alfa(TINTE, 0.22); ctx.lineWidth = Math.max(1, fs / 140); ctx.strokeText(l.ch, l.x, l.y); ctx.setLineDash([]); continue; }
-      ctx.fillStyle = '#0b0e20'; ctx.fillText(l.ch, l.x, l.y);
+      ctx.fillStyle = '#0a0908'; ctx.fillText(l.ch, l.x, l.y);
       if (l.relleno > 0) {
         const tope = l.y + l.desc - (l.asc + l.desc) * l.relleno;
         ctx.save(); ctx.beginPath(); ctx.rect(l.x - fs * 0.1, tope, l.w + fs * 0.2, (l.asc + l.desc) * l.relleno + 2); ctx.clip();
@@ -414,7 +414,7 @@ function iniciar(lienzo) {
 
   function dibujarObra() { // pila de material y cajas entregadas
     const ySuelo = andamio.suelo, pila = equipo.find((m) => m.tipo === 'cargador')?.pila ?? andamio.x0;
-    for (let i = 0; i < 3; i++) { ctx.fillStyle = i % 2 ? C.tinteOscuro : mezcla(TINTE, '#03040b', 0.35); ctx.fillRect(pila - 14 * P + i * 2 * P, ySuelo - (i + 1) * 5 * P, 12 * P, 5 * P); }
+    for (let i = 0; i < 3; i++) { ctx.fillStyle = i % 2 ? C.tinteOscuro : mezcla(TINTE, '#050505', 0.35); ctx.fillRect(pila - 14 * P + i * 2 * P, ySuelo - (i + 1) * 5 * P, 12 * P, 5 * P); }
     const dx = grua.x - 14 * P;
     for (let i = 0; i < cajas; i++) { const col = i % 3, fila = Math.floor(i / 3); ctx.fillStyle = C.tinte; ctx.fillRect(dx + 4 * P + col * 9 * P - fila * 4 * P + 6 * P, ySuelo - (fila + 1) * 5 * P, 8 * P, 5 * P); ctx.fillStyle = C.tinteClaro; ctx.fillRect(dx + 4 * P + col * 9 * P - fila * 4 * P + 6 * P, ySuelo - (fila + 1) * 5 * P, 8 * P, P); }
   }
@@ -435,8 +435,8 @@ function iniciar(lienzo) {
     }
   }
   function globo(x, y, texto) {
-    const t = 7 * P; ctx.fillStyle = '#eef0ff'; ctx.fillRect(x - t / 2, y - t, t, t); ctx.fillRect(x - P / 2, y, P, P);
-    ctx.fillStyle = '#0b0e20'; ctx.font = `800 ${Math.round(t * 0.8)}px Manrope, sans-serif`; ctx.textAlign = 'center'; ctx.fillText(texto, x, y - t * 0.2); ctx.textAlign = 'left';
+    const t = 7 * P; ctx.fillStyle = '#ECE7DF'; ctx.fillRect(x - t / 2, y - t, t, t); ctx.fillRect(x - P / 2, y, P, P);
+    ctx.fillStyle = '#0a0908'; ctx.font = `800 ${Math.round(t * 0.8)}px 'Instrument Sans', sans-serif`; ctx.textAlign = 'center'; ctx.fillText(texto, x, y - t * 0.2); ctx.textAlign = 'left';
   }
 
   function dibujarParticulas(dt) {
@@ -458,7 +458,7 @@ function iniciar(lienzo) {
     for (const p of parts) {
       const k = Math.max(0, p.vida / p.max);
       if (p.tipo === 'polvo') { p.x += p.vx * dt; p.y += p.vy * dt; ctx.fillStyle = `rgba(170,175,210,${0.35 * k})`; ctx.beginPath(); ctx.arc(p.x, p.y, p.r * (2 - k), 0, 7); ctx.fill(); }
-      else if (p.tipo === 'zeta') { p.x += p.vx * dt; p.y += p.vy * dt; ctx.fillStyle = `rgba(200,210,255,${k})`; ctx.font = `700 ${Math.round(P * (3 + (1 - k) * 4))}px Manrope, sans-serif`; ctx.fillText('z', p.x, p.y); }
+      else if (p.tipo === 'zeta') { p.x += p.vx * dt; p.y += p.vy * dt; ctx.fillStyle = `rgba(236,231,223,${k})`; ctx.font = `700 ${Math.round(P * (3 + (1 - k) * 4))}px 'Instrument Sans', sans-serif`; ctx.fillText('z', p.x, p.y); }
       else if (p.tipo === 'tok') { p.y += p.vy * dt; ctx.fillStyle = `rgba(238,240,255,${k})`; ctx.fillRect(p.x - P, p.y - P, P / 1.5, P / 1.5); ctx.fillRect(p.x + P, p.y - 2 * P, P / 1.5, P / 1.5); ctx.fillRect(p.x, p.y - 3 * P, P / 1.5, P / 1.5); }
     }
     parts = parts.filter((p) => p.vida > 0);
@@ -480,7 +480,7 @@ function iniciar(lienzo) {
 
   function dibujarSuelo() {
     const s = andamio.suelo, g = ctx.createLinearGradient(0, s, 0, h);
-    g.addColorStop(0, '#0a0c1d'); g.addColorStop(1, '#03040b'); ctx.fillStyle = g; ctx.fillRect(0, s, w, h - s);
+    g.addColorStop(0, '#0a0c1d'); g.addColorStop(1, '#050505'); ctx.fillStyle = g; ctx.fillRect(0, s, w, h - s);
     ctx.strokeStyle = alfa(TINTE, 0.08); ctx.lineWidth = 1; ctx.beginPath();
     for (let i = -12; i <= 12; i++) { ctx.moveTo(w / 2 + i * 40 * P * 0.4, s); ctx.lineTo(w / 2 + i * 40 * P * 2.2, h); }
     for (let k = 1; k < 6; k++) { const y = s + (h - s) * (k / 6) ** 1.6; ctx.moveTo(0, y); ctx.lineTo(w, y); }

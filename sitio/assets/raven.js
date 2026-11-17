@@ -3,7 +3,7 @@
 // reproducen cuando están a la vista. La cámara 3D la lleva galaxia.js.
 (function () {
   const raiz = document.documentElement;
-  const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reducido = (window.ravenReducido ?? matchMedia('(prefers-reduced-motion: reduce)').matches);
 
   // partir el nombre en palabras y letras
   for (const el of document.querySelectorAll('[data-partir]')) {

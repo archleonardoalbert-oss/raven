@@ -12,7 +12,7 @@ import { AREAS } from './habilidades-datos.js';
 
 const raiz = document.documentElement;
 const seccion = document.getElementById('habilidades');
-const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const reducido = (window.ravenReducido ?? matchMedia('(prefers-reduced-motion: reduce)').matches);
 const movil = matchMedia('(max-width: 760px), (pointer: coarse)').matches;
 const idioma = () => (raiz.dataset.idioma === 'en' ? 'en' : 'es');
 const lim = (x, a, b) => Math.max(a, Math.min(b, x));

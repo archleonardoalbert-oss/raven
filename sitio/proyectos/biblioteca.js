@@ -88,9 +88,9 @@ const c = $('cielo'), x = c.getContext('2d');
 function cielo() {
   const dpr = Math.min(2, devicePixelRatio || 1); c.width = innerWidth * dpr; c.height = innerHeight * dpr;
   let s = 7; const r = () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646;
-  x.fillStyle = '#03040b'; x.fillRect(0, 0, c.width, c.height);
+  x.fillStyle = '#050505'; x.fillRect(0, 0, c.width, c.height);
   const g = x.createRadialGradient(c.width * 0.8, 0, 0, c.width * 0.8, 0, c.width * 0.8);
-  g.addColorStop(0, 'rgba(110,90,220,0.16)'); g.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = g; x.fillRect(0, 0, c.width, c.height);
-  for (let i = 0; i < (innerWidth * innerHeight) / 1800; i++) { x.fillStyle = `rgba(230,232,255,${(0.15 + r() * 0.6).toFixed(2)})`; const t = r() < 0.06 ? 2 : 1; x.fillRect(Math.round(r() * c.width), Math.round(r() * c.height), t * dpr, t * dpr); }
+  g.addColorStop(0, 'rgba(232,185,106,0.07)'); g.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = g; x.fillRect(0, 0, c.width, c.height);
+  for (let i = 0; i < (innerWidth * innerHeight) / 1800; i++) { x.fillStyle = `rgba(${r() < 0.7 ? '240,232,220' : r() < 0.5 ? '255,214,170' : '214,226,255'},${(0.15 + r() * 0.6).toFixed(2)})`; const t = r() < 0.06 ? 2 : 1; x.fillRect(Math.round(r() * c.width), Math.round(r() * c.height), t * dpr, t * dpr); }
 }
 addEventListener('resize', cielo); cielo();

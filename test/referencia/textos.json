@@ -22,7 +22,7 @@
   ],
   [
    "meta:theme-color",
-   "#03040b"
+   "#050505"
   ],
   [
    "meta:og:title",
@@ -77,6 +77,14 @@
    "Contact"
   ],
   [
+   "es",
+   "Movimiento"
+  ],
+  [
+   "en",
+   "Motion"
+  ],
+  [
    null,
    "ES"
   ],
@@ -118,43 +126,31 @@
   ],
   [
    "es",
+   "Ver proyectos"
+  ],
+  [
+   "en",
+   "See projects"
+  ],
+  [
+   null,
+   "GitHub"
+  ],
+  [
+   "es",
+   "Escríbeme"
+  ],
+  [
+   "en",
+   "Email me"
+  ],
+  [
+   "es",
    "Comenzar el viaje"
   ],
   [
    "en",
    "Start the journey"
-  ],
-  [
-   "es",
-   "o ve directo a"
-  ],
-  [
-   "en",
-   "or jump to"
-  ],
-  [
-   "es",
-   "Proyectos"
-  ],
-  [
-   "en",
-   "Projects"
-  ],
-  [
-   "es",
-   "Habilidades"
-  ],
-  [
-   "en",
-   "Skills"
-  ],
-  [
-   "es",
-   "Contacto"
-  ],
-  [
-   "en",
-   "Contact"
   ],
   [
    "es",
@@ -710,7 +706,7 @@
   ],
   [
    "meta:theme-color",
-   "#03040b"
+   "#050505"
   ],
   [
    null,

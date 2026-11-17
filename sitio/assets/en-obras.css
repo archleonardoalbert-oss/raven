@@ -1,13 +1,13 @@
 /* Página «en obras»: la escena ocupa toda la pantalla (lienzo) y el texto real vive en el suelo de la obra. */
-:root { --vacio: #03040b; --estrella: #eef0ff; --estrella-2: #a9b0d6; --p-linea: rgb(200 205 255 / 0.14); --p-acento: var(--tinte); color-scheme: dark; }
-body.en-obras { margin: 0; background: var(--vacio); color: var(--estrella); font: 400 1.05rem/1.65 'Manrope', system-ui, sans-serif; }
-.en-obras .p-barra { position: absolute; z-index: 3; font-family: 'Manrope', sans-serif; color: var(--estrella-2); }
+:root { --vacio: #050505; --estrella: #ECE7DF; --estrella-2: #B5AEA3; --p-linea: rgb(236 231 223 / 0.14); --p-acento: var(--tinte); color-scheme: dark; }
+body.en-obras { margin: 0; background: var(--vacio); color: var(--estrella); font: 400 1.05rem/1.65 'Instrument Sans', system-ui, sans-serif; }
+.en-obras .p-barra { position: absolute; z-index: 3; font-family: 'Instrument Sans', sans-serif; color: var(--estrella-2); }
 .en-obras main { padding: 0; max-width: none; }
 
 .obra-heroe { position: relative; height: 100vh; height: 100svh; min-height: 560px; overflow: hidden; isolation: isolate; }
 .obra-lienzo { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; display: block; }
 .obra-arriba { position: absolute; top: 0; left: 0; right: 0; padding: 78px clamp(16px, 6vw, 72px) 0; text-align: center; }
-.obra-tipo { margin: 0; color: var(--tinte); font: 500 0.95rem 'Manrope', sans-serif; letter-spacing: 0.02em; }
+.obra-tipo { margin: 0; color: var(--tinte); font: 500 0.95rem 'Instrument Sans', sans-serif; letter-spacing: 0.02em; }
 /* el nombre se ve construido en el lienzo; el h1 queda para lectores de pantalla y buscadores */
 .obra-nombre { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; margin: 0; }
 
@@ -18,7 +18,7 @@ body.en-obras { margin: 0; background: var(--vacio); color: var(--estrella); fon
 .obra-nota { margin: 6px 0 0; color: var(--estrella-2); font-size: 0.92rem; }
 .obra-suelo .p-acciones { margin: 0; flex-shrink: 0; }
 .obra-boton { background: var(--estrella); color: var(--vacio); }
-.p-boton.boton-linea { border: 1px solid var(--p-linea); color: var(--estrella); background: rgb(3 4 11 / 0.5); backdrop-filter: blur(6px); }
+.p-boton.boton-linea { border: 1px solid var(--p-linea); color: var(--estrella); background: rgb(5 5 5 / 0.5); backdrop-filter: blur(6px); }
 
 .obra-medio { margin: 0 auto; padding: clamp(40px, 8vh, 80px) clamp(16px, 6vw, 72px) 0; max-width: 1000px; } .obra-medio:empty { display: none; }
 .obra-medio video, .obra-medio img { width: 100%; border-radius: 12px; border: 1px solid var(--p-linea); display: block; }
