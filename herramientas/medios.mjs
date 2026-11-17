@@ -40,6 +40,15 @@ export function htmlNovedades(novedades = []) {
   return `<section class="p-novedades"><h2><span lang="es">Novedades</span><span lang="en">What's new</span></h2><ol>${lista}</ol></section>`;
 }
 
+// «En cifras»: resultados medidos del proyecto (lo primero que busca quien evalúa), en contenido/paginas/<id>.json
+// como `cifras: [{ n, es, en }]`. Sin cifras no hay sección.
+export function htmlCifras(cifras = []) {
+  if (!cifras.length) return '';
+  const num = (n) => (typeof n === 'object' ? `<span lang="es">${esc(n.es)}</span><span lang="en">${esc(n.en)}</span>` : esc(n));
+  const items = cifras.map((c) => `<div><dt>${num(c.n)}</dt><dd><span lang="es">${esc(c.es)}</span><span lang="en">${esc(c.en)}</span></dd></div>`).join('');
+  return `<section class="p-cifras"><h2><span lang="es">En cifras</span><span lang="en">In numbers</span></h2><dl>${items}</dl></section>`;
+}
+
 // mini obra para las tarjetas de proyectos que aún no tienen miniatura: dos Clawds en pixel-art (fiel al
 // logo de Claude Code) bajo la grúa; uno carga material y otro suelda. Se anima con assets/mini-obra.css.
 function clawdSvg(x, y, P, { carga = false, careta = false } = {}) {

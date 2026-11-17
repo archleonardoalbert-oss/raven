@@ -61,3 +61,11 @@ html.desplazado .p-barra { background: var(--p-barra-fondo, rgb(0 0 0 / 0.82)); 
 .p-novedades time { font-size: 0.85rem; opacity: 0.7; white-space: nowrap; }
 .p-novedades p { margin: 0; }
 @media (max-width: 600px) { .p-novedades li { grid-template-columns: 1fr; gap: 2px; } }
+
+/* «En cifras»: resultados medidos, al principio del texto (lo primero que busca quien evalúa). Toma el acento y la
+   línea de cada proyecto; la cifra va en la tipografía de los titulares de la página. */
+.p-cifras { margin: 0 0 clamp(36px, 6vh, 64px); }
+.p-cifras dl { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1px; background: var(--p-linea, rgb(255 255 255 / 0.12)); border: 1px solid var(--p-linea, rgb(255 255 255 / 0.12)); border-radius: 6px; overflow: hidden; }
+.p-cifras dl > div { padding: 18px 20px 20px; background: var(--p-fondo-cifra, rgb(0 0 0 / 0.55)); }
+.p-cifras dt { font-family: var(--p-display, inherit); font-size: clamp(2.2rem, 4.4vw, 3.2rem); line-height: 1; color: var(--p-acento, currentColor); font-variant-numeric: lining-nums tabular-nums; }
+.p-cifras dd { margin: 10px 0 0; font-size: 0.95rem; line-height: 1.45; opacity: 0.85; }

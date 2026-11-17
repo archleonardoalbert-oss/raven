@@ -54,5 +54,22 @@
       "es": "Semillero: un almacén de ideas donde Claude juzga cada una sin complacencia.",
       "en": "Semillero: an idea vault where Claude researches and judges every idea."
     }
-  }
+  },
+  "cifras": [
+    {
+      "n": "5",
+      "es": "análisis de ideas en paralelo, cada uno con su sesión de Claude",
+      "en": "idea analyses in parallel, each with its own Claude session"
+    },
+    {
+      "n": "90 %",
+      "es": "de la cuota: ahí se pausa sola y retoma al renovarse",
+      "en": "of the quota: it pauses itself there and resumes on reset"
+    },
+    {
+      "n": "397",
+      "es": "pruebas automáticas, todas en verde",
+      "en": "automated tests, all passing"
+    }
+  ]
 }

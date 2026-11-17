@@ -50,5 +50,22 @@
       "es": "Penumbra: un curso de lógica difusa que se recorre como un mapa nocturno.",
       "en": "Penumbra: a fuzzy logic course you explore like a night-time map."
     }
-  }
+  },
+  "cifras": [
+    {
+      "n": "76",
+      "es": "paradas en 13 regiones del mapa",
+      "en": "stops across 13 regions of the map"
+    },
+    {
+      "n": "168",
+      "es": "retos con calificación automática",
+      "en": "auto-graded challenges"
+    },
+    {
+      "n": "937",
+      "es": "pruebas automáticas, todas en verde",
+      "en": "automated tests, all passing"
+    }
+  ]
 }
