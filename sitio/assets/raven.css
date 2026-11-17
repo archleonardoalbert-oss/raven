@@ -374,3 +374,7 @@ html.cruzando .indice, html.cruzando .arriba, html.cruzando .todos-flotante { op
 /* el interruptor de movimiento apagado: como prefers-reduced-motion, en toda la página */
 html[data-movimiento="reducido"] *, html[data-movimiento="reducido"] *::before, html[data-movimiento="reducido"] *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
 html[data-movimiento="reducido"] .manifiesto-texto .pal { opacity: 1; }
+/* legibilidad sobre el disco brillante de la caída */
+.grupo-caida h2, .grupo-caida p { text-shadow: 0 0 24px rgb(0 0 0 / 0.95), 0 0 6px rgb(0 0 0 / 0.8); }
+.grupo-caida h2 { color: var(--oro); }
+.saltar-caida { bottom: clamp(72px, 11vh, 104px); }

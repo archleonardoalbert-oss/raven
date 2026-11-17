@@ -23,9 +23,13 @@ const renderer = new THREE.WebGLRenderer({ canvas: lienzo, antialias: false, pow
 renderer.setPixelRatio(Math.min(devicePixelRatio || 1, movil ? 1.5 : 1.75));
 renderer.setSize(innerWidth, innerHeight);
 renderer.setClearColor(0x000000, 1);
+// mapeo tonal ACES (lo aplica el OutputPass final): los núcleos brillantes se comprimen en vez de quemarse, con
+// más contraste y color que AgX (que dejaba la galaxia grisácea)
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.25;
 const escena = new THREE.Scene();
 // el fondo como color de escena: three.js lo convierte bien de sRGB a lineal (el color de borrado no)
-escena.background = new THREE.Color(0x010207);
+escena.background = new THREE.Color(0x050505);  // el espacio es negro neutro, el mismo de la página (no azul)
 const camara = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.05, 3000);
 window.__ravenCamara = camara;  // para herramientas/medir-caida.mjs
 escena.add(camara);
@@ -95,18 +99,18 @@ for (let i = 0; i < 120000 * CALIDAD;) {
   if (azar() > 0.32 + 0.68 * enBrazo) continue;
   i++;
   const espesor = 0.55 + r * 0.012;
-  const T = enBrazo > 0.5 && azar() < 0.35 ? 7000 + azar() * 9000 : 3600 + azar() * 3200;
+  const T = enBrazo > 0.5 && azar() < 0.3 ? 7000 + azar() * 6000 : 3600 + azar() * 3200;
   estrella(Math.cos(th) * r, gauss() * espesor * (1 - enBrazo * 0.4), Math.sin(th) * r, cuerpoNegro(T), 0.45 + magnitud() * 1.9);
 }
 // estrellas jóvenes y masivas: azules, concentradas en el borde exterior (delantero) de los brazos
-for (let i = 0; i < 16000 * CALIDAD;) {
+for (let i = 0; i < 12000 * CALIDAD;) {
   const r = G.r0 + -Math.log(azar()) * 22;
   if (r > G.R * 1.05) continue;
   const brazo = BRAZOS[azar() < 0.8 ? (azar() < 0.5 ? 0 : 1) : (azar() < 0.5 ? 2 : 3)];
   const th = brazo.fase + Math.log(r / G.r0) * K + 0.06 + gauss() * (0.06 + 0.002 * r);
   i++;
   const rr = r + gauss() * 0.8;
-  estrella(Math.cos(th) * rr, gauss() * 0.35, Math.sin(th) * rr, cuerpoNegro(11000 + azar() * 18000), 0.8 + magnitud() * 3.4);
+  estrella(Math.cos(th) * rr, gauss() * 0.35, Math.sin(th) * rr, cuerpoNegro(9000 + azar() * 9000).lerp(new THREE.Color(1, 1, 1), 0.35), 0.8 + magnitud() * 3.4);
 }
 const geo = new THREE.BufferGeometry();
 geo.setAttribute('position', new THREE.Float32BufferAttribute(posiciones, 3));
@@ -117,8 +121,11 @@ geo.setAttribute('rad', new THREE.Float32BufferAttribute(radios, 1));
 // rotación con curva plana: velocidad casi constante, así que la velocidad angular cae con el radio
 const ROTAR = `
   uniform float uTiempo;
+  // giro del patrón espiral: rígido y lento, más una «respiración» diferencial acotada. Con la rotación
+  // diferencial pura (ángulo ∝ t / r) los brazos se enrollaban sin fin y, al rato, el disco quedaba uniforme.
+  float giroDe(float r, float t) { return t * 0.035 + 0.22 * sin(t * 0.04) * (8.0 / max(r, 4.0)); }
   vec3 rotar(vec3 p, float r) {
-    float a = uTiempo * 0.55 / max(r, 4.0);
+    float a = giroDe(r, uTiempo);
     float c = cos(a), s = sin(a);
     return vec3(p.x * c - p.z * s, p.y, p.x * s + p.z * c);
   }`;
@@ -162,7 +169,7 @@ function texturaDisco(n) {
     // el plano gira -90° en X y la textura se voltea al subirse: la fila j de arriba cae en z negativo
     const px = (i - n / 2) * escala, pz = (j - n / 2) * escala, r = Math.hypot(px, pz), th = Math.atan2(pz, px);
     const bx = px * ca - pz * sa, bz = px * sa + pz * ca;
-    const bulbo = Math.exp(-7.67 * (Math.pow(r / 4.5, 0.25) - 1)) * 0.0009;
+    const bulbo = Math.exp(-7.67 * (Math.pow(r / 4.5, 0.25) - 1)) * 0.0013;
     const barra = Math.exp(-((bx / (G.barra.a * 0.62)) ** 2) - (bz / (G.barra.b * 0.62)) ** 2) * 0.55;
     const b = brazoCercano(r, th);
     const ancho = 0.2 + 0.004 * r;
@@ -173,8 +180,8 @@ function texturaDisco(n) {
     const disco = Math.exp(-r / G.h) * (0.18 + 1.6 * brazo) * (0.7 + 0.6 * ruido(px * 0.25, pz * 0.25));
     const borde = 1 - Math.min(1, Math.max(0, (r - G.R) / (G.R * 0.25)));
     const L = (Math.min(1.6, bulbo) + barra + disco) * borde * (1 - polvo * 0.92);
-    const tib = Math.min(1, r / 28);   // centro dorado, brazos azulados
-    const R_ = L * (1.0 - 0.45 * tib) + brazo * 0.05 * borde * (1 - polvo), G_ = L * (0.86 - 0.18 * tib), B_ = L * (0.62 + 0.42 * tib) + brazo * 0.14 * borde * (1 - polvo);
+    const tib = Math.min(1, r / 30);   // centro dorado (estrellas viejas), brazos de un blanco frío; nunca violeta
+    const R_ = L * (1.0 - 0.2 * tib), G_ = L * (0.8 + 0.06 * tib), B_ = L * (0.55 + 0.38 * tib) + brazo * 0.05 * borde * (1 - polvo);
     const k = (j * n + i) * 4;
     d[k] = Math.min(255, R_ * 210); d[k + 1] = Math.min(255, G_ * 210); d[k + 2] = Math.min(255, B_ * 230); d[k + 3] = 255;
   }
@@ -182,12 +189,12 @@ function texturaDisco(n) {
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
 }
 const matDisco = new THREE.ShaderMaterial({
-  uniforms: { uMapa: { value: texturaDisco(movil ? 512 : 1024) }, uTiempo: matEstrellas.uniforms.uTiempo, uGanancia: { value: 1.05 }, uVaciar: matEstrellas.uniforms.uVaciar },
+  uniforms: { uMapa: { value: texturaDisco(movil ? 512 : 1024) }, uTiempo: matEstrellas.uniforms.uTiempo, uGanancia: { value: 1.45 }, uVaciar: matEstrellas.uniforms.uVaciar },
   vertexShader: `varying vec2 vUv; varying float vD; void main(){ vUv = uv; vec4 mv = modelViewMatrix * vec4(position,1.0); vD = -mv.z; gl_Position = projectionMatrix * mv; }`,
   fragmentShader: `uniform sampler2D uMapa; uniform float uTiempo; uniform float uGanancia; uniform float uVaciar; varying vec2 vUv; varying float vD;
     void main(){
       // la luz difusa gira con el disco (rotación media, suficiente para la textura)
-      vec2 p = vUv - 0.5; float r = length(p) * 180.0; float a = -uTiempo * 0.55 / max(r, 4.0);
+      vec2 p = vUv - 0.5; float r = length(p) * 180.0; float a = -(uTiempo * 0.035 + 0.22 * sin(uTiempo * 0.04) * (8.0 / max(r, 4.0)));
       vec2 q = vec2(p.x * cos(a) - p.y * sin(a), p.x * sin(a) + p.y * cos(a)) + 0.5;
       vec3 c = texture2D(uMapa, q).rgb * mix(1.0, smoothstep(0.0, 0.08, length(p)), uVaciar); gl_FragColor = vec4(c * uGanancia * smoothstep(1.0, 9.0, vD), 1.0); }`,
   transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
@@ -239,7 +246,7 @@ for (let n = 0; n < 150 * (movil ? 0.6 : 1); n++) {
   for (let k = 0; k < 26; k++) {
     const x = cx + gauss() * tam, z = cz + gauss() * tam;
     hiiPos.push(x, gauss() * 0.2, z);
-    const rosa = azar() < 0.8; hiiCol.push(rosa ? 1 : 0.6, rosa ? 0.36 : 0.75, rosa ? 0.55 : 1);
+    const rosa = azar() < 0.82; hiiCol.push(rosa ? 1 : 1, rosa ? 0.27 : 0.78, rosa ? 0.36 : 0.6);
     hiiTam.push(1.4 + azar() * 2.6); hiiRad.push(Math.hypot(x, z));
   }
 }
@@ -253,7 +260,7 @@ const hii = new THREE.Points(geoHii, new THREE.ShaderMaterial({
   vertexShader: `attribute float tam; attribute float rad; uniform float uEscala; varying vec3 vC; varying float vA; ${ROTAR}
     void main(){ vec4 mv = modelViewMatrix * vec4(rotar(position, rad), 1.0); gl_Position = projectionMatrix * mv; float d = -mv.z;
       gl_PointSize = clamp(tam * 70.0 * uEscala / d, 1.0, 22.0 * uEscala); vC = color; vA = smoothstep(4.0, 18.0, d); }`,
-  fragmentShader: `uniform sampler2D uMapa; varying vec3 vC; varying float vA; void main(){ gl_FragColor = vec4(vC, texture2D(uMapa, gl_PointCoord).a * 0.16 * vA); }`,
+  fragmentShader: `uniform sampler2D uMapa; varying vec3 vC; varying float vA; void main(){ gl_FragColor = vec4(vC, texture2D(uMapa, gl_PointCoord).a * 0.2 * vA); }`,
   transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, vertexColors: true,
 }));
 
@@ -277,6 +284,37 @@ escena.add(discoGrueso, discoLuz, polvo, hii, estrellas);
     s.position.set(Math.cos(t) * sq * 1300, u * 1300, Math.sin(t) * sq * 1300); s.scale.set(8 + azar() * 10, 3 + azar() * 4, 1);
     s.material.rotation = azar() * 3; escena.add(s);
   }
+}
+
+// ── nebulosas lejanas: nubes tenues de hidrógeno (rojo H-alfa), polvo y luz reflejada en el cielo de fondo ──
+// Dan profundidad y color al panorama sin competir con la galaxia: muy grandes, lejanas y casi transparentes.
+function texturaNebulosa(n, sem) {
+  const c = document.createElement('canvas'); c.width = c.height = n;
+  const x = c.getContext('2d'), img = x.createImageData(n, n), d = img.data;
+  let s0 = sem; const az = () => ((s0 = (s0 * 16807) % 2147483647) - 1) / 2147483646;
+  const T = 64, rejilla = Array.from({ length: T * T }, az);
+  const val = (u, v) => { const i = Math.floor(u), j = Math.floor(v), fu = u - i, fv = v - j, su = fu * fu * (3 - 2 * fu), sv = fv * fv * (3 - 2 * fv);
+    const g = (a, b) => rejilla[((a % T) + T) % T + (((b % T) + T) % T) * T];
+    return (g(i, j) * (1 - su) + g(i + 1, j) * su) * (1 - sv) + (g(i, j + 1) * (1 - su) + g(i + 1, j + 1) * su) * sv; };
+  const fbm = (u, v) => { let a = 0, w = 0.5; for (let o = 0; o < 6; o++) { a += w * val(u, v); u *= 2.03; v *= 2.03; w *= 0.5; } return a; };
+  for (let j = 0; j < n; j++) for (let i = 0; i < n; i++) {
+    const u = i / n - 0.5, v = j / n - 0.5, r = Math.hypot(u, v) * 2;
+    const q = fbm(i / n * 4 + 3, j / n * 4 + 7), w = fbm(i / n * 4 + q * 2.2, j / n * 4 - q * 1.7);  // ruido deformado: filamentos
+    const a = Math.max(0, w - 0.38) * 1.9 * Math.max(0, 1 - r * r);
+    const k = (j * n + i) * 4; d[k] = d[k + 1] = d[k + 2] = 255; d[k + 3] = Math.min(255, a * 255);
+  }
+  x.putImageData(img, 0, 0); return new THREE.CanvasTexture(c);
+}
+{
+  const NEB = [[1.0, 0.3, 0.36], [0.95, 0.55, 0.3], [0.62, 0.4, 0.3], [1.0, 0.3, 0.36], [0.9, 0.7, 0.5], [0.85, 0.32, 0.4]];
+  const texs = [texturaNebulosa(movil ? 128 : 256, 911), texturaNebulosa(movil ? 128 : 256, 4242)];
+  NEB.forEach((col, i) => {
+    const m = new THREE.SpriteMaterial({ map: texs[i % 2], color: new THREE.Color(...col), transparent: true, opacity: 0.075 + azar() * 0.05, depthWrite: false, blending: THREE.AdditiveBlending });
+    const sp = new THREE.Sprite(m), u = azar() * 1.4 - 0.7, t = azar() * 6.283, sq = Math.sqrt(1 - u * u);
+    sp.position.set(Math.cos(t) * sq * 1250, u * 1250, Math.sin(t) * sq * 1250);
+    const e = 520 + azar() * 520; sp.scale.set(e, e * (0.55 + azar() * 0.4), 1); m.rotation = azar() * 6.283;
+    sp.renderOrder = -1; escena.add(sp);
+  });
 }
 
 // ── proyectos: estrellas brillantes, diminutas frente a la galaxia, con picos de difracción ─────────
@@ -473,7 +511,7 @@ function fotograma() {
     const tfv = Math.tan((camara.fov * Math.PI) / 360), sombra = Math.asin(Math.min(1, (2.598076 * Math.sqrt(Math.max(0, 1 - 1 / r0))) / r0));
     camara.getWorldDirection(bhX); bhY.copy(camara.position).negate().normalize();
     const angulo = Math.acos(Math.min(1, Math.max(-1, bhX.dot(bhY)))), diagonal = Math.atan(tfv * Math.hypot(camara.aspect, 1));
-    const on = dc < 100 && ((v.z < 1 && Math.abs(v.x) < 2.2 && Math.abs(v.y) < 2.2) || angulo < diagonal + sombra + 0.05);
+    const on = dc < 45 && ((v.z < 1 && Math.abs(v.x) < 2.2 && Math.abs(v.y) < 2.2) || angulo < diagonal + sombra + 0.05);
     lente.pase.enabled = on;
     if (on) {
       const u = lente.material.uniforms;
@@ -486,7 +524,7 @@ function fotograma() {
       u.uExpo.value = exposicionBH(r0);
       // el disco se enciende poco a poco al acercarse (nunca de golpe): invisible a 70 unidades, entero a 20
       u.uDisco.value = rampaLog(dc, 60, 7);
-      u.uMezcla.value = rampaLog(dc, 100, 55);  // la lente entra gradualmente (al encenderse no cambia nada)
+      u.uMezcla.value = rampaLog(dc, 45, 20);  // la lente entra gradualmente (al encenderse no cambia nada)
       for (let n = 0; n < 4; n++) {
         if (bh && bh.activo) { lente.faros[n].fromArray(bh.faros, n * 4); lente.farosC[n].fromArray(bh.farosC, n * 4); }
         else { lente.faros[n].set(0, 0, 0, 0); lente.farosC[n].set(0, 0, 0, 0); }
