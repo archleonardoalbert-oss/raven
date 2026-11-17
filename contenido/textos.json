@@ -1,7 +1,7 @@
 {
   "barra": {
     "1": {
-      "es": "Sobre mí vidita",
+      "es": "Sobre mí",
       "en": "About me"
     },
     "2": {
@@ -45,13 +45,13 @@
   },
   "manifiesto": {
     "1": {
-      "es": "Cada punto de luz de esta galaxia es algo que construí culo.",
+      "es": "Cada punto de luz de esta galaxia es algo que construí.",
       "en": "Every point of light in this galaxy is something I built."
     }
   },
   "sobre-mi": {
     "1": {
-      "es": "Sobre mí vidita",
+      "es": "Sobre mí",
       "en": "About me"
     },
     "2": {
@@ -141,7 +141,7 @@
   },
   "contacto": {
     "1": {
-      "es": "Hablemos  juntos",
+      "es": "Hablemos",
       "en": "Let's talk"
     },
     "2": {
@@ -157,7 +157,7 @@
   },
   "meta": {
     "titulo": {
-      "es": "Raven · Leonardo Albert López ",
+      "es": "Raven · Leonardo Albert López",
       "en": "Raven · Leonardo Albert López"
     },
     "descripcion": {
