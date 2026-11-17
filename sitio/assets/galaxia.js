@@ -99,7 +99,7 @@ for (let i = 0; i < 120000 * CALIDAD;) {
   if (azar() > 0.32 + 0.68 * enBrazo) continue;
   i++;
   const espesor = 0.55 + r * 0.012;
-  const T = enBrazo > 0.5 && azar() < 0.3 ? 7000 + azar() * 6000 : 3600 + azar() * 3200;
+  const T = enBrazo > 0.5 && azar() < 0.25 ? 6800 + azar() * 4500 : 3600 + azar() * 3200;
   estrella(Math.cos(th) * r, gauss() * espesor * (1 - enBrazo * 0.4), Math.sin(th) * r, cuerpoNegro(T), 0.45 + magnitud() * 1.9);
 }
 // estrellas jóvenes y masivas: azules, concentradas en el borde exterior (delantero) de los brazos
@@ -110,7 +110,7 @@ for (let i = 0; i < 12000 * CALIDAD;) {
   const th = brazo.fase + Math.log(r / G.r0) * K + 0.06 + gauss() * (0.06 + 0.002 * r);
   i++;
   const rr = r + gauss() * 0.8;
-  estrella(Math.cos(th) * rr, gauss() * 0.35, Math.sin(th) * rr, cuerpoNegro(9000 + azar() * 9000).lerp(new THREE.Color(1, 1, 1), 0.35), 0.8 + magnitud() * 3.4);
+  estrella(Math.cos(th) * rr, gauss() * 0.35, Math.sin(th) * rr, cuerpoNegro(8000 + azar() * 7000).lerp(new THREE.Color(1, 0.97, 0.92), 0.5), 0.8 + magnitud() * 3.4);
 }
 const geo = new THREE.BufferGeometry();
 geo.setAttribute('position', new THREE.Float32BufferAttribute(posiciones, 3));
@@ -181,7 +181,7 @@ function texturaDisco(n) {
     const borde = 1 - Math.min(1, Math.max(0, (r - G.R) / (G.R * 0.25)));
     const L = (Math.min(1.6, bulbo) + barra + disco) * borde * (1 - polvo * 0.92);
     const tib = Math.min(1, r / 30);   // centro dorado (estrellas viejas), brazos de un blanco frío; nunca violeta
-    const R_ = L * (1.0 - 0.2 * tib), G_ = L * (0.8 + 0.06 * tib), B_ = L * (0.55 + 0.38 * tib) + brazo * 0.05 * borde * (1 - polvo);
+    const R_ = L * (1.0 - 0.16 * tib), G_ = L * (0.8 + 0.05 * tib), B_ = L * (0.55 + 0.27 * tib) + brazo * 0.03 * borde * (1 - polvo);
     const k = (j * n + i) * 4;
     d[k] = Math.min(255, R_ * 210); d[k + 1] = Math.min(255, G_ * 210); d[k + 2] = Math.min(255, B_ * 230); d[k + 3] = 255;
   }
