@@ -7,6 +7,8 @@ const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const movil = matchMedia('(max-width: 760px), (pointer: coarse)').matches;
 const boton = document.querySelector('.cruzar'), capa = document.querySelector('.resumen'), negro = document.querySelector('.caida .negro');
 const seguir = capa.querySelector('.resumen-seguir');
+// la capa vive directamente en <body>: así el resto de la página puede quedar inerte sin arrastrarla
+if (capa.parentElement !== document.body) document.body.append(capa);
 const estado = () => window.__ravenBH;
 const suave = (x) => { const u = Math.max(0, Math.min(1, x)); return u * u * (3 - 2 * u); };
 
@@ -25,7 +27,7 @@ function parar(e) {
   if (e.cancelable) e.preventDefault();
 }
 const teclas = (e) => { if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' ', 'Home', 'End'].includes(e.key) && !capa.contains(e.target)) { e.preventDefault(); e.stopImmediatePropagation(); } };
-let bloqueado = false, seguro = 0;
+let bloqueado = false, seguro = 0, cierreT = 0;
 function bloquear() {
   if (bloqueado) return; bloqueado = true;
   raiz.classList.add('cruzando');
@@ -40,13 +42,16 @@ function liberar() {
 // ── la caída ─────────────────────────────────────────────────────────────────────────────────────
 let anim = 0;
 function cruzar() {
-  const bh = estado(); if (!bh || bh.cruce) return;
+  // solo mientras el botón está a la vista (con el teclado podía activarse ya desvanecido, fuera de la escena)
+  const bh = estado(); if (!bh || bh.cruce || !boton.classList.contains('activo')) return;
+  clearTimeout(cierreT);
   bloquear();
   if (reducido) { abrir(); return; }
   bh.cruce = { avance: 0 };
   const dura = movil ? 2500 : 3500, t0 = performance.now();
   clearTimeout(seguro); seguro = setTimeout(() => { if (!capa.classList.contains('abierto')) abrir(); }, dura + 2500);  // por si algo se atasca
   const paso = (t) => {
+    if (!bh.cruce) return;
     const u = Math.min(1, (t - t0) / dura);
     bh.cruce.avance = u;
     negro.style.opacity = String(suave((u - 0.62) / 0.33));
@@ -57,26 +62,42 @@ function cruzar() {
 
 // ── la capa del resumen ──────────────────────────────────────────────────────────────────────────
 let alFinal = false;
+// el resto de la página queda inerte mientras la capa está abierta (el foco no se escapa detrás)
+const fondo = () => [...document.body.children].filter((e) => e !== capa && !e.matches('script, canvas'));
 function abrir() {
-  cancelAnimationFrame(anim); clearTimeout(seguro);
-  const bh = estado(); if (bh) bh.cruce = { avance: 1 };
+  cancelAnimationFrame(anim); clearTimeout(seguro); clearTimeout(cierreT);
+  const bh = estado(), desdeCaida = !!bh?.cruce;
   bloquear();
-  negro.style.opacity = '1';
   capa.hidden = false; capa.scrollTop = 0; alFinal = false;
-  requestAnimationFrame(() => capa.classList.add('abierto'));
-  seguir.focus({ preventScroll: true });
+  fondo().forEach((e) => { e.inert = true; });
+  requestAnimationFrame(() => {
+    capa.classList.add('abierto');
+    seguir.focus({ preventScroll: true });  // ya visible: antes del cambio de visibilidad el foco no entraba
+  });
+  if (desdeCaida) { bh.cruce = { avance: 1 }; negro.style.opacity = '1'; return; }
+  // abierto sin la caída («Ver todo», #resumen): la cámara se lleva al horizonte solo cuando la capa ya lo tapa todo
+  setTimeout(() => {
+    if (!capa.classList.contains('abierto')) return;
+    const b = estado(); if (b) b.cruce = { avance: 1 };
+    negro.style.transition = 'none'; negro.style.opacity = '1'; void negro.offsetWidth; negro.style.transition = '';
+  }, 900);
 }
 function cerrar() {
   if (!capa.classList.contains('abierto')) return;
   capa.classList.remove('abierto');
   const salir = () => {
     // con la pantalla tapada: fuera del agujero negro y scroll libre otra vez
+    clearTimeout(cierreT);
     const bh = estado(); if (bh) bh.cruce = null;
     negro.style.opacity = '0'; capa.hidden = true; liberar();
+    fondo().forEach((e) => { e.inert = false; });
+    // el foco queda en Proyectos, donde se aterriza
+    const t = document.querySelector('#proyectos h2, #proyectos'); if (t) { if (!t.hasAttribute('tabindex')) t.setAttribute('tabindex', '-1'); t.focus({ preventScroll: true }); }
+    if (location.hash === '#resumen') history.replaceState(null, '', '#proyectos');
   };
   if (window.__ravenSaltar) window.__ravenSaltar('proyectos', salir);
   else { salir(); document.getElementById('proyectos').scrollIntoView(); }
-  setTimeout(() => { if (bloqueado) salir(); }, 4000);  // siempre se libera
+  clearTimeout(cierreT); cierreT = setTimeout(() => { if (bloqueado) salir(); }, 4000);  // siempre se libera
 }
 window.__ravenAbrirResumen = () => { abrir(); };
 

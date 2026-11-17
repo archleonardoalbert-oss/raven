@@ -392,7 +392,9 @@ function destino() {
   }
   objetivoT.lerpVectors(a.t, b.t, w);
   da_.copy(a.p).sub(a.t).normalize(); db_.copy(b.p).sub(b.t).normalize();
-  dir.lerpVectors(da_, db_, t).normalize();
+  // la dirección arranca desde quieta también al salir del agujero negro (la retirada llega sin girar): solo la
+  // distancia sale con velocidad
+  dir.lerpVectors(da_, db_, a.el.id === 'habilidades' ? suave(x) : t).normalize();
   objetivoP.copy(objetivoT).addScaledVector(dir, Math.exp(Math.log(da) + (Math.log(db) - Math.log(da)) * t));
   return { i, t };
 }
@@ -431,7 +433,8 @@ function fotograma() {
   window.__ravenDt = dt;  // herramientas/medir-caida.mjs: el paso de tiempo con que avanza la escena en este cuadro
   const k = reducido ? 1 : 1 - Math.pow(0.003, dt);
   seguirScroll(dt);
-  window.__ravenActualizarCaida?.(dt);
+  // un error en la caída no debe parar la galaxia entera
+  try { window.__ravenActualizarCaida?.(dt); } catch (e) { console.error(e); }
   const { i } = destino();
   const bh = window.__ravenBH;
   if (bh && bh.activo) {
@@ -483,6 +486,7 @@ function fotograma() {
       u.uExpo.value = exposicionBH(r0);
       // el disco se enciende poco a poco al acercarse (nunca de golpe): invisible a 70 unidades, entero a 20
       u.uDisco.value = rampaLog(dc, 60, 7);
+      u.uMezcla.value = rampaLog(dc, 100, 55);  // la lente entra gradualmente (al encenderse no cambia nada)
       for (let n = 0; n < 4; n++) {
         if (bh && bh.activo) { lente.faros[n].fromArray(bh.faros, n * 4); lente.farosC[n].fromArray(bh.farosC, n * 4); }
         else { lente.faros[n].set(0, 0, 0, 0); lente.farosC[n].set(0, 0, 0, 0); }

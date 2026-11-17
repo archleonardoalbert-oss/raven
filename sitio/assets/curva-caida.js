@@ -27,10 +27,10 @@ export function desplazamiento(a, b) {
   return d + g;
 }
 
-export function splineMonotona(xs, ys) {
+export function splineMonotona(xs, ys, { pendienteInicial = null } = {}) {
   const n = xs.length, d = [], m = new Array(n);
   for (let i = 0; i < n - 1; i++) d.push((ys[i + 1] - ys[i]) / (xs[i + 1] - xs[i]));
-  m[0] = d[0]; m[n - 1] = d[n - 2];
+  m[0] = pendienteInicial ?? d[0]; m[n - 1] = d[n - 2];
   for (let i = 1; i < n - 1; i++) m[i] = d[i - 1] * d[i] <= 0 ? 0 : (d[i - 1] + d[i]) / 2;
   for (let i = 0; i < n - 1; i++) {
     if (d[i] === 0) { m[i] = m[i + 1] = 0; continue; }
@@ -62,7 +62,9 @@ export function crearCurva({ R0, radios, rBoton, salida = 20, us = [0, 0.2, 0.36
   const rs = [R0, ...radios, rBoton];
   // ángulo: como en la caída de Penumbra, cada tramo gira más cuanto más cerca del centro
   const azs = [0, 0.3]; for (let i = 0; i < radios.length; i++) azs.push(azs.at(-1) + 0.62 + 0.42 / radios[i] ** 0.4);
-  const L = splineMonotona(us, rs.map(Math.log)), AZ = splineMonotona(us, azs);
+  // el ángulo arranca sin pendiente: al acabar la retirada la cámara sale en línea recta hacia la galaxia (sin panear),
+  // como el vuelo de la galaxia a Proyectos; si no, en el relevo la mirada giraba en esquina
+  const L = splineMonotona(us, rs.map(Math.log)), AZ = splineMonotona(us, azs, { pendienteInicial: 0 });
   // pose en un punto de la spline: en la entrada se mezcla la mirada de la galaxia con la de la caída
   const poseU = (u) => {
     const r = Math.exp(L(u)), mezcla = suave(u / us[1]);

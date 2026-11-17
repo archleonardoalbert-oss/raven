@@ -8,19 +8,20 @@ import puppeteer from 'puppeteer-core';
 const espera = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export function analizar(muestras) {
+  // velocidad como vector (no solo su tamaño): desplazamiento / distancia al centro, y cambio de la dirección de la
+  // mirada; así un giro de esquina con la misma rapidez (dejar de panear y empezar a inclinar) también cuenta
   const v = [];
   for (let i = 1; i < muestras.length; i++) {
     const [t0, a] = muestras[i - 1], [t1, b, donde] = muestras[i], dt = (t1 - t0) / 1000;
     if (dt <= 0) continue;
-    const d = Math.hypot(b[0] - a[0], b[1] - a[1], b[2] - a[2]), r = Math.max(1e-6, Math.hypot(...a));
-    // también el giro: cuánto cambia la dirección en que mira (radianes)
-    const giro = Math.acos(Math.min(1, Math.max(-1, a[3] * b[3] + a[4] * b[4] + a[5] * b[5])));
-    v.push({ t: t1, v: d / r / dt + giro / dt, dt, donde });
+    const r = Math.max(1e-6, Math.hypot(a[0], a[1], a[2]));
+    const V = [0, 1, 2].map((j) => (b[j] - a[j]) / r / dt).concat([3, 4, 5].map((j) => (b[j] - a[j]) / dt));
+    v.push({ t: t1, V, v: Math.hypot(...V), dt, donde });
   }
   const mediana = [...v].map((x) => x.v).sort((p, q) => p - q)[Math.floor(v.length / 2)] ?? 0;
   let cambios = [];
   for (let i = 1; i < v.length; i++) {
-    const a = v[i - 1].v, b = v[i].v, m = Math.max(a, b);
+    const a = v[i - 1].v, b = v[i].v, m = Math.max(a, b), dif = Math.hypot(...v[i].V.map((x, j) => x - v[i - 1].V[j]));
     if (m < mediana * 0.15) continue;  // quieta o casi: no cuenta
     // cuadros irregulares del navegador oculto (más de 45 ms o el doble que el anterior): el reloj de la escena se
     // recorta a 50 ms y la velocidad medida miente; se cuentan aparte
@@ -28,14 +29,17 @@ export function analizar(muestras) {
     // fuera de la escena (más allá de la llegada a Proyectos, p ≈ 1,12) no cuenta
     if (parseFloat(String(v[i].donde).split('@')[1]) > 1.13) continue;
     // un arranque desde parada (0,03 → 0,3) no es un tirón: el cambio se compara con la velocidad típica si es mayor
-    cambios.push({ t: v[i].t, c: Math.abs(b - a) / Math.max(m, mediana), a, b, irregular, donde: v[i].donde, dt: v[i].dt });
+    cambios.push({ t: v[i].t, c: dif / Math.max(m, mediana), a, b, irregular, donde: v[i].donde, dt: v[i].dt });
   }
   const todos = cambios; cambios = todos.filter((x) => !x.irregular);
+  // el relevo retirada → galaxia (p ≈ 0,9) se informa aparte: es donde la mirada podía girar en esquina
+  const relevo = todos.filter((x) => { const p = parseFloat(String(x.donde).split('@')[1]); return p > 0.86 && p < 0.95; }).map((x) => `${x.donde} ${(x.c * 100).toFixed(0)}%${x.irregular ? '*' : ''}`);
   const ord = [...cambios].sort((p, q) => q.c - p.c);
   return {
     cuadros: v.length, mediana: +mediana.toFixed(3),
     p99: +(ord[Math.floor(ord.length * 0.01)]?.c ?? 0).toFixed(3), max: +(ord[0]?.c ?? 0).toFixed(3),
     tirones: cambios.filter((x) => x.c > 0.25).length, irregulares: todos.length - cambios.length,
+    relevo,
     peores: ord.slice(0, 6).map((x) => `${x.donde} ${(x.c * 100).toFixed(0)}% (${x.a.toFixed(2)}→${x.b.toFixed(2)}) dt=${(x.dt * 1000).toFixed(0)}ms`),
   };
 }

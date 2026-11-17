@@ -21,7 +21,7 @@ precision highp float;
 #define PHI_ ${PHI_MAX.toFixed(1)}
 #define POT_ ${POT_COL.toFixed(2)}
 in vec2 vUv;out vec4 o;
-uniform sampler2D tDiffuse;uniform mat3 uB2G;uniform float uExpo;uniform float uDisco;
+uniform sampler2D tDiffuse;uniform mat3 uB2G;uniform float uExpo;uniform float uDisco;uniform float uMezcla;
 uniform vec3 uC;uniform mat3 uBase;uniform float uFov,uAsp,uT,uTmax,uVsal;uniform samplerCube uCielo;uniform sampler2D uRuido,uCuerpo;
 uniform float uROut,uPsiC;uniform vec4 uFaro[4],uFaroC[4];uniform highp sampler2D uLut,uLutFin;
 // la tabla de rayos: ver nucleo/lutRayos.js, que es la réplica exacta de estas tres funciones
@@ -48,7 +48,7 @@ float materia(float r,float th,float t){
   vec2 a=vec2(d/(2.*PI),lr);float n=oc(a*vec2(2.,1.1)+float(k)*.31,0.)*.42+oc(a*vec2(4.,3.3)+.17,0.)*.27+oc(a*vec2(9.,8.)+.53,0.)*.18+oc(a*vec2(19.,24.)+.71,0.)*.1+oc(a*vec2(37.,67.),0.)*.08;
   tot+=w*n;}
  return tot;}
-void main(){
+void lente(){
  vec2 pn=(vUv*2.-1.)*vec2(uAsp,1.)*tan(uFov*.5);vec3 d=normalize(uBase*vec3(pn.x,pn.y,-1.));
  float r0=length(uC);vec3 e1=uC/r0;float cp=dot(d,e1);vec3 tg=d-cp*e1;float sp=length(tg);vec3 e2=sp>1e-5?tg/sp:vec3(0.,0.,1.);vec3 nor=cross(e1,e2);
  float u=1./r0,fs=sqrt(max(1.-u,1e-6)),b=r0*sp/fs;
@@ -83,7 +83,10 @@ void main(){
  for(int i=0;i<4;i++)if(ac[i]){float q=dM[i]/uFaro[i].w,q2=q*q;suma+=tM[i]*uFaroC[i].rgb*uFaroC[i].a*(exp(-q2)*16.+exp(-q2*.3)*.55);}
  vec3 bg=vec3(0.);if(fin.z>.5){float a=fin.y;vec3 dirS=cos(a)*e1+sin(a)*e2;bg=trans*fondo(dirS);}
  // el disco se revela como en El Horizonte (ACES); el fondo ya viene en la escala de la galaxia
- o=vec4(bg+pow(aces(suma*uExpo*uDisco),vec3(2.2)),1.);}`;
+ o=vec4(bg+pow(aces(suma*uExpo*uDisco),vec3(2.2)),1.);}
+// la lente entra poco a poco (uMezcla de 0 a 1 al acercarse): al encenderse, la imagen es idéntica a la de sin lente;
+// encendida de golpe, el núcleo de la galaxia crecía de repente al pasar las 100 unidades
+void main(){lente();o.rgb=mix(texture(tDiffuse,vUv).rgb,o.rgb,uMezcla);}`;
 const VERT = `in vec3 position; in vec2 uv; out vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }`;
 
 export function crearLente(renderer, { cubo = 512 } = {}) {
@@ -111,7 +114,7 @@ export function crearLente(renderer, { cubo = 512 } = {}) {
       uLut: { value: tLut }, uLutFin: { value: tLutFin }, uPsiC: { value: 0 },
       uC: { value: new THREE.Vector3() }, uBase: { value: new THREE.Matrix3() }, uB2G: { value: new THREE.Matrix3() },
       uFov: { value: 1 }, uAsp: { value: 1 }, uT: { value: 0 }, uTmax: { value: 4000 }, uVsal: { value: 1 }, uROut: { value: 15 },
-      uExpo: { value: 0.62 }, uDisco: { value: 0 }, uFaro: { value: faros }, uFaroC: { value: farosC },
+      uExpo: { value: 0.62 }, uDisco: { value: 0 }, uMezcla: { value: 1 }, uFaro: { value: faros }, uFaroC: { value: farosC },
     },
     depthTest: false, depthWrite: false,
   });

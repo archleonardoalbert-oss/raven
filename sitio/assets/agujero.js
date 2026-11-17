@@ -22,7 +22,7 @@ const coma = (x, d) => (idioma() === 'en' ? x.toFixed(d) : x.toFixed(d).replace(
 
 const $ = (s) => seccion.querySelector(s);
 const faroEl = $('.faro'), faroTit = $('.faro-titulo'), faroLinea = $('.faro-linea');
-const grupoEl = $('.grupo-caida'), relojEl = $('.reloj'), resumenEl = document.querySelector('.resumen'), pista = $('.pista-caida'), botonEl = $('.cruzar');
+const grupoEl = $('.grupo-caida'), relojEl = $('.reloj'), resumenEl = document.querySelector('.resumen'), pista = $('.pista-caida'), botonEl = $('.cruzar'), saltarEl = $('.saltar-caida');
 
 // resumen: todas las habilidades por grupo
 function pintarResumen() {
@@ -96,7 +96,13 @@ window.__ravenActualizarCaida = function cuadro(dt) {
   const ver = cruce ? 0 : suave((p - (A - 0.035)) / 0.035) * (1 - suave((p - B) / 0.015));
   botonEl.style.setProperty('--ver', ver.toFixed(3));
   const activoBoton = ver > 0.5;
-  if (botonEl.classList.contains('activo') !== activoBoton) { botonEl.classList.toggle('activo', activoBoton); botonEl.tabIndex = activoBoton ? 0 : -1; }
+  if (botonEl.classList.contains('activo') !== activoBoton) {
+    botonEl.classList.toggle('activo', activoBoton); botonEl.tabIndex = activoBoton ? 0 : -1;
+    botonEl.setAttribute('aria-hidden', String(!activoBoton));
+    if (!activoBoton && document.activeElement === botonEl) botonEl.blur();
+  }
+  // «Ver todo» solo se puede pulsar cuando se ve
+  saltarEl.style.pointerEvents = suave((p - 0.03) / 0.03) * (1 - suave((p - A + 0.03) / 0.03)) > 0.5 && !cruce ? 'auto' : 'none';
   if (!estado.activo) { faroEl.style.opacity = 0; grupoEl.style.opacity = 0; relojEl.style.opacity = 0; return; }
   t += reducido ? 0 : dt;
 
@@ -149,3 +155,12 @@ window.__ravenActualizarCaida = function cuadro(dt) {
     ? `${coma(r, r < 3 ? 2 : 1)} times the horizon radius. For each of your seconds, ${coma(dilatacion(r), 2)} pass out there.`
     : `A ${coma(r, r < 3 ? 2 : 1)} veces el radio del horizonte. Por cada segundo tuyo, allí fuera pasan ${coma(dilatacion(r), 2)}.`;
 };
+
+// sin WebGL (o si galaxia.js no llega a arrancar) nadie llama a la caída: lleva su propio bucle, para que los
+// rótulos, el botón y «Ver todo de una vez» sigan apareciendo y el resumen siga siendo accesible
+addEventListener('load', () => setTimeout(() => {
+  if (window.__ravenYS) return;
+  let ult = performance.now();
+  const bucle = (t) => { try { window.__ravenActualizarCaida(Math.min(0.05, (t - ult) / 1000)); } catch (e) { /* sigue */ } ult = t; requestAnimationFrame(bucle); };
+  requestAnimationFrame(bucle);
+}, 1500));

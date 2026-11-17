@@ -61,3 +61,8 @@ test('ritmo constante: en el centro de la aproximación la cámara real (posici�
   const med = vs.reduce((s, x) => s + x, 0) / vs.length;
   for (const v of vs) assert.ok(Math.abs(v - med) / med < 0.12, `velocidad ${v.toFixed(2)} frente a media ${med.toFixed(2)}`);
 });
+
+test('al terminar la retirada la mirada ya no panea: sale en línea recta hacia la galaxia (sin esquina en el relevo)', () => {
+  const dAz = velAz(TRAMOS.R - 1e-4), dL = vel(TRAMOS.R - 1e-4);
+  assert.ok(Math.abs(dAz) < 0.02 * Math.abs(dL), `giro ${dAz.toFixed(3)} frente a avance ${dL.toFixed(3)}`);
+});
