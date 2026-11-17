@@ -29,7 +29,7 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.25;
 const escena = new THREE.Scene();
 // el fondo como color de escena: three.js lo convierte bien de sRGB a lineal (el color de borrado no)
-escena.background = new THREE.Color(0x050505);  // el espacio es negro neutro, el mismo de la página (no azul)
+escena.background = new THREE.Color(0x050505);  // negro neutro (no azul); tras el mapeo tonal queda casi #000, como la página
 const camara = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.05, 3000);
 window.__ravenCamara = camara;  // para herramientas/medir-caida.mjs
 escena.add(camara);

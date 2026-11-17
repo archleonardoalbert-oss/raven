@@ -21,9 +21,12 @@
   function entrar() {
     if (entrada) return; entrada = true;
     raiz.classList.add('listo', 'galaxia-lista');
-    if (!window.gsap || reducido) return;
-    gsap.from('.hero-nombre .letra', { yPercent: 110, opacity: 0, rotate: 8, duration: 1.4, ease: 'expo.out', stagger: 0.035, delay: 0.25 });
-    gsap.from(['.hero-sobre', '.hero-lema', '.hero-bajar', '.barra'], { y: 24, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: 0.1, delay: 0.7 });
+  }
+  // la entrada de la primera pantalla va al cargar, sin esperar a la galaxia (antes, al llegar la galaxia, el texto
+  // desaparecía y volvía a entrar mientras ya se leía)
+  if (window.gsap && !reducido) {
+    gsap.from('.hero-nombre .letra', { yPercent: 110, opacity: 0, rotate: 8, duration: 1.2, ease: 'expo.out', stagger: 0.03, delay: 0.05 });
+    gsap.from(['.hero-sobre', '.hero-lema', '.hero-acciones', '.hero-bajar', '.barra'], { y: 18, opacity: 0, duration: 1, ease: 'expo.out', stagger: 0.07, delay: 0.25 });
   }
   addEventListener('galaxia-lista', () => setTimeout(entrar, 1600));
   if (raiz.classList.contains('galaxia-lista')) setTimeout(entrar, 1600);

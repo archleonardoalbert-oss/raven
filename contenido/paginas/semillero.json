@@ -62,7 +62,10 @@
       "en": "idea analyses in parallel, each with its own Claude session"
     },
     {
-      "n": "90 %",
+      "n": {
+        "es": "90 %",
+        "en": "90%"
+      },
       "es": "de la cuota: ahí se pausa sola y retoma al renovarse",
       "en": "of the quota: it pauses itself there and resumes on reset"
     },

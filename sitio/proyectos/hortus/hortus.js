@@ -1,7 +1,7 @@
 // Hortus: cielo con estrellas alineadas al píxel (como en el fondo real, sin grano ni bruma) y un
 // Juego de la Vida al pie de la página, que avanza despacio para no gastar.
 (function () {
-  const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reducido = (window.ravenReducido ?? matchMedia('(prefers-reduced-motion: reduce)').matches);
   let semilla = 11;
   const azar = () => ((semilla = (semilla * 16807) % 2147483647) - 1) / 2147483646;
 

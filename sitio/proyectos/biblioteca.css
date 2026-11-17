@@ -57,3 +57,6 @@ h1 { margin: 0 0 1.4rem; font: 400 clamp(2.6rem, 7vw, 5.4rem)/1 var(--display); 
 .boton { display: inline-flex; padding: 11px 20px; border-radius: 4px; font: 600 0.9rem var(--texto); cursor: pointer; }
 .boton.fantasma { background: none; color: var(--estrella); border: 1px solid var(--filo); }
 @media (prefers-reduced-motion: reduce) { .tarjeta a { animation: none; transition: none; } }
+
+/* el interruptor de movimiento (guardado en la portada) manda también aquí */
+html[data-movimiento="reducido"] *, html[data-movimiento="reducido"] *::before, html[data-movimiento="reducido"] *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }

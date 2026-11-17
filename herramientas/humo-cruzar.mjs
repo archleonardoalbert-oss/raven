@@ -95,6 +95,18 @@ export async function humoCruzar({ url = 'http://127.0.0.1:4500/', capturas = nu
       await p.close();
     }
   } finally { await b.close(); }
+  // 8. revisión del rediseño: la primera pantalla no desaparece tras cargar y «En cifras» de Penumbra se ve nítido
+  const b3 = await puppeteer.launch({ browser: 'firefox', executablePath: '/usr/bin/firefox', headless: true, protocol: 'webDriverBiDi', extraPrefsFirefox: { 'webgl.force-enabled': true } });
+  try {
+    const p = await b3.newPage(); await p.setViewport({ width: 1440, height: 900 });
+    await p.goto(url, { waitUntil: 'load' }); await espera(2000);
+    let minimo = 1; const t0 = Date.now();
+    while (Date.now() - t0 < 7000) { minimo = Math.min(minimo, await p.evaluate(() => Math.min(...['.hero-lema', '.hero-sobre', '.barra'].map((s) => +getComputedStyle(document.querySelector(s)).opacity)))); await espera(150); }
+    ok(minimo > 0.95, `la primera pantalla no desaparece tras cargar (opacidad mínima ${minimo.toFixed(2)})`);
+    await p.goto(url + 'proyectos/penumbra/', { waitUntil: 'load' }); await espera(1500);
+    const f = await p.evaluate(() => { const c = document.querySelector('.p-cifras'); return c ? { filtro: getComputedStyle(c).filter, op: +getComputedStyle(c).opacity } : null; });
+    ok(f && (f.filtro === 'none' || /blur\(0px\)/.test(f.filtro)) && f.op > 0.95, `«En cifras» de Penumbra se ve nítido (${JSON.stringify(f)})`);
+  } finally { await b3.close(); }
   // 7. sin WebGL: los faros, el botón y «Ver todo» siguen apareciendo (el resumen sigue siendo accesible)
   const b2 = await puppeteer.launch({ browser: 'firefox', executablePath: '/usr/bin/firefox', headless: true, protocol: 'webDriverBiDi', extraPrefsFirefox: { 'webgl.disabled': true } });
   try {

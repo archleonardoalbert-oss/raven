@@ -1,7 +1,7 @@
 // Semillero: un tallo baja por el margen izquierdo de toda la página y se ilumina hasta donde has
 // leído; al pasar por cada sección se abre su hoja.
 (function () {
-  const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reducido = (window.ravenReducido ?? matchMedia('(prefers-reduced-motion: reduce)').matches);
   const svg = document.querySelector('.tallo');
   const fondo = svg?.querySelector('.tallo-fondo');
   const vivo = svg?.querySelector('.tallo-vivo');

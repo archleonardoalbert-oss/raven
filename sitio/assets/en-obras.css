@@ -29,3 +29,6 @@ body.en-obras { margin: 0; background: var(--vacio); color: var(--estrella); fon
   .obra-suelo { padding-top: 18px; gap: 14px; }
   .obra-suelo .p-acciones { width: 100%; }
 }
+
+/* el interruptor de movimiento (guardado en la portada) manda también aquí */
+html[data-movimiento="reducido"] *, html[data-movimiento="reducido"] *::before, html[data-movimiento="reducido"] *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }

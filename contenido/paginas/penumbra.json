@@ -53,12 +53,12 @@
   },
   "cifras": [
     {
-      "n": "76",
-      "es": "paradas en 13 regiones del mapa",
-      "en": "stops across 13 regions of the map"
+      "n": "95",
+      "es": "paradas en 18 regiones, de la noche a El Horizonte",
+      "en": "stops across 18 regions, from the night to The Horizon"
     },
     {
-      "n": "168",
+      "n": "328",
       "es": "retos con calificación automática",
       "en": "auto-graded challenges"
     },

@@ -69,3 +69,6 @@ html.desplazado .p-barra { background: var(--p-barra-fondo, rgb(0 0 0 / 0.82)); 
 .p-cifras dl > div { padding: 18px 20px 20px; background: var(--p-fondo-cifra, rgb(0 0 0 / 0.55)); }
 .p-cifras dt { font-family: var(--p-display, inherit); font-size: clamp(2.2rem, 4.4vw, 3.2rem); line-height: 1; color: var(--p-acento, currentColor); font-variant-numeric: lining-nums tabular-nums; }
 .p-cifras dd { margin: 10px 0 0; font-size: 0.95rem; line-height: 1.45; opacity: 0.85; }
+
+/* el interruptor de movimiento (guardado en la portada) manda también aquí */
+html[data-movimiento="reducido"] *, html[data-movimiento="reducido"] *::before, html[data-movimiento="reducido"] *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }

@@ -1,7 +1,7 @@
 // Penumbra: curvas de pertenencia que respiran en el cielo, una cordillera en alambre, el título
 // que se desdibuja hacia el final y un medidor μ por sección que sube mientras la lees.
 (function () {
-  const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reducido = (window.ravenReducido ?? matchMedia('(prefers-reduced-motion: reduce)').matches);
 
   // Título: el grado de cada letra baja hacia el final de la palabra (las últimas, más borrosas).
   const letras = [...document.querySelectorAll('.titulo-difuso span')];

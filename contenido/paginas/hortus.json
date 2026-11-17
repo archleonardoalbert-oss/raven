@@ -54,19 +54,22 @@
   "cifras": [
     {
       "n": "4",
-      "es": "algoritmos reales dibujan el equipo: árbol B+, Dijkstra, recocido simulado y Juego de la Vida",
-      "en": "real algorithms draw the machine: B+ tree, Dijkstra, simulated annealing and Game of Life"
+      "es": "algoritmos dibujan el estado del equipo: árbol B+, Dijkstra, recocido simulado y Juego de la Vida",
+      "en": "algorithms draw the state of the machine: B+ tree, Dijkstra, simulated annealing and Game of Life"
     },
     {
       "n": {
-        "es": "1,3 W",
-        "en": "1.3 W"
+        "es": "1,3–2,5 W",
+        "en": "1.3–2.5 W"
       },
-      "es": "de consumo sobre el escritorio quieto, medido",
-      "en": "over an idle desktop, measured"
+      "es": "de consumo extra frente al escritorio en reposo, según la escena (medido)",
+      "en": "of extra power over an idle desktop, depending on the scene (measured)"
     },
     {
-      "n": "0 %",
+      "n": {
+        "es": "0 %",
+        "en": "0%"
+      },
       "es": "de CPU en pantalla completa o con la tapa cerrada: se pausa solo",
       "en": "CPU in full screen or with the lid closed: it pauses itself"
     }

@@ -67,7 +67,7 @@ body { background: var(--p-fondo); color: var(--p-texto); font: 400 1.06rem/1.75
 .medidor::before { content: "μ"; color: var(--p-tenue); }
 .medidor-barra { position: relative; flex: 0 1 180px; height: 3px; border-radius: 3px; background: #1d2030; overflow: hidden; }
 .medidor-barra::after { content: ""; position: absolute; inset: 0; transform-origin: left; transform: scaleX(var(--grado, 0)); background: linear-gradient(90deg, var(--azul), var(--rosa), var(--oro)); }
-.p-texto section { filter: blur(calc((1 - var(--grado, 0)) * 0.9px)); opacity: calc(0.7 + var(--grado, 0) * 0.3); transition: filter 0.4s, opacity 0.4s; }
+.p-texto section:not(.p-cifras) { filter: blur(calc((1 - var(--grado, 0)) * 0.9px)); opacity: calc(0.7 + var(--grado, 0) * 0.3); transition: filter 0.4s, opacity 0.4s; }
 
 @media (max-width: 900px) {
   .luna { right: 8%; top: 18%; }
