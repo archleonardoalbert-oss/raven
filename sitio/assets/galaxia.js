@@ -364,7 +364,8 @@ const lejanos = [];
 escena.traverse((o) => { if ((o.isSprite || o.isPoints) && o.material && !o.material.isShaderMaterial) lejanos.push([o.material, o.material.opacity]); });
 // el encendido arranca cuando la galaxia está lista y dura 1,6 s (salida suave); un gesto lo termina al momento
 let encendidoDesde = null;
-const suaveSalida = (u) => 1 - Math.pow(1 - Math.min(1, Math.max(0, u)), 3);
+// salida exponencial: brota de golpe desde el centro y se asienta con suavidad
+const suaveSalida = (u) => { const x = Math.min(1, Math.max(0, u)); return x >= 1 ? 1 : (1 - Math.pow(2, -10 * x)) / (1 - Math.pow(2, -10)); };
 function aplicarEncendido(e) {
   uEncendido.value = e;
   for (const [m, base] of lejanos) m.opacity = base * Math.min(1, Math.max(0, (e - 0.25) / 0.6));
@@ -493,7 +494,7 @@ function fotograma() {
   const k = reducido ? 1 : 1 - Math.pow(0.003, dt);
   seguirScroll(dt);
   if (uEncendido.value < 1 && encendidoDesde !== null) {
-    const u = encendidoDesde === -Infinity ? 1 : (performance.now() - encendidoDesde) / 1600;
+    const u = encendidoDesde === -Infinity ? 1 : (performance.now() - encendidoDesde) / 1100;
     aplicarEncendido(u >= 1 ? 1 : suaveSalida(u));
     if (u >= 1) document.documentElement.classList.add('encendida');
   }
@@ -609,6 +610,6 @@ new ResizeObserver(medirParadas).observe(document.body);
 requestAnimationFrame(fotograma);
 // el punto de luz de la bienvenida se coloca justo sobre el núcleo antes de fundirse con él
 { const v = new THREE.Vector3(0, 0, 0).project(camara); const r = document.documentElement.style; r.setProperty('--luz-x', `${((v.x * 0.5 + 0.5) * 100).toFixed(2)}%`); r.setProperty('--luz-y', `${((0.5 - v.y * 0.5) * 100).toFixed(2)}%`); }
-if (uEncendido.value < 1 && encendidoDesde === null) encendidoDesde = performance.now();
+if (uEncendido.value < 1 && encendidoDesde === null) { encendidoDesde = performance.now(); document.documentElement.classList.add('revelar'); }
 document.documentElement.classList.add('galaxia-lista', 'webgl-ok');
 window.dispatchEvent(new Event('galaxia-lista'));

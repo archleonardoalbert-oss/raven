@@ -107,19 +107,21 @@ export async function humoCruzar({ url = 'http://127.0.0.1:4500/', capturas = nu
     const f = await p.evaluate(() => { const c = document.querySelector('.p-cifras'); return c ? { filtro: getComputedStyle(c).filter, op: +getComputedStyle(c).opacity } : null; });
     ok(f && (f.filtro === 'none' || /blur\(0px\)/.test(f.filtro)) && f.op > 0.95, `«En cifras» de Penumbra se ve nítido (${JSON.stringify(f)})`);
   } finally { await b3.close(); }
-  // 9. bienvenida «Primera luz»: en la primera visita aparece, se enciende y deja el texto legible; un gesto la
-  // termina al momento; en la segunda visita de la sesión no se repite
+  // 9. bienvenida «Primera luz»: aparece al cargar (y al recargar), los textos esperan al estallido, termina con la
+  // galaxia encendida y el texto legible, y un gesto la termina al momento
   const b4 = await puppeteer.launch({ browser: 'firefox', executablePath: '/usr/bin/firefox', headless: true, protocol: 'webDriverBiDi', extraPrefsFirefox: { 'webgl.force-enabled': true } });
   try {
     const p = await b4.newPage(); await p.setViewport({ width: 1440, height: 900 });
     await p.goto(url, { waitUntil: 'load' });
-    ok(await p.evaluate(() => document.documentElement.classList.contains('bienvenida')), 'bienvenida: aparece en la primera visita');
+    ok(await p.evaluate(() => document.documentElement.classList.contains('bienvenida')), 'bienvenida: aparece al cargar');
     await p.waitForFunction(() => document.documentElement.classList.contains('encendida'), { timeout: 15000 }).catch(() => {});
     ok(await p.evaluate(() => document.documentElement.classList.contains('encendida') && +getComputedStyle(document.querySelector('.hero-lema')).opacity > 0.95), 'bienvenida: la galaxia termina encendida y el texto legible');
-    await p.goto(url, { waitUntil: 'load' });
-    ok(!(await p.evaluate(() => document.documentElement.classList.contains('bienvenida'))), 'bienvenida: no se repite en la misma sesión');
+    await p.reload({ waitUntil: 'load' });
+    ok(await p.evaluate(() => document.documentElement.classList.contains('bienvenida')), 'bienvenida: se repite al recargar');
     const q = await b4.newPage(); await q.setViewport({ width: 1440, height: 900 });
     q.goto(url, { waitUntil: 'load' }).catch(() => {}); await q.waitForSelector('.hero-lema', { timeout: 30000 });
+    const antes = await q.evaluate(() => ({ revelar: document.documentElement.classList.contains('revelar'), op: +getComputedStyle(document.querySelector('.hero-lema')).opacity }));
+    ok(antes.revelar || antes.op < 0.05, `bienvenida: los textos esperan al estallido (${JSON.stringify(antes)})`);
     await q.mouse.click(700, 120); await espera(300);
     ok(await q.evaluate(() => document.documentElement.classList.contains('bienvenida-fin') && +getComputedStyle(document.querySelector('.hero-lema')).opacity > 0.95), 'bienvenida: un clic la termina al momento');
   } finally { await b4.close(); }

@@ -1,6 +1,6 @@
 # Bienvenida «Primera luz» · Diseño breve
 
-**Fecha:** 2026-11-17 · **Elegido por Leonardo:** «Primera luz», rápida (entre 1,5 y 2,5 s).
+**Fecha:** 2026-11-17 · **Elegido por Leonardo:** «Primera luz», rápida (entre 1,5 y 2,5 s). **Revisión:** cada vez que se carga la página (no solo la primera visita) y en secuencia: la luz del centro, la galaxia que brota de ella (1,1 s) y los textos que se revelan con el estallido.
 
 **Intención:** al abrir la portada, hoy las letras suben de golpe y la galaxia aparece de un salto al terminar de
 cargar. Leonardo quiere una entrada acogedora y elegante que dé la bienvenida, sin hacer esperar.

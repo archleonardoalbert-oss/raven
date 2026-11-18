@@ -30,13 +30,13 @@
   try { mov = localStorage.getItem('raven-movimiento'); } catch (e) {}
   window.ravenReducido = mov ? mov === 'reducido' : matchMedia('(prefers-reduced-motion: reduce)').matches;
   raiz.dataset.movimiento = window.ravenReducido ? 'reducido' : 'normal';
-  // Bienvenida «Primera luz» (solo portada): la primera visita de la sesión, sin movimiento reducido ni #ancla
-  let vista = null;
-  try { vista = sessionStorage.getItem('raven-bienvenida'); } catch (e) {}
-  window.ravenBienvenida = raiz.dataset.pagina === 'portada' && !window.ravenReducido && !vista && !location.hash;
+  // Bienvenida «Primera luz» (portada, cada vez que se carga): la luz del centro, la galaxia que brota de ella y los
+  // textos que se revelan con el estallido. No con movimiento reducido ni al entrar con #ancla (se salta a otra sección).
+  window.ravenBienvenida = raiz.dataset.pagina === 'portada' && !window.ravenReducido && !location.hash;
   if (window.ravenBienvenida) {
     raiz.classList.add('bienvenida');
-    try { sessionStorage.setItem('raven-bienvenida', '1'); } catch (e) {}
+    // los textos se revelan con el estallido de la galaxia (galaxia.js pone «revelar»); si tarda, a los 1,8 s igualmente
+    setTimeout(() => raiz.classList.add('revelar'), 1800);
     // cualquier gesto la termina al momento; y, pase lo que pase, a los 2,6 s el texto ya está
     const terminar = () => { raiz.classList.add('bienvenida-fin'); window.__ravenEncenderYa?.(); quitar(); };
     const quitar = () => ['wheel', 'keydown', 'pointerdown', 'touchstart'].forEach((t) => removeEventListener(t, terminar, true));
