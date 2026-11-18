@@ -40,17 +40,6 @@ a { color: inherit; }
 .vineta { position: fixed; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(120% 90% at 50% 50%, transparent 40%, rgb(5 5 5 / 0.75) 100%); }
 main, .barra, .capa-3d { position: relative; z-index: 2; }
 
-/* ── pantalla de carga: una galaxia espiral se dibuja ───────────────────────────────────────────────────────── */
-.carga { position: fixed; inset: 0; z-index: 50; display: grid; place-content: center; justify-items: center; gap: 18px; background: var(--vacio); transition: opacity 1.1s var(--salida), visibility 1.1s; }
-.carga-espiral { width: min(180px, 46vw); overflow: visible; }
-.carga-espiral g { transform-origin: 100px 100px; animation: girar 6s linear infinite; }
-.carga-espiral path { fill: none; stroke: #E8B96A; stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 420; stroke-dashoffset: 420; animation: trazar 2.4s 0.15s var(--salida) forwards; filter: drop-shadow(0 0 4px rgb(232 185 106 / 0.8)); }
-.carga-espiral circle { fill: #fff; filter: drop-shadow(0 0 8px #ffd9a8); }
-.carga-texto { margin: 0; font: italic 400 1.1rem var(--display); color: var(--estrella-2); letter-spacing: 0.3em; }
-@keyframes trazar { to { stroke-dashoffset: 0; } }
-@keyframes girar { to { transform: rotate(360deg); } }
-html.galaxia-lista.listo .carga { opacity: 0; visibility: hidden; }
-.carga { display: none !important; }
 #galaxia { opacity: 0; transition: opacity 1.6s var(--salida); }
 html.galaxia-lista #galaxia { opacity: 1; }
 
@@ -150,8 +139,8 @@ section { position: relative; padding: 0 var(--margen); }
 .contacto { padding-top: 96px !important; min-height: 100vh; display: grid; align-content: center; justify-items: center; text-align: center; gap: 0.6rem; padding-bottom: 40px; }
 .contacto::before { content: ""; position: absolute; inset: 10% 0 30%; background: radial-gradient(closest-side, rgb(5 5 5 / 0.72), transparent); pointer-events: none; z-index: -1; }
 .contacto > p { color: var(--estrella-2); max-width: 30em; margin: 0 0 1rem; }
-.correo { font: italic 400 clamp(1.15rem, min(5vw, 8vh), 4rem)/1.1 var(--display); text-decoration: none; overflow-wrap: anywhere; background: linear-gradient(100deg, var(--estrella) 20%, var(--oro), var(--halfa), var(--estrella) 80%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; transition: background-position 1.2s var(--salida); }
-.correo:hover { background-position: 100% 0; }
+.correo { font: italic 400 clamp(1.15rem, min(5vw, 8vh), 4rem)/1.1 var(--display); text-decoration: none; overflow-wrap: anywhere; color: var(--estrella); border-bottom: 1px solid rgb(232 185 106 / 0.35); padding-bottom: 0.08em; transition: color 0.3s, border-color 0.3s; }
+.correo:hover { color: var(--oro); border-color: var(--oro); }
 .enlaces { margin-top: 1.6rem; }
 .pie { margin-top: 18vh; font-size: 0.85rem; color: var(--estrella-3); }
 
@@ -169,9 +158,7 @@ section { position: relative; padding: 0 var(--margen); }
   .cristal { border-radius: var(--radio); }
   .datos { grid-template-columns: 1fr; }
   }
-@media (prefers-reduced-motion: reduce) {
-  .grano, .hero-bajar::before { animation: none; }
-  .manifiesto-texto .pal { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { html:not([data-movimiento="normal"]) .grano, html:not([data-movimiento="normal"]) .hero-bajar::before { animation: none; } html:not([data-movimiento="normal"]) .manifiesto-texto .pal { opacity: 1; }
 }
 
 /* ── la caída al agujero negro (habilidades) ───────────────────────────────────────────────────── */
@@ -340,7 +327,7 @@ html[data-escena="agujero"] .indice-nombre { opacity: 0 !important; }
 @keyframes cruzar-giro { to { rotate: 360deg; } }
 @keyframes cruzar-halo { 0%, 100% { opacity: 0.65; scale: 0.96; } 50% { opacity: 1; scale: 1.04; } }
 @media (max-width: 760px) { .cruzar { left: 50%; top: 74%; width: 138px; height: 138px; margin: -69px 0 0 -69px; } .cruzar-titulo { font-size: 1.02rem; } }
-@media (prefers-reduced-motion: reduce) { .cruzar-orbita, .cruzar-orbita::before, .cruzar-anillo { animation: none; } }
+@media (prefers-reduced-motion: reduce) { html:not([data-movimiento="normal"]) .cruzar-orbita, html:not([data-movimiento="normal"]) .cruzar-orbita::before, html:not([data-movimiento="normal"]) .cruzar-anillo { animation: none; } }
 /* mientras se cruza: fuera los controles flotantes */
 html.cruzando .indice, html.cruzando .arriba, html.cruzando .todos-flotante { opacity: 0 !important; pointer-events: none !important; }
 .caida .negro { transition: opacity 0.5s linear; }

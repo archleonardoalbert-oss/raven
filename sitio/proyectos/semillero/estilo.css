@@ -85,3 +85,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .brote .tallo-brote, .brote .hoja { animation: none; stroke-dashoffset: 0; transform: none; }
 }
+
+/* «En cifras»: la cifra en la tipografía de los titulares */
+.p-cifras { --p-display: var(--p-ui); }

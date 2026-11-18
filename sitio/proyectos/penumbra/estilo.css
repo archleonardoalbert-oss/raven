@@ -75,3 +75,6 @@ body { background: var(--p-fondo); color: var(--p-texto); font: 400 1.06rem/1.75
 @media (prefers-reduced-motion: reduce) {
   .p-texto section { filter: none; opacity: 1; }
 }
+
+/* «En cifras»: la cifra en la tipografía de los titulares */
+.p-cifras { --p-display: var(--lectura); }

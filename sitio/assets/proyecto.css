@@ -52,7 +52,7 @@ html.desplazado .p-barra { background: var(--p-barra-fondo, rgb(0 0 0 / 0.82)); 
 @media (max-width: 520px) {
   .p-tabla th { white-space: normal; }
 }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media (prefers-reduced-motion: reduce) { html:not([data-movimiento="normal"]) { scroll-behavior: auto; } }
 
 /* medio imagen y Novedades (comunes a todas las páginas de proyecto) */
 .p-video img { width: 100%; height: auto; display: block; border-radius: 10px; }

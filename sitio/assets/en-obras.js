@@ -302,7 +302,7 @@ function iniciar(lienzo) {
   // ── dibujo ──
   function fondo() {
     const g = ctx.createLinearGradient(0, 0, 0, h);
-    g.addColorStop(0, '#060818'); g.addColorStop(0.6, '#04050f'); g.addColorStop(1, '#050505');
+    g.addColorStop(0, '#0b0a09'); g.addColorStop(0.6, '#070606'); g.addColorStop(1, '#050505');
     ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
     const halo = ctx.createRadialGradient(w * 0.5, lineas[0].y - fs * 0.4, 0, w * 0.5, lineas[0].y - fs * 0.4, Math.max(w, h) * 0.6);
     halo.addColorStop(0, alfa(TINTE, 0.16)); halo.addColorStop(1, 'rgba(0,0,0,0)');
@@ -480,7 +480,7 @@ function iniciar(lienzo) {
 
   function dibujarSuelo() {
     const s = andamio.suelo, g = ctx.createLinearGradient(0, s, 0, h);
-    g.addColorStop(0, '#0a0c1d'); g.addColorStop(1, '#050505'); ctx.fillStyle = g; ctx.fillRect(0, s, w, h - s);
+    g.addColorStop(0, '#0c0b0a'); g.addColorStop(1, '#050505'); ctx.fillStyle = g; ctx.fillRect(0, s, w, h - s);
     ctx.strokeStyle = alfa(TINTE, 0.08); ctx.lineWidth = 1; ctx.beginPath();
     for (let i = -12; i <= 12; i++) { ctx.moveTo(w / 2 + i * 40 * P * 0.4, s); ctx.lineTo(w / 2 + i * 40 * P * 2.2, h); }
     for (let k = 1; k < 6; k++) { const y = s + (h - s) * (k / 6) ** 1.6; ctx.moveTo(0, y); ctx.lineTo(w, y); }

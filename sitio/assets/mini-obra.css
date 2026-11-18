@@ -10,4 +10,4 @@
 @keyframes mo-paso { 50% { transform: translateY(-1.2px); } }
 @keyframes mo-gancho { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(9px); } }
 @keyframes mo-chispa { 50% { opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .mini-obra * { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { html:not([data-movimiento="normal"]) .mini-obra * { animation: none !important; } }

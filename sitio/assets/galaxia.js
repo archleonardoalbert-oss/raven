@@ -501,7 +501,7 @@ function fotograma() {
   // la zambullida (de 120 a 28 unidades: apagado antes de que la sombra ocupe unos píxeles), así la lente nunca encuentra de golpe una mancha brillante que curvar
   const rampaLog = (d, lejos, cerca) => { const x = Math.min(1, Math.max(0, Math.log(lejos / d) / Math.log(lejos / cerca))); return x * x * (3 - 2 * x); };
   matEstrellas.uniforms.uVaciar.value = rampaLog(dc, 120, 28);
-  // la lente: activa a menos de 100 unidades del núcleo (más lejos el agujero negro no llega a un píxel)
+  // la lente: activa a menos de 45 unidades del núcleo y entra gradualmente (uMezcla); más lejos no se ve
   const r0 = Math.max(1.003, dc / RS);
   if (lente) {
     v.set(0, 0, 0).project(camara);
