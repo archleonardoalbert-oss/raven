@@ -129,12 +129,18 @@ const ROTAR = `
     float c = cos(a), s = sin(a);
     return vec3(p.x * c - p.z * s, p.y, p.x * s + p.z * c);
   }`;
+// bienvenida «Primera luz»: la galaxia se enciende desde el centro hacia fuera (0 → 1); sin bienvenida, ya encendida
+const uEncendido = { value: window.ravenBienvenida ? 0 : 1 };
+const ENCENDER = `
+  uniform float uEncendido;
+  float encendido(float r) { float R = uEncendido * 100.0 - 8.0; return (1.0 - smoothstep(R, R + 14.0, r)) * smoothstep(0.0, 0.12, uEncendido); }`;
 const matEstrellas = new THREE.ShaderMaterial({
-  uniforms: { uTiempo: { value: 0 }, uEscala: { value: renderer.getPixelRatio() * (movil ? 1.5 : 1) }, uVaciar: { value: 0 } },
+  uniforms: { uTiempo: { value: 0 }, uEscala: { value: renderer.getPixelRatio() * (movil ? 1.5 : 1) }, uVaciar: { value: 0 }, uEncendido },
   vertexShader: `
     attribute float tam; attribute float rad; varying vec3 vColor; varying float vAlfa;
     uniform float uEscala; uniform float uVaciar;
     ${ROTAR}
+    ${ENCENDER}
     void main() {
       vec4 mv = modelViewMatrix * vec4(rotar(position, rad), 1.0);
       gl_Position = projectionMatrix * mv;
@@ -142,6 +148,7 @@ const matEstrellas = new THREE.ShaderMaterial({
       float px = tam * uEscala * 120.0 / d;
       // por debajo de un píxel la estrella no encoge: se apaga, como en una foto real
       vAlfa = clamp(px, 0.0, 1.0) * smoothstep(0.3 + 2.5 * uVaciar, 2.5 + 7.0 * uVaciar, d) * mix(1.0, smoothstep(2.0, 18.0, length(position)), uVaciar);
+      vAlfa *= encendido(rad);
       gl_PointSize = clamp(px, 1.0, 9.0 * uEscala);
       vColor = color;
     }`,
@@ -189,14 +196,14 @@ function texturaDisco(n) {
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
 }
 const matDisco = new THREE.ShaderMaterial({
-  uniforms: { uMapa: { value: texturaDisco(movil ? 512 : 1024) }, uTiempo: matEstrellas.uniforms.uTiempo, uGanancia: { value: 1.45 }, uVaciar: matEstrellas.uniforms.uVaciar },
+  uniforms: { uMapa: { value: texturaDisco(movil ? 512 : 1024) }, uTiempo: matEstrellas.uniforms.uTiempo, uGanancia: { value: 1.45 }, uVaciar: matEstrellas.uniforms.uVaciar, uEncendido },
   vertexShader: `varying vec2 vUv; varying float vD; void main(){ vUv = uv; vec4 mv = modelViewMatrix * vec4(position,1.0); vD = -mv.z; gl_Position = projectionMatrix * mv; }`,
-  fragmentShader: `uniform sampler2D uMapa; uniform float uTiempo; uniform float uGanancia; uniform float uVaciar; varying vec2 vUv; varying float vD;
+  fragmentShader: `uniform sampler2D uMapa; uniform float uTiempo; uniform float uGanancia; uniform float uVaciar; varying vec2 vUv; varying float vD; ${ENCENDER}
     void main(){
       // la luz difusa gira con el disco (rotación media, suficiente para la textura)
       vec2 p = vUv - 0.5; float r = length(p) * 180.0; float a = -(uTiempo * 0.035 + 0.22 * sin(uTiempo * 0.04) * (8.0 / max(r, 4.0)));
       vec2 q = vec2(p.x * cos(a) - p.y * sin(a), p.x * sin(a) + p.y * cos(a)) + 0.5;
-      vec3 c = texture2D(uMapa, q).rgb * mix(1.0, smoothstep(0.0, 0.08, length(p)), uVaciar); gl_FragColor = vec4(c * uGanancia * smoothstep(1.0, 9.0, vD), 1.0); }`,
+      vec3 c = texture2D(uMapa, q).rgb * mix(1.0, smoothstep(0.0, 0.08, length(p)), uVaciar); gl_FragColor = vec4(c * uGanancia * smoothstep(1.0, 9.0, vD) * encendido(r), 1.0); }`,
   transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
 });
 const discoLuz = new THREE.Mesh(new THREE.PlaneGeometry(G.R * 2.5, G.R * 2.5), matDisco);
@@ -204,7 +211,7 @@ discoLuz.rotation.x = -Math.PI / 2;
 // un segundo plano, desplazado y tenue, da volumen al disco visto en oblicuo
 const discoGrueso = new THREE.Mesh(discoLuz.geometry, matDisco.clone());
 discoGrueso.material.uniforms.uMapa = matDisco.uniforms.uMapa; discoGrueso.material.uniforms.uTiempo = matEstrellas.uniforms.uTiempo;
-discoGrueso.material.uniforms.uGanancia = { value: 0.22 }; discoGrueso.material.uniforms.uVaciar = matEstrellas.uniforms.uVaciar;
+discoGrueso.material.uniforms.uGanancia = { value: 0.22 }; discoGrueso.material.uniforms.uVaciar = matEstrellas.uniforms.uVaciar; discoGrueso.material.uniforms.uEncendido = uEncendido;
 discoGrueso.rotation.x = -Math.PI / 2; discoGrueso.position.y = 0.7; discoGrueso.scale.set(1.03, 1.03, 1);
 
 // ── polvo: partículas oscuras que tapan la luz difusa (mezcla normal, no aditiva) ───────────────────
@@ -221,10 +228,10 @@ const geoPolvo = new THREE.BufferGeometry();
 geoPolvo.setAttribute('position', new THREE.Float32BufferAttribute(polvoPos, 3));
 geoPolvo.setAttribute('rad', new THREE.Float32BufferAttribute(polvoRad, 1));
 const polvo = new THREE.Points(geoPolvo, new THREE.ShaderMaterial({
-  uniforms: { uTiempo: matEstrellas.uniforms.uTiempo, uEscala: matEstrellas.uniforms.uEscala },
-  vertexShader: `attribute float rad; uniform float uEscala; varying float vA; ${ROTAR}
+  uniforms: { uTiempo: matEstrellas.uniforms.uTiempo, uEscala: matEstrellas.uniforms.uEscala, uEncendido },
+  vertexShader: `attribute float rad; uniform float uEscala; varying float vA; ${ROTAR} ${ENCENDER}
     void main(){ vec4 mv = modelViewMatrix * vec4(rotar(position, rad), 1.0); gl_Position = projectionMatrix * mv; float d = -mv.z;
-      gl_PointSize = clamp(260.0 * uEscala / d, 1.0, 60.0 * uEscala); vA = smoothstep(1.5, 8.0, d); }`,
+      gl_PointSize = clamp(260.0 * uEscala / d, 1.0, 60.0 * uEscala); vA = smoothstep(1.5, 8.0, d) * encendido(rad); }`,
   fragmentShader: `varying float vA; void main(){ float d = length(gl_PointCoord - 0.5); float a = smoothstep(0.5, 0.0, d); gl_FragColor = vec4(0.02, 0.012, 0.01, a * 0.42 * vA); }`,
   transparent: true, depthWrite: false, blending: THREE.NormalBlending,
 }));
@@ -256,10 +263,10 @@ geoHii.setAttribute('color', new THREE.Float32BufferAttribute(hiiCol, 3));
 geoHii.setAttribute('tam', new THREE.Float32BufferAttribute(hiiTam, 1));
 geoHii.setAttribute('rad', new THREE.Float32BufferAttribute(hiiRad, 1));
 const hii = new THREE.Points(geoHii, new THREE.ShaderMaterial({
-  uniforms: { uTiempo: matEstrellas.uniforms.uTiempo, uEscala: matEstrellas.uniforms.uEscala, uMapa: { value: tNube } },
-  vertexShader: `attribute float tam; attribute float rad; uniform float uEscala; varying vec3 vC; varying float vA; ${ROTAR}
+  uniforms: { uTiempo: matEstrellas.uniforms.uTiempo, uEscala: matEstrellas.uniforms.uEscala, uMapa: { value: tNube }, uEncendido },
+  vertexShader: `attribute float tam; attribute float rad; uniform float uEscala; varying vec3 vC; varying float vA; ${ROTAR} ${ENCENDER}
     void main(){ vec4 mv = modelViewMatrix * vec4(rotar(position, rad), 1.0); gl_Position = projectionMatrix * mv; float d = -mv.z;
-      gl_PointSize = clamp(tam * 70.0 * uEscala / d, 1.0, 22.0 * uEscala); vC = color; vA = smoothstep(4.0, 18.0, d); }`,
+      gl_PointSize = clamp(tam * 70.0 * uEscala / d, 1.0, 22.0 * uEscala); vC = color; vA = smoothstep(4.0, 18.0, d) * encendido(rad); }`,
   fragmentShader: `uniform sampler2D uMapa; varying vec3 vC; varying float vA; void main(){ gl_FragColor = vec4(vC, texture2D(uMapa, gl_PointCoord).a * 0.2 * vA); }`,
   transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, vertexColors: true,
 }));
@@ -351,6 +358,20 @@ const RS = 0.04; // radio del horizonte en unidades de la galaxia
 // galaxia (y hacia arriba) ↔ agujero negro (z es el eje del disco): bx = gx, by = -gz, bz = gy
 const G2B = new THREE.Matrix3().set(1, 0, 0, 0, 0, -1, 0, 1, 0), B2G = G2B.clone().transpose();
 const exposicionBH = (r) => 0.95 * Math.min(1, (1 - 1 / r) ** 2 / 0.3); // algo más que El Horizonte: allí su propio resplandor sumaba luz
+// lo que no lleva shader propio (cielo lejano, nebulosas, galaxias de fondo, estrellas de los proyectos) se enciende
+// con un fundido de su opacidad
+const lejanos = [];
+escena.traverse((o) => { if ((o.isSprite || o.isPoints) && o.material && !o.material.isShaderMaterial) lejanos.push([o.material, o.material.opacity]); });
+// el encendido arranca cuando la galaxia está lista y dura 1,6 s (salida suave); un gesto lo termina al momento
+let encendidoDesde = null;
+const suaveSalida = (u) => 1 - Math.pow(1 - Math.min(1, Math.max(0, u)), 3);
+function aplicarEncendido(e) {
+  uEncendido.value = e;
+  for (const [m, base] of lejanos) m.opacity = base * Math.min(1, Math.max(0, (e - 0.25) / 0.6));
+}
+window.__ravenEncenderYa = () => { encendidoDesde = -Infinity; };
+window.__ravenFijarEncendido = (e) => { encendidoDesde = null; aplicarEncendido(e); };  // para fotografiar la bienvenida a mitad
+if (uEncendido.value < 1) aplicarEncendido(0);
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(escena, camara));
 // los sistemas planetarios: otra escena, a escala local (unidad = radio del planeta), pintada encima
@@ -471,6 +492,11 @@ function fotograma() {
   window.__ravenDt = dt;  // herramientas/medir-caida.mjs: el paso de tiempo con que avanza la escena en este cuadro
   const k = reducido ? 1 : 1 - Math.pow(0.003, dt);
   seguirScroll(dt);
+  if (uEncendido.value < 1 && encendidoDesde !== null) {
+    const u = encendidoDesde === -Infinity ? 1 : (performance.now() - encendidoDesde) / 1600;
+    aplicarEncendido(u >= 1 ? 1 : suaveSalida(u));
+    if (u >= 1) document.documentElement.classList.add('encendida');
+  }
   // un error en la caída no debe parar la galaxia entera
   try { window.__ravenActualizarCaida?.(dt); } catch (e) { console.error(e); }
   const { i } = destino();
@@ -490,6 +516,8 @@ function fotograma() {
   } else {
     if (Math.abs(camara.fov - 50) > 1e-3) { camara.fov += (50 - camara.fov) * k; camara.updateProjectionMatrix(); }
     camara.position.copy(objetivoP); mirada.copy(objetivoT);
+    // bienvenida: la cámara llega un 12 % más lejos y se acerca mientras la galaxia se enciende
+    if (uEncendido.value < 1) camara.position.sub(mirada).multiplyScalar(1 + 0.12 * (1 - uEncendido.value)).add(mirada);
     const dist = camara.position.distanceTo(mirada);
     camara.position.x += raton.x * 0.0012 * dist; camara.position.y -= raton.y * 0.0008 * dist;
     camara.lookAt(mirada);
@@ -579,5 +607,8 @@ document.addEventListener('raven-idioma', () => requestAnimationFrame(medirParad
 addEventListener('load', medirParadas);
 new ResizeObserver(medirParadas).observe(document.body);
 requestAnimationFrame(fotograma);
+// el punto de luz de la bienvenida se coloca justo sobre el núcleo antes de fundirse con él
+{ const v = new THREE.Vector3(0, 0, 0).project(camara); const r = document.documentElement.style; r.setProperty('--luz-x', `${((v.x * 0.5 + 0.5) * 100).toFixed(2)}%`); r.setProperty('--luz-y', `${((0.5 - v.y * 0.5) * 100).toFixed(2)}%`); }
+if (uEncendido.value < 1 && encendidoDesde === null) encendidoDesde = performance.now();
 document.documentElement.classList.add('galaxia-lista', 'webgl-ok');
 window.dispatchEvent(new Event('galaxia-lista'));

@@ -30,6 +30,22 @@
   try { mov = localStorage.getItem('raven-movimiento'); } catch (e) {}
   window.ravenReducido = mov ? mov === 'reducido' : matchMedia('(prefers-reduced-motion: reduce)').matches;
   raiz.dataset.movimiento = window.ravenReducido ? 'reducido' : 'normal';
+  // Bienvenida «Primera luz» (solo portada): la primera visita de la sesión, sin movimiento reducido ni #ancla
+  let vista = null;
+  try { vista = sessionStorage.getItem('raven-bienvenida'); } catch (e) {}
+  window.ravenBienvenida = raiz.dataset.pagina === 'portada' && !window.ravenReducido && !vista && !location.hash;
+  if (window.ravenBienvenida) {
+    raiz.classList.add('bienvenida');
+    try { sessionStorage.setItem('raven-bienvenida', '1'); } catch (e) {}
+    // cualquier gesto la termina al momento; y, pase lo que pase, a los 2,6 s el texto ya está
+    const terminar = () => { raiz.classList.add('bienvenida-fin'); window.__ravenEncenderYa?.(); quitar(); };
+    const quitar = () => ['wheel', 'keydown', 'pointerdown', 'touchstart'].forEach((t) => removeEventListener(t, terminar, true));
+    ['wheel', 'keydown', 'pointerdown', 'touchstart'].forEach((t) => addEventListener(t, terminar, { capture: true, passive: true }));
+    setTimeout(quitar, 4000);
+    // el nombre entra con su tipografía de verdad (Bodoni Moda), no con la de reserva: se espera a las fuentes (≤ 1 s)
+    const fuentes = () => raiz.classList.add('fuentes-listas');
+    (document.fonts?.ready ?? Promise.resolve()).then(fuentes); setTimeout(fuentes, 1000);
+  }
   document.addEventListener('click', (e) => {
     const b = e.target.closest('[data-movimiento-interruptor]');
     if (!b) return;

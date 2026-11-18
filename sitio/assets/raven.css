@@ -365,3 +365,31 @@ html[data-movimiento="reducido"] .manifiesto-texto .pal { opacity: 1; }
 .grupo-caida h2, .grupo-caida p { text-shadow: 0 0 24px rgb(0 0 0 / 0.95), 0 0 6px rgb(0 0 0 / 0.8); }
 .grupo-caida h2 { color: var(--oro); }
 @media (min-width: 761px) and (min-height: 561px) { .saltar-caida { bottom: clamp(72px, 11vh, 104px); } }
+
+/* ── bienvenida «Primera luz» (solo la primera visita de la sesión; html.bienvenida lo pone idioma.js) ──
+   Un punto de luz cálida respira sobre el núcleo mientras la galaxia carga; la galaxia se enciende desde él (galaxia.js)
+   y el texto llega enfocándose. Todo legible antes de 1,5 s; cualquier gesto lo termina (html.bienvenida-fin). */
+.primera-luz { display: none; }
+html.bienvenida .primera-luz {
+  display: block; position: fixed; z-index: 1; left: var(--luz-x, 62%); top: var(--luz-y, 48%); width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%;
+  background: #fff6e6; box-shadow: 0 0 10px 3px rgb(255 236 205 / 0.9), 0 0 42px 14px rgb(232 185 106 / 0.45), 0 0 110px 40px rgb(232 185 106 / 0.12);
+  pointer-events: none; animation: luz-respira 1.5s ease-in-out infinite; transition: opacity 0.9s 0.25s;
+}
+@media (max-width: 760px) { html.bienvenida .primera-luz { left: var(--luz-x, 86%); } }
+html.bienvenida.galaxia-lista .primera-luz { opacity: 0; }
+@keyframes luz-respira { 0%, 100% { transform: scale(0.75); opacity: 0.8; } 50% { transform: scale(1.15); opacity: 1; } }
+html.bienvenida #galaxia { transition: none; }
+#galaxia { transition-duration: 0.8s; }
+
+html.bienvenida .hero-nombre:not(.partido), html.bienvenida:not(.fuentes-listas) .hero-nombre { opacity: 0; }
+html.bienvenida.fuentes-listas .hero-nombre .letra { animation: letra-enfoca 0.75s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(var(--i, 0) * 30ms + 150ms); }
+@keyframes letra-enfoca { from { opacity: 0; filter: blur(12px); transform: scale(1.06); } to { opacity: 1; filter: blur(0); transform: none; } }
+html.bienvenida .barra { animation: llega 0.8s ease-out 0.5s both; }
+html.bienvenida .hero-sobre { animation: llega 0.8s ease-out 0.55s both; }
+html.bienvenida .hero-lema { animation: llega 0.8s ease-out 0.75s both; }
+html.bienvenida .hero .hero-acciones { animation: llega 0.8s ease-out 0.9s both; }
+html.bienvenida .hero-bajar { animation: llega 0.8s ease-out 1s both; }
+@keyframes llega { from { opacity: 0; filter: blur(6px); } to { opacity: 1; filter: blur(0); } }
+html.bienvenida-fin .primera-luz { display: none !important; }
+html.bienvenida-fin .hero-nombre .letra, html.bienvenida-fin .barra, html.bienvenida-fin .hero-sobre, html.bienvenida-fin .hero-lema, html.bienvenida-fin .hero .hero-acciones, html.bienvenida-fin .hero-bajar { animation: none !important; opacity: 1 !important; filter: none !important; }
+html.bienvenida-fin .hero-nombre { opacity: 1 !important; }

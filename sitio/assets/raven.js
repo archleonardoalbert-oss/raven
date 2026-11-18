@@ -9,7 +9,9 @@
   for (const el of document.querySelectorAll('[data-partir]')) {
     const palabras = el.textContent.trim().split(/\s+/);
     el.setAttribute('aria-label', el.textContent.trim());
-    el.innerHTML = palabras.map((p) => `<span class="palabra" aria-hidden="true">${[...p].map((l) => `<span class="letra">${l}</span>`).join('')}</span>`).join(' ');
+    let n = 0;
+    el.innerHTML = palabras.map((p) => `<span class="palabra" aria-hidden="true">${[...p].map((l) => `<span class="letra" style="--i:${n++}">${l}</span>`).join('')}</span>`).join(' ');
+    el.classList.add('partido');
   }
   // partir el manifiesto (cada idioma por separado) en palabras
   for (const el of document.querySelectorAll('[data-palabras] > [lang]')) {
@@ -22,14 +24,9 @@
     if (entrada) return; entrada = true;
     raiz.classList.add('listo', 'galaxia-lista');
   }
-  // la entrada de la primera pantalla va al cargar, sin esperar a la galaxia (antes, al llegar la galaxia, el texto
-  // desaparecía y volvía a entrar mientras ya se leía)
-  if (window.gsap && !reducido) {
-    gsap.from('.hero-nombre .letra', { yPercent: 110, opacity: 0, rotate: 8, duration: 1.2, ease: 'expo.out', stagger: 0.03, delay: 0.05 });
-    gsap.from(['.hero-sobre', '.hero-lema', '.hero-acciones', '.hero-bajar', '.barra'], { y: 18, opacity: 0, duration: 1, ease: 'expo.out', stagger: 0.07, delay: 0.25 });
-  }
-  addEventListener('galaxia-lista', () => setTimeout(entrar, 1600));
-  if (raiz.classList.contains('galaxia-lista')) setTimeout(entrar, 1600);
+  // la entrada de la primera pantalla («Primera luz») va en CSS: html.bienvenida en raven.css
+  addEventListener('galaxia-lista', entrar);
+  if (raiz.classList.contains('galaxia-lista')) entrar();
   // si la galaxia no arranca (sin WebGL), entra igual y queda una imagen de la galaxia de fondo
   setTimeout(() => { if (!raiz.classList.contains('webgl-ok')) raiz.classList.add('sin-webgl'); entrar(); }, 6000);
 
