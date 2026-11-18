@@ -363,15 +363,19 @@ const exposicionBH = (r) => 0.95 * Math.min(1, (1 - 1 / r) ** 2 / 0.3); // algo 
 const lejanos = [];
 escena.traverse((o) => { if ((o.isSprite || o.isPoints) && o.material && !o.material.isShaderMaterial) lejanos.push([o.material, o.material.opacity]); });
 // el encendido arranca cuando la galaxia está lista y dura 1,6 s (salida suave); un gesto lo termina al momento
-let encendidoDesde = null;
+// estado del encendido: 'espera' (la luz respira; se calienta la escena hasta que el pintado va fluido),
+// 'enciende' (avanza por cuadros pintados, nunca por reloj: un tirón lo pausa en vez de saltárselo) o 'hecho'
+let fase = uEncendido.value < 1 ? 'espera' : 'hecho', avance = 0, fluidos = 0, esperaDesde = 0;
+const T_ENCENDER = 1.1;
 // salida exponencial: brota de golpe desde el centro y se asienta con suavidad
 const suaveSalida = (u) => { const x = Math.min(1, Math.max(0, u)); return x >= 1 ? 1 : (1 - Math.pow(2, -10 * x)) / (1 - Math.pow(2, -10)); };
 function aplicarEncendido(e) {
   uEncendido.value = e;
   for (const [m, base] of lejanos) m.opacity = base * Math.min(1, Math.max(0, (e - 0.25) / 0.6));
 }
-window.__ravenEncenderYa = () => { encendidoDesde = -Infinity; };
-window.__ravenFijarEncendido = (e) => { encendidoDesde = null; aplicarEncendido(e); };  // para fotografiar la bienvenida a mitad
+window.__ravenEncenderYa = () => { if (fase !== 'hecho') { fase = 'hecho'; aplicarEncendido(1); document.documentElement.classList.add('encendida', 'estallido', 'revelar'); } };
+window.__ravenFijarEncendido = (e) => { fase = 'fijo'; aplicarEncendido(e); };
+window.__ravenEncendido = () => ({ fase, avance: +avance.toFixed(3), valor: +uEncendido.value.toFixed(3) });  // para las pruebas  // para fotografiar la bienvenida a mitad
 if (uEncendido.value < 1) aplicarEncendido(0);
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(escena, camara));
@@ -493,11 +497,17 @@ function fotograma() {
   window.__ravenDt = dt;  // herramientas/medir-caida.mjs: el paso de tiempo con que avanza la escena en este cuadro
   const k = reducido ? 1 : 1 - Math.pow(0.003, dt);
   seguirScroll(dt);
-  if (uEncendido.value < 1 && encendidoDesde !== null) {
-    const u = encendidoDesde === -Infinity ? 1 : (performance.now() - encendidoDesde) / 1100;
-    aplicarEncendido(u >= 1 ? 1 : suaveSalida(u));
-    if (u >= 1) document.documentElement.classList.add('encendida');
+  if (fase === 'espera' && esperaDesde) {
+    // arranca cuando el pintado va fluido (3 cuadros seguidos rápidos) o, como mucho, a los 1,2 s
+    const real = (performance.now() - (fotograma.ult ?? performance.now())) / 1000;
+    fluidos = real < 1 / 35 ? fluidos + 1 : 0;
+    if (fluidos >= 3 || performance.now() - esperaDesde > 1200) { fase = 'enciende'; document.documentElement.classList.add('estallido', 'revelar'); }
+  } else if (fase === 'enciende') {
+    avance += Math.min(dt, 1 / 30) / T_ENCENDER;
+    aplicarEncendido(suaveSalida(avance));
+    if (avance >= 1) { fase = 'hecho'; aplicarEncendido(1); document.documentElement.classList.add('encendida'); }
   }
+  fotograma.ult = performance.now();
   // un error en la caída no debe parar la galaxia entera
   try { window.__ravenActualizarCaida?.(dt); } catch (e) { console.error(e); }
   const { i } = destino();
@@ -610,6 +620,7 @@ new ResizeObserver(medirParadas).observe(document.body);
 requestAnimationFrame(fotograma);
 // el punto de luz de la bienvenida se coloca justo sobre el núcleo antes de fundirse con él
 { const v = new THREE.Vector3(0, 0, 0).project(camara); const r = document.documentElement.style; r.setProperty('--luz-x', `${((v.x * 0.5 + 0.5) * 100).toFixed(2)}%`); r.setProperty('--luz-y', `${((0.5 - v.y * 0.5) * 100).toFixed(2)}%`); }
-if (uEncendido.value < 1 && encendidoDesde === null) { encendidoDesde = performance.now(); document.documentElement.classList.add('revelar'); }
+// se compila toda la escena por adelantado: el primer cuadro con la galaxia ya no congela la página
+if (fase === 'espera') { try { renderer.compile(escena, camara); renderer.compile(escenaLocal, camLocal); } catch (e) {} esperaDesde = performance.now(); }
 document.documentElement.classList.add('galaxia-lista', 'webgl-ok');
 window.dispatchEvent(new Event('galaxia-lista'));

@@ -114,6 +114,10 @@ export async function humoCruzar({ url = 'http://127.0.0.1:4500/', capturas = nu
     const p = await b4.newPage(); await p.setViewport({ width: 1440, height: 900 });
     await p.goto(url, { waitUntil: 'load' });
     ok(await p.evaluate(() => document.documentElement.classList.contains('bienvenida')), 'bienvenida: aparece al cargar');
+    // el encendido pasa por muchos valores intermedios (avanza por cuadros pintados): no salta de 0 a 1 tras un tirón
+    const valores = new Set();
+    for (let n = 0; n < 160; n++) { const e = await p.evaluate(() => window.__ravenEncendido?.()); if (e) { if (e.valor > 0 && e.valor < 1) valores.add(e.valor); if (e.fase === 'hecho') break; } await espera(30); }
+    ok(valores.size >= 5, `bienvenida: la galaxia se enciende de forma gradual (${valores.size} pasos intermedios vistos)`);
     await p.waitForFunction(() => document.documentElement.classList.contains('encendida'), { timeout: 15000 }).catch(() => {});
     ok(await p.evaluate(() => document.documentElement.classList.contains('encendida') && +getComputedStyle(document.querySelector('.hero-lema')).opacity > 0.95), 'bienvenida: la galaxia termina encendida y el texto legible');
     await p.reload({ waitUntil: 'load' });
