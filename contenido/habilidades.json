@@ -53,55 +53,6 @@
     ]
   },
   {
-    "es": "Gráficos y simulación",
-    "en": "Graphics and simulation",
-    "principal": true,
-    "lema": {
-      "es": "Física y matemáticas convertidas en imagen.",
-      "en": "Physics and mathematics turned into images."
-    },
-    "habilidades": [
-      {
-        "es": "WebGL y shaders GLSL",
-        "en": "WebGL and GLSL shaders",
-        "proyectos": [
-          "penumbra",
-          "raven"
-        ]
-      },
-      {
-        "es": "Trazado de rayos relativista",
-        "en": "Relativistic ray tracing",
-        "proyectos": [
-          "penumbra",
-          "raven"
-        ]
-      },
-      {
-        "es": "three.js",
-        "en": "three.js",
-        "proyectos": [
-          "raven"
-        ]
-      },
-      {
-        "es": "Generación procedural",
-        "en": "Procedural generation",
-        "proyectos": [
-          "hortus",
-          "raven"
-        ]
-      },
-      {
-        "es": "Canvas 2D",
-        "en": "Canvas 2D",
-        "proyectos": [
-          "hortus"
-        ]
-      }
-    ]
-  },
-  {
     "es": "Desarrollo web",
     "en": "Web development",
     "principal": true,
@@ -120,30 +71,9 @@
         ]
       },
       {
-        "es": "Svelte",
-        "en": "Svelte",
-        "proyectos": [
-          "semillero"
-        ]
-      },
-      {
-        "es": "Node.js y Fastify",
-        "en": "Node.js and Fastify",
-        "proyectos": [
-          "semillero"
-        ]
-      },
-      {
         "es": "Django y Django REST",
         "en": "Django and Django REST",
         "proyectos": []
-      },
-      {
-        "es": "Animación ligada al scroll",
-        "en": "Scroll-driven animation",
-        "proyectos": [
-          "raven"
-        ]
       },
       {
         "es": "HTML y CSS",
@@ -218,13 +148,6 @@
       {
         "es": "Python",
         "en": "Python",
-        "proyectos": [
-          "hortus"
-        ]
-      },
-      {
-        "es": "GTK4",
-        "en": "GTK4",
         "proyectos": [
           "hortus"
         ]
