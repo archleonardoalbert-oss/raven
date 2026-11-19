@@ -19,12 +19,12 @@
   },
   "inicio": {
     "1": {
-      "es": "Ciencia de la Computación en MatCom, Universidad de La Habana",
-      "en": "Computer Science at MatCom, University of Havana"
+      "es": "Estudiante de Ciencia de la Computación en MatCom, Universidad de La Habana. 2.º año, graduación en 2028.",
+      "en": "Computer Science student at MatCom, University of Havana. 2nd year, graduating in 2028."
     },
     "2": {
-      "es": "Construyo agentes de IA y herramientas con base matemática. Lo más reciente: Semillero, donde cinco agentes investigan ideas en paralelo y entregan un dictamen con fuentes.",
-      "en": "I build AI agents and tools on a mathematical foundation. Most recent: Semillero, where five agents research ideas in parallel and deliver a sourced verdict."
+      "es": "Convierto ideas en software que funciona: cursos interactivos de matemáticas, herramientas para Linux y sistemas con agentes de IA.",
+      "en": "I turn ideas into working software: interactive math courses, Linux tools and AI-agent systems."
     },
     "3": {
       "es": "Comenzar el viaje",
@@ -37,6 +37,22 @@
     "9": {
       "es": "Escríbeme",
       "en": "Email me"
+    },
+    "10": {
+      "es": "Colaboro en proyectos con el departamento de IA de la Universidad de La Habana.",
+      "en": "I collaborate on projects with the AI department of the University of Havana."
+    },
+    "11": {
+      "es": "Penumbra, mi curso de lógica difusa: 95 paradas y 937 pruebas automáticas",
+      "en": "Penumbra, my fuzzy logic course: 95 stops and 937 automated tests"
+    },
+    "12": {
+      "es": "Disponible para prácticas, encargos freelance e investigación, en remoto.",
+      "en": "Open to internships, freelance work and research, remotely."
+    },
+    "13": {
+      "es": "La Habana, Cuba (UTC−5) · Español nativo · Inglés técnico (lectura y escritura)",
+      "en": "Havana, Cuba (UTC−5) · Native Spanish · Technical English (reading and writing)"
     }
   },
   "manifiesto": {
@@ -63,8 +79,8 @@
       "en": "Studying"
     },
     "5": {
-      "es": "Ciencia de la Computación",
-      "en": "Computer Science"
+      "es": "Ciencia de la Computación, 2.º año",
+      "en": "Computer Science, 2nd year"
     },
     "6": {
       "es": "Facultad",
@@ -157,12 +173,12 @@
       "en": "Raven · Leonardo Albert López"
     },
     "descripcion": {
-      "es": "Leonardo Albert López, ingeniero de IA y software: agentes de IA, herramientas y cursos interactivos.",
-      "en": "Leonardo Albert López, AI and software engineer: AI agents, tools and interactive courses."
+      "es": "Leonardo Albert López, estudiante de Ciencia de la Computación en la Universidad de La Habana: cursos interactivos de matemáticas, herramientas para Linux y sistemas con agentes de IA.",
+      "en": "Leonardo Albert López, Computer Science student at the University of Havana: interactive math courses, Linux tools and AI-agent systems."
     },
     "ogDescripcion": {
-      "es": "Agentes de IA, herramientas y cursos interactivos de Leonardo Albert López, en una galaxia que se recorre con el scroll.",
-      "en": "AI agents, tools and interactive courses by Leonardo Albert López, in a galaxy you explore by scrolling."
+      "es": "Cursos interactivos, herramientas y sistemas con agentes de IA de Leonardo Albert López, en una galaxia que se recorre con el scroll.",
+      "en": "Interactive courses, tools and AI-agent systems by Leonardo Albert López, in a galaxy you explore by scrolling."
     }
   }
 }

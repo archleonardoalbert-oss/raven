@@ -4,8 +4,8 @@
     "en": "Mathematics",
     "principal": true,
     "lema": {
-      "es": "La base de todo lo que construyo.",
-      "en": "The foundation of everything I build."
+      "es": "Lo que estudio en MatCom y llevo a cada proyecto.",
+      "en": "What I study at MatCom and bring into every project."
     },
     "habilidades": [
       {
@@ -57,8 +57,8 @@
     "en": "Web development",
     "principal": true,
     "lema": {
-      "es": "Interfaces rápidas, cuidadas hasta el último detalle.",
-      "en": "Fast interfaces, polished down to the last detail."
+      "es": "Web con Django y JavaScript, del servidor a la animación.",
+      "en": "Web with Django and JavaScript, from the server to the animation."
     },
     "habilidades": [
       {
@@ -89,8 +89,8 @@
     "en": "AI and agents",
     "principal": true,
     "lema": {
-      "es": "Agentes que investigan, programan y se revisan.",
-      "en": "Agents that research, code and review themselves."
+      "es": "Sistemas con agentes de IA que investigan, redactan y entregan resultados.",
+      "en": "AI-agent systems that research, write and deliver results."
     },
     "habilidades": [
       {
@@ -134,8 +134,8 @@
     "en": "Systems",
     "principal": true,
     "lema": {
-      "es": "Del transistor al escritorio.",
-      "en": "From the transistor to the desktop."
+      "es": "Del procesador que diseñé en S-MIPS al escritorio Linux que uso a diario.",
+      "en": "From the processor I designed in S-MIPS to the Linux desktop I use every day."
     },
     "habilidades": [
       {
@@ -151,16 +151,6 @@
         "proyectos": [
           "hortus"
         ]
-      },
-      {
-        "es": "C++",
-        "en": "C++",
-        "proyectos": []
-      },
-      {
-        "es": "C#",
-        "en": "C#",
-        "proyectos": []
       },
       {
         "es": "Arquitectura de computadoras",

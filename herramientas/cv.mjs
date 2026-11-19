@@ -28,18 +28,18 @@ export function htmlCV(L, { textos = leer('contenido/textos.json'), proyectos = 
   return `<!doctype html><html lang="${L}"><head><meta charset="utf-8"><title>Leonardo Albert López · CV</title>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Instrument+Sans:wght@400..700&display=swap" rel="stylesheet">
 <style>
-  @page { size: A4; margin: 12mm 14mm; }
+  @page { size: A4; margin: 11mm 14mm; }
   :root { --tinta: #14110d; --tinta-2: #4d463d; --tinta-3: #857c70; --oro: #b8862c; --filo: #e2d9c9; }
   * { box-sizing: border-box; }
-  body { margin: 0; color: var(--tinta); font: 400 9.3pt/1.42 'Instrument Sans', sans-serif; background: #fff; }
-  header { display: grid; grid-template-columns: 1fr auto; gap: 6mm; align-items: end; padding-bottom: 5mm; border-bottom: 0.6pt solid var(--tinta); }
+  body { margin: 0; color: var(--tinta); font: 400 9pt/1.38 'Instrument Sans', sans-serif; background: #fff; }
+  header { display: grid; grid-template-columns: 1fr auto; gap: 6mm; align-items: end; padding-bottom: 4mm; border-bottom: 0.6pt solid var(--tinta); }
   h1 { margin: 0; font: 400 28pt/0.95 'Bodoni Moda', serif; letter-spacing: -0.01em; }
   .lema { margin: 3mm 0 0; font-size: 10.6pt; color: var(--tinta-2); max-width: 118mm; }
   .contacto { text-align: right; font-size: 8.8pt; color: var(--tinta-2); line-height: 1.6; }
   .contacto b { color: var(--tinta); font-weight: 600; }
-  h2 { margin: 5mm 0 2mm; font: italic 400 13pt 'Bodoni Moda', serif; color: var(--oro); }
+  h2 { margin: 3.8mm 0 1.6mm; font: italic 400 13pt 'Bodoni Moda', serif; color: var(--oro); }
   .perfil p { margin: 0; color: var(--tinta-2); }
-  article { padding: 2.2mm 0; border-bottom: 0.4pt solid var(--filo); break-inside: avoid; }
+  article { padding: 1.8mm 0; border-bottom: 0.4pt solid var(--filo); break-inside: avoid; }
   article h3 { margin: 0; font: 600 11pt 'Instrument Sans', sans-serif; }
   article h3 span { font-weight: 400; color: var(--tinta-3); font-size: 9pt; margin-left: 2mm; }
   article p { margin: 1mm 0 0; color: var(--tinta-2); }
@@ -50,14 +50,15 @@ export function htmlCV(L, { textos = leer('contenido/textos.json'), proyectos = 
   .hab { display: grid; grid-template-columns: 1fr 1fr; gap: 2.4mm 7mm; }
   .hab h4 { margin: 0; font: 600 9.4pt 'Instrument Sans', sans-serif; }
   .hab p { margin: 0.6mm 0 0; color: var(--tinta-2); font-size: 8.8pt; }
-  .form p { margin: 0; }
+  .form p { margin: 0 0 1mm; }
+  .disp { margin: 2mm 0 0; font-size: 9.4pt; font-weight: 600; color: #2f6b45; }
 </style></head><body>
 <header>
-  <div><h1>Leonardo Albert López</h1><p class="lema">${esc(T('inicio', '2'))}</p></div>
-  <div class="contacto"><b>archleonardoalbert@gmail.com</b><br>github.com/archleonardoalbert-oss<br>${titulos.web}: raven.raven-0.workers.dev<br>${esc(T('sobre-mi', '10'))}</div>
+  <div><h1>Leonardo Albert López</h1><p class="lema">${esc(T('inicio', '2'))}</p><p class="disp">${esc(T('inicio', '12'))}</p></div>
+  <div class="contacto"><b>archleonardoalbert@gmail.com</b><br>github.com/archleonardoalbert-oss<br>${titulos.web}: raven.raven-0.workers.dev<br>${esc(T('sobre-mi', '10'))} (UTC−5)<br>${esc(T('inicio', '13').split(' · ').slice(1).join(' · '))}</div>
 </header>
 <section class="perfil"><h2>${titulos.perfil}</h2><p>${esc(T('sobre-mi', '2'))} ${esc(sinHtml(T('sobre-mi', '3')))}</p></section>
-<section class="form"><h2>${titulos.form}</h2><p><b>${esc(T('sobre-mi', '5'))}</b>, MatCom, ${esc(T('sobre-mi', '8'))}</p></section>
+<section class="form"><h2>${titulos.form}</h2><p>${esc(T('inicio', '1'))}</p><p>${esc(T('inicio', '10'))}</p></section>
 <section><h2>${titulos.proy}</h2>${proy}</section>
 <section><h2>${titulos.hab}</h2><div class="hab">${hab}</div></section>
 </body></html>`;

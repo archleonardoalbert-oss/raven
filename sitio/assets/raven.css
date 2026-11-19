@@ -386,16 +386,44 @@ html.bienvenida #galaxia { transition: none; }
 #galaxia { transition-duration: 0.8s; }
 
 /* antes del estallido los textos esperan ocultos; con él, se revelan escalonados */
-html.bienvenida:not(.revelar) :is(.hero-nombre, .hero-sobre, .hero-lema, .hero .hero-acciones, .hero-bajar, .barra),
+html.bienvenida:not(.revelar) :is(.hero-nombre, .hero-sobre, .hero-lema, .hero-datos, .hero-disponible, .hero-lugar, .hero .hero-acciones, .hero-bajar, .barra),
 html.bienvenida:not(.fuentes-listas) .hero-nombre, html.bienvenida .hero-nombre:not(.partido) { opacity: 0; }
 html.bienvenida.revelar.fuentes-listas .hero-nombre .letra { animation: letra-enfoca 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(var(--i, 0) * 24ms + 200ms); }
 @keyframes letra-enfoca { from { opacity: 0; filter: blur(14px); transform: scale(1.08); } to { opacity: 1; filter: blur(0); transform: none; } }
 html.bienvenida.revelar .hero-sobre { animation: llega 0.8s ease-out 0.35s both; }
 html.bienvenida.revelar .hero-lema { animation: llega 0.8s ease-out 0.6s both; }
-html.bienvenida.revelar .hero .hero-acciones { animation: llega 0.8s ease-out 0.75s both; }
-html.bienvenida.revelar .hero-bajar { animation: llega 0.8s ease-out 0.85s both; }
+html.bienvenida.revelar .hero-datos { animation: llega 0.8s ease-out 0.7s both; }
+html.bienvenida.revelar :is(.hero-disponible, .hero-lugar) { animation: llega 0.8s ease-out 0.8s both; }
+html.bienvenida.revelar .hero .hero-acciones { animation: llega 0.8s ease-out 0.9s both; }
+html.bienvenida.revelar .hero-bajar { animation: llega 0.8s ease-out 1s both; }
 html.bienvenida.revelar .barra { animation: llega 0.9s ease-out 0.5s both; }
 @keyframes llega { from { opacity: 0; filter: blur(6px); } to { opacity: 1; filter: blur(0); } }
 html.bienvenida-fin .primera-luz { display: none !important; }
-html.bienvenida-fin :is(.hero-nombre .letra, .barra, .hero-sobre, .hero-lema, .hero .hero-acciones, .hero-bajar) { animation: none !important; opacity: 1 !important; filter: none !important; }
+html.bienvenida-fin :is(.hero-nombre .letra, .barra, .hero-sobre, .hero-lema, .hero-datos, .hero-disponible, .hero-lugar, .hero .hero-acciones, .hero-bajar) { animation: none !important; opacity: 1 !important; filter: none !important; }
 html.bienvenida-fin .hero-nombre { opacity: 1 !important; }
+
+/* ── primera pantalla con datos reales: quién es, qué hace, una prueba, con quién colabora y para qué está disponible ── */
+.hero-nombre { font-size: clamp(2.3rem, min(8.6vw, 13vh), 8rem); }
+.hero-lema { margin: 1.1rem 0 1rem; }
+.hero-datos { list-style: none; margin: 0 0 1.1rem; padding: 0; display: grid; gap: 6px; max-width: 40em; }
+.hero-colab { color: var(--estrella-2); font-size: 0.98rem; padding-left: 16px; position: relative; }
+.hero-colab::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 7px; height: 1px; background: var(--oro); }
+.hero-prueba { display: inline-flex; align-items: baseline; gap: 8px; padding-left: 16px; position: relative; color: var(--estrella); text-decoration: none; font-size: 0.98rem; border-bottom: 1px solid rgb(232 185 106 / 0.3); padding-bottom: 1px; transition: color 0.3s, border-color 0.3s; }
+.hero-prueba::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 7px; height: 1px; background: var(--oro); }
+.hero-prueba::after { content: "↗"; font-size: 0.85em; color: var(--oro); }
+.hero-prueba:hover { color: var(--oro); border-color: var(--oro); }
+.hero-disponible { display: flex; align-items: center; gap: 10px; margin: 0 0 0.2rem; font-size: 0.95rem; font-weight: 600; color: var(--estrella); }
+/* el único verde de la página: «disponible» (un semáforo, no decoración) */
+.punto-vivo { width: 8px; height: 8px; border-radius: 50%; background: #5fd38d; box-shadow: 0 0 0 3px rgb(95 211 141 / 0.18); animation: punto-vivo 2.4s ease-in-out infinite; flex: none; }
+@keyframes punto-vivo { 50% { box-shadow: 0 0 0 6px rgb(95 211 141 / 0.06); } }
+.hero-lugar { margin: 0 0 1.4rem; font-size: 0.86rem; color: var(--estrella-3); letter-spacing: 0.01em; }
+@media (max-width: 760px) { .hero-colab, .hero-prueba { font-size: 0.92rem; } .hero-lugar { font-size: 0.8rem; } }
+@media (max-height: 760px) and (min-width: 761px) { .hero-nombre { font-size: clamp(2.2rem, 11vh, 6.5rem); } .hero-lema { font-size: 1.05rem; } }
+@media (prefers-reduced-motion: reduce) { html:not([data-movimiento="normal"]) .punto-vivo { animation: none; } }
+/* móvil: la primera pantalla empieza bajo la barra y crece lo que haga falta (nada queda tapado) */
+@media (max-width: 760px) {
+  .hero { min-height: 100svh; align-content: start; padding-top: 92px; padding-bottom: 40px; }
+  .hero-sobre { font-size: 0.85rem; margin-bottom: 0.8rem; }
+  .hero-nombre { font-size: clamp(2.2rem, 11.5vw, 3.4rem); }
+}
+@media (max-width: 760px) { .hero::before { height: 100%; background: linear-gradient(180deg, rgb(5 5 5 / 0.55), rgb(5 5 5 / 0.72) 40%, rgb(5 5 5 / 0.6)); } }
