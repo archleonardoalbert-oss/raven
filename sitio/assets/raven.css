@@ -339,7 +339,7 @@ html.cruzando .indice, html.cruzando .arriba, html.cruzando .todos-flotante { op
 .resumen-seguir { justify-self: start; margin-top: clamp(28px, 5vh, 52px); font-family: var(--texto); cursor: pointer; }
 @media (max-width: 760px) { .resumen-dentro { align-content: start; } .resumen-seguir { justify-self: stretch; } }
 
-/* ── rediseño: primera pantalla, interruptor de movimiento ── */
+/* ── rediseño: primera pantalla ── */
 .hero { position: relative; }
 /* una sombra neutra (no cristal) detrás del texto: legible sobre cualquier zona de la galaxia */
 .hero::before { content: ""; position: absolute; inset: auto 0 0 0; height: 75%; background: radial-gradient(120% 90% at 0% 100%, rgb(5 5 5 / 0.78), rgb(5 5 5 / 0.35) 55%, transparent 80%); pointer-events: none; z-index: -1; }
@@ -351,14 +351,8 @@ html.cruzando .indice, html.cruzando .arriba, html.cruzando .todos-flotante { op
 .hero-bajar::before { border-color: rgb(232 185 106 / 0.35); }
 @keyframes latido { 50% { box-shadow: 0 0 0 10px rgb(232 185 106 / 0.07), 0 0 30px rgb(232 185 106 / 0.35); } }
 
-.movimiento { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--filo); background: rgb(5 5 5 / 0.5); color: var(--estrella-2); font: 500 0.78rem var(--texto); letter-spacing: 0.03em; padding: 7px 11px; border-radius: 4px; cursor: pointer; }
-.movimiento:hover { color: var(--estrella); border-color: rgb(236 231 223 / 0.3); }
-.movimiento-punto { width: 7px; height: 7px; border-radius: 50%; background: var(--estrella-3); transition: background-color .3s, box-shadow .3s; }
-.movimiento[aria-pressed="true"] .movimiento-punto { background: var(--oro); box-shadow: 0 0 8px rgb(232 185 106 / 0.8); }
-.menu + .movimiento { margin-left: 0; }
-@media (max-width: 720px) { .movimiento { margin-left: auto; } .movimiento + .idiomas { margin-left: 0; } }
 
-/* el interruptor de movimiento apagado: como prefers-reduced-motion, en toda la página */
+/* con «reducir movimiento» en el sistema (html[data-movimiento="reducido"], idioma.js): nada se anima, en toda la página */
 html[data-movimiento="reducido"] *, html[data-movimiento="reducido"] *::before, html[data-movimiento="reducido"] *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
 html[data-movimiento="reducido"] .manifiesto-texto .pal { opacity: 1; }
 /* legibilidad sobre el disco brillante de la caída */
