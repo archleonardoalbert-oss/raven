@@ -13,6 +13,12 @@
     el.innerHTML = palabras.map((p) => `<span class="palabra" aria-hidden="true">${[...p].map((l) => `<span class="letra" style="--i:${n++}">${l}</span>`).join('')}</span>`).join(' ');
     el.classList.add('partido');
   }
+  // tarjetas de los planetas: la mitad de su altura, para centrarlas en la pantalla (raven.css, .capitulo.proyecto)
+  const centrarTarjetas = () => { for (const c of document.querySelectorAll('.capitulo.proyecto > .cristal')) c.style.setProperty('--medio-tarjeta', `${Math.round(c.offsetHeight / 2)}px`); };
+  centrarTarjetas();
+  addEventListener('resize', centrarTarjetas); addEventListener('load', centrarTarjetas); document.addEventListener('raven-idioma', () => requestAnimationFrame(centrarTarjetas));
+  for (const img of document.querySelectorAll('.capitulo.proyecto img')) img.addEventListener('load', centrarTarjetas);
+
   // partir el manifiesto (cada idioma por separado) en palabras
   for (const el of document.querySelectorAll('[data-palabras] > [lang]')) {
     el.innerHTML = el.textContent.trim().split(/\s+/).map((p) => `<span class="pal">${p}</span>`).join(' ');
@@ -42,11 +48,14 @@
     }
     // paneles de cristal: entran desde la profundidad
     for (const c of document.querySelectorAll('.cristal')) {
+      // las tarjetas de los planetas van fijas en el centro: su entrada y su salida las marca la sección (la tarjeta
+      // «sin fijar» engañaría a ScrollTrigger y se desvanecería con la cámara aún en el planeta)
+      const sec = c.closest('.capitulo.proyecto'), planeta = sec && innerWidth > 760;
       gsap.fromTo(c, { y: 120, opacity: 0, scale: 0.94, filter: 'blur(10px)' }, {
         y: 0, opacity: 1, scale: 1, filter: 'blur(0px)', ease: 'power2.out',
-        scrollTrigger: { trigger: c, start: 'top 95%', end: 'top 45%', scrub: 0.8 },
+        scrollTrigger: planeta ? { trigger: sec, start: 'top 110%', end: 'top 55%', scrub: 0.8 } : { trigger: c, start: 'top 95%', end: 'top 45%', scrub: 0.8 },
       });
-      gsap.to(c, { y: -80, opacity: 0, ease: 'power1.in', scrollTrigger: { trigger: c, start: 'bottom 30%', end: 'bottom -10%', scrub: 0.8 } });
+      gsap.to(c, { y: -80, opacity: 0, ease: 'power1.in', scrollTrigger: planeta ? { trigger: sec, start: 'bottom 45%', end: 'bottom 5%', scrub: 0.8 } : { trigger: c, start: 'bottom 30%', end: 'bottom -10%', scrub: 0.8 } });
     }
     for (const t of document.querySelectorAll('.proyectos-intro, .contacto')) {
       gsap.from(t.children, { y: 60, opacity: 0, stagger: 0.08, ease: 'expo.out', duration: 1.4, scrollTrigger: { trigger: t, start: 'top 65%', once: true } });

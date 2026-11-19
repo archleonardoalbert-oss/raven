@@ -427,3 +427,21 @@ html.bienvenida-fin .hero-nombre { opacity: 1 !important; }
   .hero-nombre { font-size: clamp(2.2rem, 11.5vw, 3.4rem); }
 }
 @media (max-width: 760px) { .hero::before { height: 100%; background: linear-gradient(180deg, rgb(5 5 5 / 0.55), rgb(5 5 5 / 0.72) 40%, rgb(5 5 5 / 0.6)); } }
+
+/* ── planetas: la tarjeta del proyecto, centrada en la pantalla desde que la cámara llega al planeta ──
+   La cámara se detiene cuando el inicio de la sección está en el centro de la pantalla; la tarjeta empieza justo ahí y
+   se queda fija en el centro (sticky) mientras la cámara está quieta. Antes iba un 18 % más abajo: había que bajar para
+   centrarla y la cámara ya salía hacia el siguiente planeta. */
+@media (min-width: 761px) {
+  .capitulo.proyecto { padding-top: 0 !important; min-height: 140vh; display: flow-root; }  /* flow-root: el margen negativo de la tarjeta no atraviesa la sección */
+  /* --medio-tarjeta (la mitad de su altura) lo pone raven.js: centrada sin transformaciones, que GSAP pisaría */
+  .capitulo.proyecto > .cristal { top: max(96px, calc(50svh - var(--medio-tarjeta, 290px))); margin-top: calc(-1 * var(--medio-tarjeta, 290px)); }  /* empieza media altura antes: llega ya centrada */
+}
+/* la sombra de lectura de la primera pantalla se funde hacia abajo: antes terminaba de golpe donde acaba la sección y,
+   al bajar hacia el manifiesto, dibujaba una línea horizontal oscura sobre la galaxia */
+.hero::before { inset: auto 0 -35vh 0; height: calc(75% + 35vh); -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%); mask-image: linear-gradient(to bottom, #000 55%, transparent 100%); }
+@media (max-width: 760px) { .hero::before { height: calc(100% + 35vh); } }
+/* al bajar, el texto ya no pasa por debajo del logo y del menú: un degradado negro suave detrás de la barra */
+.barra { transition: background-color 0.4s; z-index: 20; }  /* capa propia: su degradado tapa el texto que pasa por debajo */
+.barra::before { content: ""; position: absolute; inset: 0 0 -28px 0; z-index: -1; background: linear-gradient(rgb(5 5 5 / 0.92), rgb(5 5 5 / 0.6) 60%, transparent); opacity: 0; transition: opacity 0.4s; pointer-events: none; }
+html.desplazado .barra::before { opacity: 1; }
